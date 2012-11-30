@@ -79,9 +79,24 @@ POST /top-level-collection
 
 The POST returns a data structure containing the new objects "id" and "self" link properties.
 GET /top-level-collection/{id}
-<200
+> Accept-Type:
 {
+    "data": {
+        ...
+        }
+    }
 }
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    }
+}
+
 --
 Product Resources
 The following is a section of resources related to i-Ready Product resources
