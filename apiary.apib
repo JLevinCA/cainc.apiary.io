@@ -1,0 +1,340 @@
+HOST: http://api.i-ready.com/
+
+--- Curriculum Associates Provisioning API v1 ---
+---
+Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
+
+>**Index**
+
+>[API Pattern](http://docs.cainc.apiary.io/#apipattern)
+
+>[School Resources](http://docs.cainc.apiary.io/#schoolresources)
+
+>[Class Resources](http://docs.cainc.apiary.io/#classresources)
+
+>[Student Resources](http://docs.cainc.apiary.io/#studentresources)
+---
+
+--
+API Pattern
+All the resources in the i-Ready Provising APIs share a common pattern for accessing them.
+--
+Top level collections contain all the resources, of a given type within, the account.
+All collections accept at least parameters
+
+- limit: The max number of items to retrieve.
+- offset: The index at which to start retrieving items.
+
+The returned data will have two sections.
+
+- status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
+- data: For collections the data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
+GET /top-level-collection
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": null,
+        "offset": 0,
+        "items": [
+            { ... },
+            { ... },
+            { ... },
+            { ... }
+        ]
+    }
+}
+
+Creating new resources is done via a POST request to the corresponding top level collection.
+
+The details of the data are specific to the resource that will be created within the collection.
+
+The POST returns a data structure containing the new objects "id" and "self" link properties.
+POST /top-level-collection
+{
+    "data": { ... }
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "<unique-id>",
+        "_links": {
+            "self": { "href": "/top-level-collection/<unique-id>"}
+        }
+    }
+}
+
+
+
+--
+Product Resources
+The following is a section of resources related to i-Ready Product resources
+--
+Retrieve all of the products available to the calling i-Ready account. 
+GET /products
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": null,
+        "offset": 0,
+        "items": [
+            { ... },
+            { ... },
+            { ... },
+            { ... }
+        ]
+    }
+}
+
+--
+School Resources
+The following is a section of resources related to i-Ready School resources
+--
+Retrieve all of the school resources that exist in this i-Ready account. 
+GET /schools
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": null,
+        "offset": 0,
+        "items": [
+            {
+                "name": "Harrington Elementary School",
+                "districtName": "oh-9-26",
+                "state": "OH",
+                "id": "19beca0cf15c4dcfb762f586a64a72f9",
+                "_links": {
+                    "self": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9" },
+                    "students": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/students" },
+                    "teachers": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/teachers" },
+                    "classrooms": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/classrooms" }
+                }
+            },
+            {
+                "name": "Lincoln Middle School",
+                "districtName": "oh-9-26",
+                "state": "OH",
+                "id": "c0497c2d36b14b7d9012e32be7cbd7ec",
+                "_links": {
+                    "self": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec" },
+                    "students": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec/students" },
+                    "teachers": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec/teachers" },
+                    "classrooms": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec/classrooms" }
+                }
+            }
+        ]
+    }
+}
++++++
+< 200
+< Content-Type: text/xml
+<items>
+    <item>
+        <data>
+            <name>Briarwood Elementary</name>
+            <id>0001</id>
+        </data>
+    </item>
+</items>
+
+Get the details of a particular School.
+GET /schools/{id}
+< 200
+< Content-Type: application/json
+{
+    "data": {
+        "name": "Harrington Elementary School",
+        "districtName": "oh-9-26",
+        "state": "OH",
+        "id": "19beca0cf15c4dcfb762f586a64a72f9",
+        "_links": {
+            "self": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9" },
+            "students": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/students" },
+            "teachers": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/teachers" },
+            "classrooms": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/classrooms" }
+        }
+    }
+}
+
+Get all of the school administrators assigned to a school.
+GET /schools/{id}/administrators
+< 200
+< Content-Type: application/json
+{ "items": [
+    {
+        "data": {
+            "administrator": "/v1.0/administrators/0001",
+            "school": "/v1.0/schools/{id}",
+            "self": "/v1.0/schools/{id}/administrators/0011",
+            "id": "0011",
+            "externalId": "RID3456",
+            "modifiedDate": "2012-08-17T14:56:43Z"
+        }
+    }
+]}
+
+
+--
+Class Resources
+The following is a section of resources related to i-Ready Class resources.
+--
+Get all of the classes related to an i-Ready account.
+GET /classes
+< 200
+< Content-Type: application/json
+{
+    "data": {
+        "name": "Grade 2 English",
+        "id": "C0007",
+        "classCode": "abcdef",
+        "location": "room 201",
+        "grade": "2",
+        "school": "/v1.0/schools/0001",
+        "self": "/v1.0/classes/C0007",
+        "session": "/v1.0/sessions/SES0004",
+        "self": "/v1.0/classes/C0007",
+        "product": "/v1.0/products/0002",
+        "externalId": "RID3456",
+        "modifiedDate": "2012-08-17T14:56:43Z"
+        
+    },
+    "relatedData": {
+        "students": "/v1.0/classes/C0007/students",
+        "teachers": "/v1.0/classes/C0007/teachers"
+    }
+}
+
+
+Get the details of a particular Class.
+GET /classes/{id}
+< 200
+< Content-Type: application/json
+{
+    id: "9ca33ac19b654591878c9ccaf36c1e49",
+    name: "Class Grade K",
+    "gradeLevel": "0",
+    "classCode": null,
+    "location": null,
+    "externalId": null,
+    "_links": {
+        "self": {
+            "href": "/classrooms/9ca33ac19b654591878c9ccaf36c1e49"
+        },
+        "school": {
+            "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9"
+        },
+        "product": {
+            "href": "/products/iReadyDiagnosticInstr.Math"
+        },
+        "students": {
+            "href": "/classrooms/9ca33ac19b654591878c9ccaf36c1e49/students"
+        },
+        "teachers": {
+            "href": "/classrooms/9ca33ac19b654591878c9ccaf36c1e49/teachers"
+        }
+    }
+}
+
+--
+Student Resources
+The following is a section of resources related to i-Ready Student resources.
+--
+Get all of the students in an i-Ready account.
+GET /students
+< 200
+< Content-Type: application/json
+{
+    "items": [
+    {
+        "data": {
+            "name": "Jane Doe",
+            "id": "ST0007",
+            "grade": "2",
+            "school": "/v1.0/schools/0001",
+            "self": "/v1.0/students/ST0007",
+            "gender": "female",
+            "specialEduation": "",
+            "englishLanguageLearner": "no",
+            "externalId": "jane.doe.117",
+            "modifiedDate": "2012-08-17T14:56:43Z"
+            
+        },
+        "relatedData": {
+            "classes": "/v1.0/students/ST0007/classes"
+        }
+    }
+    ]
+}
+
+Updated new student.
+POST /students
+> Content-Type: application/json
+{
+    "data": {
+        "name": "Jane Doe",
+        "grade": "2",
+        "school": "/v1.0/schools/0001",
+        "gender": "female",
+        "specialEduation": "",
+        "englishLanguageLearner": "no",
+        "externalId": "jane.doe.117",
+        "modifiedDate": "2012-08-17T14:56:43"       
+    }
+}
+< 200
+{
+    "status": {
+        "code": "8002",
+        "message": "Success"       
+    }
+}
+
+
+Get a specified student.
+GET /students/{id}
+< 200
+< Content-Type: application/json
+{
+    "data": {
+        "name": "Jane Doe",
+        "id": "ST0007",
+        "grade": "2",
+        "school": "/v1.0/schools/0001",
+        "self": "/v1.0/students/ST0007",
+        "gender": "female",
+        "specialEduation": "",
+        "englishLanguageLearner": "no",
+        "externalId": "jane.doe.117",
+        "modifiedDate": "2012-08-17T14:56:43Z"       
+    },
+    "relatedData": {
+        "classes": "/v1.0/students/ST0007/classes"
+    }
+}
