@@ -244,6 +244,8 @@ GET /products?limit=2
                "id": "{first-id}",
                "longName": "i-Ready Diagnostic & Instruction Math",
                "shortName": "D&I Math",
+               "productFamily": "Diagnostic & Instruction",
+               "subject": "Math",
                "_links":
                {
                    "self": "/products/{first-id}",
@@ -254,6 +256,8 @@ GET /products?limit=2
                "id": "{second-id}",
                "longName": "i-Ready Diagnostic & Instruction ELA",
                "shortName": "D&I ELA",
+               "productFamily": "Diagnostic & Instruction",
+               "subject": "ELA",
                "_links":
                {
                    "self": "/products/{second-id}",
@@ -280,6 +284,8 @@ GET /products/{id}
        "id": "{id}",
        "longName": "i-Ready Diagnostic & Instruction Math",
        "shortName": "D&I Math",
+       "productFamily": "Diagnostic & Instruction",
+	   "subject": "Math",
        "_links":
        {
            "self": "/products/{id}",
@@ -420,7 +426,7 @@ GET /schools/{id}
         "detailsMessage": "Success"
     },
    "data": {
-    	"id": "{id}",
+		"id": "{id}",
     	"name": "Harrington Elementary School",
 		"districtName": "oh-9-26",
 		"state": "OH",
@@ -923,7 +929,7 @@ GET /classes/{id}/students/{relationship-id}
     }
 }
 
-Updateing of class/student relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
+Updating of class/student relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
 PUT /classes/{id}/students/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
@@ -1048,7 +1054,7 @@ GET /classes/{id}/teachers/{relationship-id}
     }
 }
 
-Updateing of class/teacher relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
+Updating of class/teacher relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
 PUT /classes/{id}/teachers/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
