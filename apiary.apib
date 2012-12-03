@@ -1528,7 +1528,6 @@ GET /teachers?limit=2
 				"externalId": null,
 				"emailAddress": null,
 				"createdDate": "2012-11-29T14:56:43Z",
-
 				"_links":
 				{
 				   "school": { "href": "/schools/{second-school-id}" },
@@ -1812,4 +1811,59 @@ DELETE /teachers/{id}/classes/{relationship-id}
 		"userMessage": "The requested resource was not found.",
 		"detailsMessage": "No resources are available at this URI."
 	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--
+Scrap
+--
+Creating new resources is done via a POST request to the corresponding top level collection.
+
+The details of the data are specific to the resource that will be created within the collection.
+
+The POST returns a data structure containing the new objects "id" and "self" link properties.
+POST /top-level-collection
+{
+    "data": { ... }
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "<unique-id>",
+        "_links": {
+            "self": { "href": "/top-level-collection/<unique-id>"}
+        }
+    }
 }
