@@ -51,7 +51,12 @@ POST /<resource>
         "userMessage": "Success",
         "detailsMessage": "Success"
     },
-    "data": { ... }
+    "data": {
+        "id": "<unique-id>",
+        "_links": {
+            "self": { "href": "/top-level-collection/<unique-id>"}
+        }
+    }
 }
 
 Requests to get data will return data formatted in to sections:
