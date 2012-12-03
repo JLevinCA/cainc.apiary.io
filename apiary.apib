@@ -1439,6 +1439,7 @@ POST /students/{id}/classes
 Retrieve a particular student/class relationship.
 
 This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use. 
+GET /students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -1454,6 +1455,7 @@ This is not the proper path to access student/class realtionship objects.  See t
 Updating of student/class relationships is not supported.  If a class changes students the old relationship should be deleted and a new one added.
 
 This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.PUT /students/{id}/classes/{relationship-id}
+PUT /students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
