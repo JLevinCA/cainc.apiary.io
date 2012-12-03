@@ -4,7 +4,7 @@ HOST: http://api.i-ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentatoin version 0.6 - updated 12/3/12*
+*i-Ready API Documentation version 0.6 - updated 12/3/12*
 
 ## Authentication  & Authorization
 
@@ -33,7 +33,7 @@ The API supports four type of opertions:
 
 > Update, done via an http PUT request.
 
-> Delete, done via an http DELET request.
+> Delete, done via an http DELETE request.
 --
 Query requests, http GET, will retrieve information about the resource identified by the URI.  The request body should be empty.  The request response will return data formatted in to two sections:
 
@@ -682,9 +682,9 @@ GET /classes?limit=2
                {
                    "school": { "href": "/schools/{first-school-id}" },
                    "product": { "href": "/products/{first-product-id}" },
-                   "self": { "href": "/products/{first-class-id}" },
-                   "students": { "href": "/products/{first-class-id}/students" },
-                   "teachers": { "href": "/products/{first-class-id}/teachers" },
+                   "self": { "href": "/classes/{first-class-id}" },
+                   "students": { "href": "/classes/{first-class-id}/students" },
+                   "teachers": { "href": "/classes/{first-class-id}/teachers" },
                }
            },
            {
@@ -698,9 +698,9 @@ GET /classes?limit=2
                {
                    "school": { "href": "/schools/{second-school-id}" },
                    "product": { "href": "/products/{second-product-id}" },
-                   "self": { "href": "/products/{second-class-id}" },
-                   "students": { "href": "/products/{second-class-id}/students" },
-                   "teachers": { "href": "/products/{second-class-id}/teachers" },
+                   "self": { "href": "/classes/{second-class-id}" },
+                   "students": { "href": "/classes/{second-class-id}/students" },
+                   "teachers": { "href": "/classes/{second-class-id}/teachers" },
                }
            }
         ]
@@ -773,9 +773,9 @@ GET /classes/{id}
 	{
 		"school": { "href": "/schools/{school-id}" },
 		"product": { "href": "/products/{product-id}" },
-		"self": { "href": "/products/{id}" },
-		"students": { "href": "/products/{id}/students" },
-		"teachers": { "href": "/products/{id}/teachers" },
+		"self": { "href": "/classes/{id}" },
+		"students": { "href": "/classes/{id}/students" },
+		"teachers": { "href": "/classes/{id}/teachers" },
 	}
 }
 
@@ -950,7 +950,7 @@ PUT /classes/{id}/students/{relationship-id}
 {
     "status": {
         "httpCode": "405",
-        "errorCode": "C00000",
+        "errorCode": "C10004",
         "userMessage": "Operation not supported.",
         "detailsMessage": "Class/Student relationship resources can not be modified."
     }
@@ -1075,7 +1075,7 @@ PUT /classes/{id}/teachers/{relationship-id}
 {
     "status": {
         "httpCode": "405",
-        "errorCode": "C00000",
+        "errorCode": "C10004",
         "userMessage": "Operation not supported.",
         "detailsMessage": "Class/Teacher relationship resources can not be modified."
     }
@@ -1104,78 +1104,287 @@ Students are identified by their userName. The student's userName must by unique
 
 Additionally the student's have an externalId that must be set.  The externalId is unique to all students in the district account; for students the externalId cannot be null.
 --
-Get all of the students in an i-Ready account.
-GET /students
+Get all of the students related to an i-Ready account.
+GET /students?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
-    "items": [
-    {
-        "data": {
-            "name": "Jane Doe",
-            "id": "ST0007",
-            "grade": "2",
-            "school": "/v1.0/schools/0001",
-            "self": "/v1.0/students/ST0007",
-            "gender": "female",
-            "specialEduation": "",
-            "englishLanguageLearner": "no",
-            "externalId": "jane.doe.117",
-            "modifiedDate": "2012-08-17T14:56:43Z"
-            
-        },
-        "relatedData": {
-            "classes": "/v1.0/students/ST0007/classes"
-        }
-    }
-    ]
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+		"limit": 2,
+		"offset": 0,
+		"items": [
+           {
+				"id": "{first-student-id}",
+				"firstName": "Rick",
+				"lastName": "Campbell",
+				"userName": "di-rcampbell@oh",
+				"externalId": "e250345c39b7",
+				"dateOfBirth": null,
+				"grade": "5",
+				"mathDevelopmentalLevel": null,
+				"elaDevelopmentalLevel": null,
+				"englishLanguageLearner": "false",
+				"specialEducation": "false",
+				"economicallyDisadvantaged": "false",
+				"migrant": "false",
+				"gender": null,
+				"ethnicityId": "05",
+				"createdDate": "2012-11-29T14:56:43Z",
+				"_links":
+				{
+				   "school": { "href": "/schools/{first-school-id}" },
+				   "self": { "href": "/students/{first-student-id}" },
+				   "classes": { "href": "/students/{first-student-id}/classes" }
+				}
+           },
+           {
+				"id": "{second-student-id}",
+				"firstName": "Hosea",
+				"lastName": "Alvarez",
+				"userName": "di-halvarez@oh",
+				"externalId": "2d7b7295efd3",
+				"dateOfBirth": null,
+				"grade": "2",
+				"mathDevelopmentalLevel": null,
+				"elaDevelopmentalLevel": null,
+				"englishLanguageLearner": "false",
+				"specialEducation": "false",
+				"economicallyDisadvantaged": "false",
+				"migrant": "false",
+				"gender": null,
+				"ethnicityId": "01",
+				"createdDate": "2012-11-29T14:56:43Z",
+				"_links":
+				{
+				   "school": { "href": "/schools/{second-school-id}" },
+				   "self": { "href": "/students/{second-student-id}" },
+				   "classes": { "href": "/students/{second-student-id}/classes" }
+				}
+           }
+       ]
+	}
 }
 
-Updated new student.
+Create a new Student.
+
+When creating a new student the userName, externalId, grade and school reference properties must be specified.
+
+Read-only properties can be set to null.
 POST /students
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-    "data": {
-        "name": "Jane Doe",
-        "grade": "2",
-        "school": "/v1.0/schools/0001",
-        "gender": "female",
-        "specialEduation": "",
-        "englishLanguageLearner": "no",
-        "externalId": "jane.doe.117",
-        "modifiedDate": "2012-08-17T14:56:43"       
-    }
+	"id": null,
+	"firstName": "Hosea",
+	"lastName": "Alvarez",
+	"userName": "di-halvarez@oh",
+	"externalId": "2d7b7295efd3",
+	"dateOfBirth": null,
+	"grade": "2",
+	"mathDevelopmentalLevel": null,
+	"elaDevelopmentalLevel": null,
+	"englishLanguageLearner": "false",
+	"specialEducation": "false",
+	"economicallyDisadvantaged": "false",
+	"migrant": "false",
+	"gender": null,
+	"ethnicityId": "01",
+	"createdDate": null,
+	"_links":
+	{
+		"school": { "href": "/schools/{school-id}" },
+		"self": null,
+		"classes": null
+	}
 }
 < 200
+< Content-Type: application/json
 {
     "status": {
-        "code": "8002",
-        "message": "Success"       
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+		"id": "{id}",
+		"firstName": "Hosea",
+		"lastName": "Alvarez",
+		"userName": "di-halvarez@oh",
+		"externalId": "2d7b7295efd3",
+		"dateOfBirth": null,
+		"grade": "2",
+		"mathDevelopmentalLevel": null,
+		"elaDevelopmentalLevel": null,
+		"englishLanguageLearner": "false",
+		"specialEducation": "false",
+		"economicallyDisadvantaged": "false",
+		"migrant": "false",
+		"gender": null,
+		"ethnicityId": "01",
+		"createdDate": "2012-11-31T10:32:43Z",
+		"_links":
+		{
+		   "school": { "href": "/schools/{school-id}" },
+		   "self": { "href": "/students/{id}" },
+		   "classes": { "href": "/students/{id}/classes" }
+		}
     }
 }
 
-
-Get a specified student.
+Get the details of a particular Student.
 GET /students/{id}
 < 200
 < Content-Type: application/json
 {
-    "data": {
-        "name": "Jane Doe",
-        "id": "ST0007",
-        "grade": "2",
-        "school": "/v1.0/schools/0001",
-        "self": "/v1.0/students/ST0007",
-        "gender": "female",
-        "specialEduation": "",
-        "englishLanguageLearner": "no",
-        "externalId": "jane.doe.117",
-        "modifiedDate": "2012-08-17T14:56:43Z"       
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
     },
-    "relatedData": {
-        "classes": "/v1.0/students/ST0007/classes"
+    "data": {
+		"id": "{id}",
+		"firstName": "Hosea",
+		"lastName": "Alvarez",
+		"userName": "di-halvarez@oh",
+		"externalId": "2d7b7295efd3",
+		"dateOfBirth": null,
+		"grade": "2",
+		"mathDevelopmentalLevel": null,
+		"elaDevelopmentalLevel": null,
+		"englishLanguageLearner": "false",
+		"specialEducation": "false",
+		"economicallyDisadvantaged": "false",
+		"migrant": "false",
+		"gender": null,
+		"ethnicityId": "01",
+		"createdDate": "2012-11-29T14:56:43Z",
+		"_links":
+		{
+			"school": { "href": "/schools/{school-id}" },
+			"self": { "href": "/students/{id}" },
+			"classes": { "href": "/students/{id}/classes" }
+		}
     }
 }
+
+Update a particular student resource.
+
+When updating the name, studentCode and location values can be changed.  A student's school and product references cannot be modified after it had been created.
+
+Read-only properties will be ignored.
+PUT /students/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+	"id": "{id}",
+	"firstName": "Hosea",
+	"lastName": "Alvarez",
+	"userName": "di-halvarez@oh",
+	"externalId": "2d7b7295efd3",
+	"dateOfBirth": null,
+	"grade": "2",
+	"mathDevelopmentalLevel": null,
+	"elaDevelopmentalLevel": null,
+	"englishLanguageLearner": "false",
+	"specialEducation": "false",
+	"economicallyDisadvantaged": "false",
+	"migrant": "false",
+	"gender": null,
+	"ethnicityId": "01",
+	"createdDate": "2012-11-29T14:56:43Z",
+	"_links":
+	{
+		"school": { "href": "/schools/{school-id}" },
+		"self": { "href": "/students/{id}" },
+		"classes": { "href": "/students/{id}/classes" }
+	}
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+		"id": "{id}",
+		"firstName": "Hosea",
+		"lastName": "Alvarez",
+		"userName": "di-halvarez@oh",
+		"externalId": "2d7b7295efd3",
+		"dateOfBirth": null,
+		"grade": "2",
+		"mathDevelopmentalLevel": null,
+		"elaDevelopmentalLevel": null,
+		"englishLanguageLearner": "false",
+		"specialEducation": "false",
+		"economicallyDisadvantaged": "false",
+		"migrant": "false",
+		"gender": null,
+		"ethnicityId": "01",
+		"createdDate": "2012-12-03T16:02:43Z",
+		"_links":
+		{
+			"school": { "href": "/schools/{school-id}" },
+			"self": { "href": "/students/{id}" },
+			"classes": { "href": "/students/{id}/classes" }
+		}
+	}
+}
+
+Deleting of student resources is not supported.
+DELETE /students/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 405
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "405",
+        "errorCode": "C10004",
+		"userMessage": "Operation not supported.",
+        "detailsMessage": "Student resources can not be deleted."
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Creating new resources is done via a POST request to the corresponding top level collection.
