@@ -4,10 +4,23 @@ HOST: http://api.i-ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
+## Authentication  & Authorization
+
+Each method call will be individually authenticated.
+The authentication and authorization will be scoped to a single i-Ready district account.
+Within the account the credentials may have further restrictions depending on the role assigned them.
+
+### OAuth 2.0
+The production deployment of the APIs will require all requests to include a valid OAuth 2.0 bearer token of authentication.
+The i-Ready APIs will implement a 2-legged OAuth implementation for managment of the tokens.
+
+### Basic Authentication
+In the i-Ready test environments the APIs will also accept http basic authentication credentials.
+
 ---
 
 --
-API Pattern
+API Pattern - CRUD Operations
 All the resources in the i-Ready Provising APIs share a common pattern for accessing them.
 
 The API supports four type of opertions:
@@ -43,8 +56,9 @@ All read-only fields will be ignored by the server.
 
 Create requests are always directed at the collection the new resource will be added to.  For example, a new Student will be created via a post to the /API/Students/ collection.
 
-The response will return a status and, if successful, data block.  The data block will contain the identity of the newly created resource.
+The response will return a status and, if successful, data block.  The data block will return the details of the new resource including its identity.
 POST /<resource>
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -55,9 +69,11 @@ POST /<resource>
         "detailsMessage": "Success"
     },
     "data": {
+        ...,
         "id": "<unique-id>",
         "_links": {
-            "self": { "href": "/<collection>/<unique-id>"}
+            "self": { "href": "/<collection>/<unique-id>"},
+            ...
         }
     }
 }
@@ -65,8 +81,9 @@ POST /<resource>
 Update requests, http PUT, send a block of JSON that describes the new values to be assigned to the resource.  The JSON uses the same schema as that used in the POST method and retrieved with the GET requests.
 As with the POST read-only fields are ignored when processing the request.
 
-The response to the update will be a status block.
+The response to the update will contain a data block with the details of updated resource.
 PUT /<resource>
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -75,11 +92,13 @@ PUT /<resource>
         "errorCode": "C00000",
         "userMessage": "Success",
         "detailsMessage": "Success"
-    }
+    },
+    "data": { ... }
 }
 
 Delete requests, http DELETE, will delete the resource identified by the URI.  The request body should be empty.  The request response will contain a status block.
 DELETE /<resource>
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -91,17 +110,20 @@ DELETE /<resource>
     }
 }
 
+--
+API Pattern - Hierarchy
+All the resources in the i-Ready Provising APIs share a common pattern for accessing them.
+
+--
 Top level collections contain all the resources, of a given type within, the account.
-All collections accept at least parameters
+All collections accept at least two parameters:
 
 - limit: The max number of items to retrieve.
 - offset: The index at which to start retrieving items.
 
-The returned data will have two sections.
-
-- status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
-- data: For collections the data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
-GET /top-level-collection
+The returned data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
+GET /<top-level-collection>?limit=10&offset=20
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -112,8 +134,13 @@ GET /top-level-collection
         "detailsMessage": "Success"
     },
     "data": {
-        "limit": null,
-        "offset": 0,
+        "limit": 10,
+        "offset": 20,
+        "_links": {
+            "self": { "href": "/<top-level-collection>?limit=10&offset=20"}
+            "next": { "href": "/<top-level-collection>?limit=10&offset=30"}
+            "back": { "href": "/<top-level-collection>?limit=10&offset=10"}
+        },
         "items": [
             { ... },
             { ... },
@@ -123,15 +150,25 @@ GET /top-level-collection
     }
 }
 
-Creating new resources is done via a POST request to the corresponding top level collection.
-
-The details of the data are specific to the resource that will be created within the collection.
-
-The POST returns a data structure containing the new objects "id" and "self" link properties.
-POST /top-level-collection
+Top level resources, E.g. Students, Classes, Teachers, etc, are identified as items within their corresponding top level collection.
+GET /<top-level-collection>/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
 {
-    "data": { ... }
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    }
 }
+
+Relationship collections are identified as resources within a top level resource.  For example all the classes assigned to a particular student will be accessed via a URI of the form:
+
+> /api/students/{id}/classes/.
+GET /<top-level-collection>/{id}/<relationship-collection>&limit=20&offset=20
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -142,22 +179,26 @@ POST /top-level-collection
         "detailsMessage": "Success"
     },
     "data": {
-        "id": "<unique-id>",
+        "limit": 20,
+        "offset": 20,
         "_links": {
-            "self": { "href": "/top-level-collection/<unique-id>"}
-        }
+            "self": { "href": "/<top-level-collection>/{id}/<relationship-collection>?limit=20&offset=20"}
+            "next": { "href": "/<top-level-collection>/{id}/<relationship-collection>?limit=20&offset=40"}
+            "back": { "href": "/<top-level-collection>/{id}/<relationship-collection>?limit=20&offset=0"}
+        },
+        "items": [
+            { ... },
+            { ... },
+            { ... },
+            { ... }
+        ]
     }
 }
 
-The POST returns a data structure containing the new objects "id" and "self" link properties.
-GET /top-level-collection/{id}
-> Accept-Type:
-{
-    "data": {
-        ...
-        }
-    }
-}
+Relationship resources define the relationship between two top level resources.
+Relationship objects contain references to the two top level resources and, optionally, additional properties used to describe the relationship.
+GET /<top-level-collection>/{id}/<relationship-collection>/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -166,15 +207,26 @@ GET /top-level-collection/{id}
         "errorCode": "C00000",
         "userMessage": "Success",
         "detailsMessage": "Success"
+    },
+    "data": {
+        ...,
+        "_links": {
+            "self": { "href": "/<top-level-collection>/{id}/<relationship-collection>/{relationship-id}"}
+            "<first-type>": { "href": "/<top-level-collection>/{id}"}
+            "<second-type>": { "href": "/<second-top-level-collection>/{id}"}
+        }
     }
 }
 
 --
 Product Resources
-The following is a section of resources related to i-Ready Product resources
+The following is a section of resources related to i-Ready Product resources.
+
+The Product resources are all read-only; Only http GET requests are supported.
 --
 Retrieve all of the products available to the calling i-Ready account. 
-GET /products
+GET /products?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -185,23 +237,66 @@ GET /products
         "detailsMessage": "Success"
     },
     "data": {
-        "limit": null,
+        "limit": 2,
         "offset": 0,
         "items": [
-            { ... },
-            { ... },
-            { ... },
-            { ... }
+            {
+               "id": "{first-id}",
+               "longName": "i-Ready Diagnostic & Instruction Math",
+               "shortName": "D&I Math",
+               "_links":
+               {
+                   "self": "/products/{first-id}",
+                   "classes": "/products/{first-id}/classes"
+               }
+            },
+            {
+               "id": "{second-id}",
+               "longName": "i-Ready Diagnostic & Instruction ELA",
+               "shortName": "D&I ELA",
+               "_links":
+               {
+                   "self": "/products/{second-id}",
+                   "classes": "/products/{second-id}/classes"
+               }
+            },
         ]
     }
 }
 
+Retrieve the details of a particular product.
+GET /products/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+   "data": {
+       "id": "{id}",
+       "longName": "i-Ready Diagnostic & Instruction Math",
+       "shortName": "D&I Math",
+       "_links":
+       {
+           "self": "/products/{id}",
+           "classes": "/products/{id}/classes"
+       }
+    }
+}
+
 --
-School Resources
-The following is a section of resources related to i-Ready School resources
+ Product/Class Resources
+The following is a section of resources related to i-Ready Product/Class relationship resources.
+
+The Product/Class resources are all read-only; Only http GET requests are supported.
 --
-Retrieve all of the school resources that exist in this i-Ready account. 
-GET /schools
+Retrieve the classes assigned to a particular product.
+GET /products/{id}/classes?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
@@ -212,145 +307,775 @@ GET /schools
         "detailsMessage": "Success"
     },
     "data": {
-        "limit": null,
+        "limit": 2,
         "offset": 0,
+        "_links": {
+            "self": { "href": "/products/{id}/classes?limit=2"}
+            "next": { "href": "/products/{id}/classes?limit=2&offset=2"}
+        },
         "items": [
             {
-                "name": "Harrington Elementary School",
-                "districtName": "oh-9-26",
-                "state": "OH",
-                "id": "19beca0cf15c4dcfb762f586a64a72f9",
+                "id": "{first-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9" },
-                    "students": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/students" },
-                    "teachers": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/teachers" },
-                    "classrooms": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/classrooms" }
+                    "self": { "href": "/products/{id}/classes/{first-reference-id}"}
+                    "product": { "href": "/products/{id}"}
+                    "class": { "href": "/classes/{first-class-id}"}
                 }
             },
             {
-                "name": "Lincoln Middle School",
-                "districtName": "oh-9-26",
-                "state": "OH",
-                "id": "c0497c2d36b14b7d9012e32be7cbd7ec",
+                "id": "{second-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec" },
-                    "students": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec/students" },
-                    "teachers": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec/teachers" },
-                    "classrooms": { "href": "/schools/c0497c2d36b14b7d9012e32be7cbd7ec/classrooms" }
+                    "self": { "href": "/products/{id}/classes/{second-reference-id}"}
+                    "product": { "href": "/products/{id}"}
+                    "class": { "href": "/classes/{second-class-id}"}
                 }
             }
         ]
     }
 }
-+++++
-< 200
-< Content-Type: text/xml
-<items>
-    <item>
-        <data>
-            <name>Briarwood Elementary</name>
-            <id>0001</id>
-        </data>
-    </item>
-</items>
 
-Get the details of a particular School.
-GET /schools/{id}
+Retrieve a particular product/class reference.
+GET /products/{id}/classes/{reference-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
-    "data": {
-        "name": "Harrington Elementary School",
-        "districtName": "oh-9-26",
-        "state": "OH",
-        "id": "19beca0cf15c4dcfb762f586a64a72f9",
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data":{
+        "id": "{reference-id}",
         "_links": {
-            "self": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9" },
-            "students": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/students" },
-            "teachers": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/teachers" },
-            "classrooms": { "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9/classrooms" }
+            "self": { "href": "/products/{id}/classes/{reference-id}"}
+            "product": { "href": "/products/{id}"}
+            "class": { "href": "/classes/{class-id}"}
         }
     }
 }
 
-Get all of the school administrators assigned to a school.
-GET /schools/{id}/administrators
+--
+School Resources
+The following is a section of resources related to i-Ready School resources.
+
+The School resources are all read-only; Only http GET requests are supported.
+--
+Retrieve all of the schools in the i-Ready account. 
+GET /schools?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
-{ "items": [
-    {
-        "data": {
-            "administrator": "/v1.0/administrators/0001",
-            "school": "/v1.0/schools/{id}",
-            "self": "/v1.0/schools/{id}/administrators/0011",
-            "id": "0011",
-            "externalId": "RID3456",
-            "modifiedDate": "2012-08-17T14:56:43Z"
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "items": [
+            {
+                "id": "{first-id}",
+                "name": "Harrington Elementary School",
+                "districtName": "oh-9-26",
+                "state": "OH",
+               "_links":
+               {
+                   "self": "/schools/{first-id}",
+                   "classes": "/schools/{first-id}/classes"
+                   "students": "/schools/{first-id}/students"
+                   "teachers": "/schools/{first-id}/teachers"
+               }
+            },
+            {
+                "id": "{second-id}",
+                "name": "Lincoln Middle School",
+                "districtName": "oh-9-26",
+                "state": "OH",
+               "_links":
+               {
+                   "self": "/schools/{second-id}",
+                   "students": "/schools/{second-id}/students"
+                   "teachers": "/schools/{second-id}/teachers"
+               }
+            },
+        ]
+    }
+}
+
+Retrieve the details of a particular school.
+GET /schools/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+   "data": {
+    	"id": "{id}",
+    	"name": "Harrington Elementary School",
+		"districtName": "oh-9-26",
+		"state": "OH",
+	   "_links":
+	   {
+		   "self": "/schools/{id}",
+		   "classes": "/schools/{id}/classes"
+		   "students": "/schools/{id}/students"
+		   "teachers": "/schools/{id}/teachers"
+	   }
+    }
+}
+
+--
+ School/Class Resources
+The following is a section of resources related to i-Ready School/Class relationship resources.
+
+The School/Class resources are all read-only; Only http GET requests are supported.
+--
+Retrieve the classes assigned to a particular school.
+GET /schools/{id}/classes?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/schools/{id}/classes?limit=2"}
+            "next": { "href": "/schools/{id}/classes?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-reference-id}",
+                "_links": {
+                    "self": { "href": "/schools/{id}/classes/{first-reference-id}"}
+                    "school": { "href": "/schools/{id}"}
+                    "class": { "href": "/classes/{first-class-id}"}
+                }
+            },
+            {
+                "id": "{second-reference-id}",
+                "_links": {
+                    "self": { "href": "/schools/{id}/classes/{second-reference-id}"}
+                    "school": { "href": "/schools/{id}"}
+                    "class": { "href": "/classes/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Retrieve a particular school/class reference.
+GET /schools/{id}/classes/{reference-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data":{
+        "id": "{reference-id}",
+        "_links": {
+            "self": { "href": "/schools/{id}/classes/{reference-id}"}
+            "school": { "href": "/schools/{id}"}
+            "class": { "href": "/classes/{class-id}"}
         }
     }
-]}
+}
 
+--
+ School/Student Resources
+The following is a section of resources related to i-Ready School/Student relationship resources.
+
+The School/Student resources are all read-only; Only http GET requests are supported.
+--
+Retrieve the students assigned to a particular school.
+GET /schools/{id}/students?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/schools/{id}/students?limit=2"}
+            "next": { "href": "/schools/{id}/students?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-reference-id}",
+                "_links": {
+                    "self": { "href": "/schools/{id}/students/{first-reference-id}"}
+                    "school": { "href": "/schools/{id}"}
+                    "student": { "href": "/students/{first-class-id}"}
+                }
+            },
+            {
+                "id": "{second-reference-id}",
+                "_links": {
+                    "self": { "href": "/schools/{id}/students/{second-reference-id}"}
+                    "school": { "href": "/schools/{id}"}
+                    "student": { "href": "/students/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Retrieve a particular school/student reference.
+GET /schools/{id}/students/{reference-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data":{
+        "id": "{reference-id}",
+        "_links": {
+            "self": { "href": "/schools/{id}/students/{reference-id}"}
+            "school": { "href": "/schools/{id}"}
+            "student": { "href": "/students/{class-id}"}
+        }
+    }
+}
+
+
+--
+ School/Teacher Resources
+The following is a section of resources related to i-Ready School/Teacher relationship resources.
+
+The School/Teacher resources are all read-only; Only http GET requests are supported.
+--
+Retrieve the teachers assigned to a particular school.
+GET /schools/{id}/teachers?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/schools/{id}/teachers?limit=2"}
+            "next": { "href": "/schools/{id}/teachers?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-reference-id}",
+                "_links": {
+                    "self": { "href": "/schools/{id}/teachers/{first-reference-id}"}
+                    "school": { "href": "/schools/{id}"}
+                    "teacher": { "href": "/teachers/{first-class-id}"}
+                }
+            },
+            {
+                "id": "{second-reference-id}",
+                "_links": {
+                    "self": { "href": "/schools/{id}/teachers/{second-reference-id}"}
+                    "school": { "href": "/schools/{id}"}
+                    "teacher": { "href": "/teachers/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Retrieve a particular school/teacher reference.
+GET /schools/{id}/teachers/{reference-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data":{
+        "id": "{reference-id}",
+        "_links": {
+            "self": { "href": "/schools/{id}/teachers/{reference-id}"}
+            "school": { "href": "/schools/{id}"}
+            "teacher": { "href": "/teachers/{class-id}"}
+        }
+    }
+}
 
 --
 Class Resources
 The following is a section of resources related to i-Ready Class resources.
 --
 Get all of the classes related to an i-Ready account.
-GET /classes
+GET /classes?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
 {
-    "data": {
-        "name": "Grade 2 English",
-        "id": "C0007",
-        "classCode": "abcdef",
-        "location": "room 201",
-        "grade": "2",
-        "school": "/v1.0/schools/0001",
-        "self": "/v1.0/classes/C0007",
-        "session": "/v1.0/sessions/SES0004",
-        "self": "/v1.0/classes/C0007",
-        "product": "/v1.0/products/0002",
-        "externalId": "RID3456",
-        "modifiedDate": "2012-08-17T14:56:43Z"
-        
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
     },
-    "relatedData": {
-        "students": "/v1.0/classes/C0007/students",
-        "teachers": "/v1.0/classes/C0007/teachers"
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "items": [
+            {
+               "id": "{first-class-id}",
+               "name": "Grade K Class",
+               "grade": "0",
+               "classCode": "cl-1025",
+               "location": "Room 201",
+               "_links":
+               {
+                   "school": { "href": "/schools/{first-school-id}" },
+                   "product": { "href": "/products/{first-product-id}" },
+                   "self": { "href": "/products/{first-class-id}" },
+                   "students": { "href": "/products/{first-class-id}/students" },
+                   "teachers": { "href": "/products/{first-class-id}/teachers" },
+               }
+           },
+           {
+               "id": "{second-class-id}",
+               "name": "Hoosiers Grade 2 Class",
+               "grade": "2",
+               "classCode": "cl-2096",
+               "location": "Room 305",
+               "_links":
+               {
+                   "school": { "href": "/schools/{second-school-id}" },
+                   "product": { "href": "/products/{second-product-id}" },
+                   "self": { "href": "/products/{second-class-id}" },
+                   "students": { "href": "/products/{second-class-id}/students" },
+                   "teachers": { "href": "/products/{second-class-id}/teachers" },
+               }
+           }
+        ]
     }
 }
 
+Create a new Class.
+
+When creating a new class the name, grade, school reference and product reference properties are required.
+
+Read-only properties can be set to null.
+POST /classes
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+   "id": null,
+   "name": "Eagles - Grade 1",
+   "grade": "1",
+   "classCode": "cl-2313",
+   "location": "Room 212",
+   "_links":
+   {
+       "school": { "href": "/schools/{school-id}" },
+       "product": { "href": "/products/{product-id}" }
+       "self": null,
+       "students": null,
+       "teachers": null,
+   }
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+       "id": "{id}",
+       "name": "Eagles - Grade 1",
+       "grade": "1",
+       "classCode": "cl-2313",
+       "location": "Room 212",
+       "_links":
+       {
+           "school": { "href": "/schools/{school-id}" },
+           "product": { "href": "/products/{product-id}" }
+           "self": { "href": "/classes/{id}" },
+           "students": { "href": "/classes/{id}/students" },
+           "teachers": { "href": "/classes/{id}/teachers" },
+       }
+    }
+}
 
 Get the details of a particular Class.
 GET /classes/{id}
 < 200
 < Content-Type: application/json
 {
-    id: "9ca33ac19b654591878c9ccaf36c1e49",
-    name: "Class Grade K",
-    "gradeLevel": "0",
-    "classCode": null,
-    "location": null,
-    "externalId": null,
-    "_links": {
-        "self": {
-            "href": "/classrooms/9ca33ac19b654591878c9ccaf36c1e49"
+   "id": "{id}",
+   "name": "Hoosiers Grade 2 Class",
+   "grade": "2",
+   "classCode": "cl-2096",
+   "location": "Room 305",
+   "_links":
+   {
+       "school": { "href": "/schools/{school-id}" },
+       "product": { "href": "/products/{product-id}" },
+       "self": { "href": "/products/{id}" },
+       "students": { "href": "/products/{id}/students" },
+       "teachers": { "href": "/products/{id}/teachers" },
+   }
+}
+
+Update a particular class resource.
+
+When updating the name, classCode and location values can be changed.  A class's school and product references cannot be modified after it had been created.
+
+Read-only properties will be ignored.
+PUT /classes/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+   "id": "{id}",
+   "name": "Eagles - Grade 1",
+   "grade": "1",
+   "classCode": "cl-7652",
+   "location": "Room 212",
+   "_links":
+   {
+	   "school": { "href": "/schools/{school-id}" },
+	   "product": { "href": "/products/{product-id}" }
+	   "self": { "href": "/classes/{id}" },
+	   "students": { "href": "/classes/{id}/students" },
+	   "teachers": { "href": "/classes/{id}/teachers" },
+   }
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+       "id": "{id}",
+       "name": "Eagles - Grade 1",
+       "grade": "1",
+       "classCode": "cl-7652",
+       "location": "Room 212",
+       "_links":
+       {
+           "school": { "href": "/schools/{school-id}" },
+           "product": { "href": "/products/{product-id}" }
+           "self": { "href": "/classes/{id}" },
+           "students": { "href": "/classes/{id}/students" },
+           "teachers": { "href": "/classes/{id}/teachers" },
+       }
+    }
+}
+
+Delete a particular class.
+DELETE /classes/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    }
+}
+
+--
+ Class/Student Resources
+The following is a section of resources related to i-Ready Class/Student relationship resources.
+--
+
+Retrieve the students assigned to a particular class.
+GET /classes/{id}/students?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/classes/{id}/students?limit=2"}
+            "next": { "href": "/classes/{id}/students?limit=2&offset=2"}
         },
-        "school": {
-            "href": "/schools/19beca0cf15c4dcfb762f586a64a72f9"
-        },
-        "product": {
-            "href": "/products/iReadyDiagnosticInstr.Math"
-        },
-        "students": {
-            "href": "/classrooms/9ca33ac19b654591878c9ccaf36c1e49/students"
-        },
-        "teachers": {
-            "href": "/classrooms/9ca33ac19b654591878c9ccaf36c1e49/teachers"
+        "items": [
+            {
+                "id": "{first-relationship-id}",
+                "_links": {
+                    "self": { "href": "/classes/{id}/students/{first-relationship-id}"}
+                    "class": { "href": "/classes/{id}"}
+                    "student": { "href": "/students/{first-class-id}"}
+                }
+            },
+            {
+                "id": "{second-relationship-id}",
+                "_links": {
+                    "self": { "href": "/classes/{id}/students/{second-relationship-id}"}
+                    "class": { "href": "/classes/{id}"}
+                    "student": { "href": "/students/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Create a new class/student relationship.
+POST /classes/{id}/students
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+	"id": null,
+	"_links": {
+		"self": null
+		"class": { "href": "/classes/{id}"}
+		"student": { "href": "/students/{class-id}"}
+	}
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{relationship-id}",
+        "_links": {
+            "self": { "href": "/classes/{id}/students/{relationship-id}"}
+			"class": { "href": "/classes/{id}"}
+			"student": { "href": "/students/{class-id}"}
+		}
+    }
+}
+
+Retrieve a particular class/student relationship.
+GET /classes/{id}/students/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data":{
+        "id": "{relationship-id}",
+        "_links": {
+            "self": { "href": "/classes/{id}/students/{relationship-id}"}
+            "class": { "href": "/classes/{id}"}
+            "student": { "href": "/students/{class-id}"}
         }
     }
 }
+
+Updateing of class/student relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
+PUT /classes/{id}/students/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 405
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "405",
+        "errorCode": "C00000",
+        "userMessage": "Operation not supported.",
+        "detailsMessage": "Class/Student relationship resources can not be modified."
+    }
+}
+
+Delete a particular class/student relationship.
+DELETE /classes/{id}/students/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    }
+}
+
+--
+ Class/Teacher Resources
+The following is a section of resources related to i-Ready Class/Teacher relationship resources.
+--
+Retrieve the teachers assigned to a particular class.
+GET /classes/{id}/teachers?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/classes/{id}/teachers?limit=2"}
+            "next": { "href": "/classes/{id}/teachers?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-relationship-id}",
+                "_links": {
+                    "self": { "href": "/classes/{id}/teachers/{first-relationship-id}"}
+                    "class": { "href": "/classes/{id}"}
+                    "teacher": { "href": "/teachers/{first-class-id}"}
+                }
+            },
+            {
+                "id": "{second-relationship-id}",
+                "_links": {
+                    "self": { "href": "/classes/{id}/teachers/{second-relationship-id}"}
+                    "class": { "href": "/classes/{id}"}
+                    "teacher": { "href": "/teachers/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Create a new class/teacher relationship.
+POST /classes/{id}/teachers
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+	"id": null,
+	"_links": {
+		"self": null
+		"class": { "href": "/classes/{id}"}
+		"teacher": { "href": "/teachers/{class-id}"}
+	}
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{relationship-id}",
+        "_links": {
+            "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
+			"class": { "href": "/classes/{id}"}
+			"teacher": { "href": "/teachers/{class-id}"}
+		}
+    }
+}
+
+Retrieve a particular class/teacher relationship.
+GET /classes/{id}/teachers/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data":{
+        "id": "{relationship-id}",
+        "_links": {
+            "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
+            "class": { "href": "/classes/{id}"}
+            "teacher": { "href": "/teachers/{class-id}"}
+        }
+    }
+}
+
+Updateing of class/teacher relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
+PUT /classes/{id}/teachers/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 405
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "405",
+        "errorCode": "C00000",
+        "userMessage": "Operation not supported.",
+        "detailsMessage": "Class/Teacher relationship resources can not be modified."
+    }
+}
+
+Delete a particular class/teacher relationship.
+DELETE /classes/{id}/teachers/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    }
+}
+
 
 --
 Student Resources
@@ -426,5 +1151,32 @@ GET /students/{id}
     },
     "relatedData": {
         "classes": "/v1.0/students/ST0007/classes"
+    }
+}
+
+
+Creating new resources is done via a POST request to the corresponding top level collection.
+
+The details of the data are specific to the resource that will be created within the collection.
+
+The POST returns a data structure containing the new objects "id" and "self" link properties.
+POST /top-level-collection
+{
+    "data": { ... }
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "<unique-id>",
+        "_links": {
+            "self": { "href": "/top-level-collection/<unique-id>"}
+        }
     }
 }
