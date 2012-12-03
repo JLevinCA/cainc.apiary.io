@@ -871,6 +871,7 @@ GET /classes/{id}/students?limit=2
         "items": [
             {
                 "id": "{first-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/students/{first-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -879,6 +880,7 @@ GET /classes/{id}/students?limit=2
             },
             {
                 "id": "{second-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/students/{second-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -895,6 +897,7 @@ POST /classes/{id}/students
 > Content-Type: application/json
 {
 	"id": null,
+	"createdDate": null,
 	"_links": {
 		"self": null
 		"class": { "href": "/classes/{id}"}
@@ -912,6 +915,7 @@ POST /classes/{id}/students
     },
     "data": {
         "id": "{relationship-id}",
+		"createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/students/{relationship-id}"}
 			"class": { "href": "/classes/{id}"}
@@ -934,6 +938,7 @@ GET /classes/{id}/students/{relationship-id}
     },
     "data":{
         "id": "{relationship-id}",
+		"createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/students/{relationship-id}"}
             "class": { "href": "/classes/{id}"}
@@ -996,6 +1001,7 @@ GET /classes/{id}/teachers?limit=2
         "items": [
             {
                 "id": "{first-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/teachers/{first-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -1004,6 +1010,7 @@ GET /classes/{id}/teachers?limit=2
             },
             {
                 "id": "{second-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/teachers/{second-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -1020,6 +1027,7 @@ POST /classes/{id}/teachers
 > Content-Type: application/json
 {
 	"id": null,
+	"createdDate": null,
 	"_links": {
 		"self": null
 		"class": { "href": "/classes/{id}"}
@@ -1037,6 +1045,7 @@ POST /classes/{id}/teachers
     },
     "data": {
         "id": "{relationship-id}",
+		"createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
 			"class": { "href": "/classes/{id}"}
@@ -1059,6 +1068,7 @@ GET /classes/{id}/teachers/{relationship-id}
     },
     "data":{
         "id": "{relationship-id}",
+		"createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
             "class": { "href": "/classes/{id}"}
@@ -1357,7 +1367,7 @@ DELETE /students/{id}
 Student/Class Resources
 The following is a section of resources related to i-Ready Student/Class relationship resources.
 
-The student/class relationship resources are the same as the class/student relationship resources.  The student/{student-id}/classes relationship collections contains relationship resources that are stored under classes/{class-id}/students collection.  Creation of new relationships can be done via the student/{student-id}/classes collection but the new relationship item returned will be in the classes/class-id/students collection.
+The student/class relationship resources are the same as the class/student relationship resources.  The student/{student-id}/classes relationship collections contain relationship resources that are stored under classes/{class-id}/students collection.  Creation of new relationships can be done via the student/{student-id}/classes collection but the new relationship item created will be in the classes/class-id/students collection.
 --
 Retrieve the classes assigned to a particular student.
 GET /students/{id}/classes?limit=2
@@ -1688,7 +1698,7 @@ DELETE /teachers/{id}
 Teacher/Class Resources
 The following is a section of resources related to i-Ready Teacher/Class relationship resources.
 
-The teacher/class relationship resources are the same as the class/teacher relationship resources.  The teacher/{teacher-id}/classes relationship collections contains relationship resources that are stored under classes/{class-id}/teachers collection.  Creation of new relationships can be done via the teacher/{teacher-id}/classes collection but the new relationship item returned will be in the classes/class-id/teachers collection.
+The teacher/class relationship resources are the same as the class/teacher relationship resources.  The teacher/{teacher-id}/classes relationship collections contain relationship resources that are stored under classes/{class-id}/teachers collection.  Creation of new relationships can be done via the teacher/{teacher-id}/classes collection but the new relationship item created will be in the classes/class-id/teachers collection.
 --
 Retrieve the classes assigned to a particular teacher.
 GET /teachers/{id}/classes?limit=2
@@ -1811,59 +1821,4 @@ DELETE /teachers/{id}/classes/{relationship-id}
 		"userMessage": "The requested resource was not found.",
 		"detailsMessage": "No resources are available at this URI."
 	}
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
---
-Scrap
---
-Creating new resources is done via a POST request to the corresponding top level collection.
-
-The details of the data are specific to the resource that will be created within the collection.
-
-The POST returns a data structure containing the new objects "id" and "self" link properties.
-POST /top-level-collection
-{
-    "data": { ... }
-}
-< 200
-< Content-Type: application/json
-{
-    "status": {
-        "httpCode": "200",
-        "errorCode": "C00000",
-        "userMessage": "Success",
-        "detailsMessage": "Success"
-    },
-    "data": {
-        "id": "<unique-id>",
-        "_links": {
-            "self": { "href": "/top-level-collection/<unique-id>"}
-        }
-    }
 }
