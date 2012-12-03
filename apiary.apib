@@ -711,7 +711,7 @@ Create a new Class.
 
 When creating a new class the name, grade, school reference and product reference properties are required.
 
-Read-only properties can be set to null.
+Read-only properties will be ignored.
 POST /classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
@@ -1174,7 +1174,7 @@ GET /students?limit=2
 
 Create a new Student.
 
-Read-only properties can be set to null.
+Read-only properties will be ignored.
 POST /students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
@@ -1541,7 +1541,7 @@ GET /teachers?limit=2
 
 Create a new Teacher.
 
-Read-only properties can be set to null.
+Read-only properties will be ignored.
 POST /teachers
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
