@@ -1368,7 +1368,9 @@ DELETE /students/{id}
 Student/Class Resources
 The following is a section of resources related to i-Ready Student/Class relationship resources.
 
-The student/class relationship resources are the same as the class/student relationship resources.  The student/{student-id}/classes relationship collections contain relationship resources that are stored under classes/{class-id}/students collection.  Creation of new relationships can be done via the student/{student-id}/classes collection but the new relationship item created will be in the classes/class-id/students collection.
+> Note: The relationship resources within the /students/{student-id}/classes collection will typically be stored at the path /classes/{class-id}/students/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
+
+> Creation of new relationships can be done via a POST to the students/{student-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/students/{relationship-id}.
 --
 Retrieve the classes assigned to a particular student.
 GET /students/{id}/classes?limit=2
@@ -1690,9 +1692,9 @@ DELETE /teachers/{id}
 Teacher/Class Resources
 The following is a section of resources related to i-Ready Teacher/Class relationship resources.
 
-> Note: The relationship resources within the /teachers/{teacher-id}/classes collection will typically be stored at the path /classes/{class-id}/teachers/{relationship-id}.  For accurate consumption of the resources the 'self' link should be utilized to directly access the relationship resources.
+> Note: The relationship resources within the /teachers/{teacher-id}/classes collection will typically be stored at the path /classes/{class-id}/teachers/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
 
-> Creation of new relationships can be done via a POST to the teacher/{teacher-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/teachers/{relationship-id}.
+> Creation of new relationships can be done via a POST to the teachers/{teacher-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/teachers/{relationship-id}.
 --
 Retrieve the classes assigned to a particular teacher.
 GET /teachers/{id}/classes?limit=2
