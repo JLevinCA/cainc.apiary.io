@@ -287,7 +287,7 @@ GET /products/{id}
        "longName": "i-Ready Diagnostic & Instruction Math",
        "shortName": "D&I Math",
        "productFamily": "Diagnostic & Instruction",
-	   "subject": "Math",
+       "subject": "Math",
        "_links":
        {
            "self": "/products/{id}",
@@ -1276,8 +1276,6 @@ GET /students/{id}
 
 Update a particular student resource.
 
-When updating the name, studentCode and location values can be changed.  A student's school and product references cannot be modified after it had been created.
-
 Read-only properties will be ignored.
 PUT /students/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
@@ -1356,10 +1354,10 @@ DELETE /students/{id}
 }
 
 --
- Student/Class Resources
+Student/Class Resources
 The following is a section of resources related to i-Ready Student/Class relationship resources.
 
-The student/class relationship resources are the same as the class/student relationship resources.  The student/{student-id}/classes relationship collections contains realtionship resources that are stored under classes/{class-id}/students collection.  Creation of new relationships can be done via the student/{student-id}/classes collection but the new relationship item returned will be in the classes/class-id/students collection.
+The student/class relationship resources are the same as the class/student relationship resources.  The student/{student-id}/classes relationship collections contains relationship resources that are stored under classes/{class-id}/students collection.  Creation of new relationships can be done via the student/{student-id}/classes collection but the new relationship item returned will be in the classes/class-id/students collection.
 --
 Retrieve the classes assigned to a particular student.
 GET /students/{id}/classes?limit=2
@@ -1438,7 +1436,7 @@ POST /students/{id}/classes
 
 Retrieve a particular student/class relationship.
 
-This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use. 
+This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use. 
 GET /students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
@@ -1452,9 +1450,9 @@ GET /students/{id}/classes/{relationship-id}
     }
 }
 
-Updating of student/class relationships is not supported.  If a class changes students the old relationship should be deleted and a new one added.
+Updating of student/class relationships is not supported.  If a student changes changes the old relationship should be deleted and a new one added.
 
-This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.PUT /students/{id}/classes/{relationship-id}
+This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
 PUT /students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
@@ -1470,7 +1468,7 @@ PUT /students/{id}/classes/{relationship-id}
 
 Delete a particular student/class relationship.
 
-This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
+This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
 DELETE /students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
@@ -1485,42 +1483,83 @@ DELETE /students/{id}/classes/{relationship-id}
 }
 
 
+--
+Teacher Resources
+The following is a section of resources related to i-Ready Teacher resources.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Creating new resources is done via a POST request to the corresponding top level collection.
-
-The details of the data are specific to the resource that will be created within the collection.
-
-The POST returns a data structure containing the new objects "id" and "self" link properties.
-POST /top-level-collection
+Teachers are identified by their userName. The teacher's userName must by unique to all users within their distict account's state.
+--
+Get all of the teachers related to an i-Ready account.
+GET /teachers?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
 {
-    "data": { ... }
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+		"limit": 2,
+		"offset": 0,
+		"items": [
+			{
+				"id": "{first-teacher-id}",
+				"firstName": "Janet",
+				"lastName": "Benjamin",
+				"userName": "DI-JBenjamin",
+				"externalId": null,
+				"emailAddress": null,
+				"createdDate": "2012-11-29T14:56:43Z",
+				"_links":
+				{
+				   "school": { "href": "/schools/{first-school-id}" },
+				   "self": { "href": "/teachers/{first-teacher-id}" },
+				   "classes": { "href": "/teachers/{first-teacher-id}/classes" }
+				}
+			},
+			{
+				"id": "{first-teacher-id}",
+				"firstName": "Michael",
+				"lastName": "Williams",
+				"userName": "DI-MWilliams",
+				"externalId": null,
+				"emailAddress": null,
+				"createdDate": "2012-11-29T14:56:43Z",
+
+				"_links":
+				{
+				   "school": { "href": "/schools/{second-school-id}" },
+				   "self": { "href": "/teachers/{second-teacher-id}" },
+				   "classes": { "href": "/teachers/{second-teacher-id}/classes" }
+				}
+			}
+       ]
+	}
+}
+
+Create a new Teacher.
+
+Read-only properties can be set to null.
+POST /teachers
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+	"id": null,
+	"firstName": "Janet",
+	"lastName": "Benjamin",
+	"userName": "DI-JBenjamin",
+	"externalId": null,
+	"emailAddress": null,
+	"createdDate": null,
+	"_links":
+	{
+	   "school": { "href": "/schools/{school-id}" },
+	   "self": null,
+	   "classes": null
+	}
 }
 < 200
 < Content-Type: application/json
@@ -1532,9 +1571,245 @@ POST /top-level-collection
         "detailsMessage": "Success"
     },
     "data": {
-        "id": "<unique-id>",
-        "_links": {
-            "self": { "href": "/top-level-collection/<unique-id>"}
-        }
+		"id": "{id}",
+		"firstName": "Janet",
+		"lastName": "Benjamin",
+		"userName": "DI-JBenjamin",
+		"externalId": null,
+		"emailAddress": null,
+		"createdDate": "2012-11-29T14:56:43Z",
+		"_links":
+		{
+		   "school": { "href": "/schools/{school-id}" },
+		   "self": { "href": "/teachers/{id}" },
+		   "classes": { "href": "/teachers/{id}/classes" }
+		}
+	}
+}
+
+Get the details of a particular Teacher.
+GET /teachers/{id}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+		"id": "{id}",
+		"firstName": "Janet",
+		"lastName": "Benjamin",
+		"userName": "DI-JBenjamin",
+		"externalId": null,
+		"emailAddress": null,
+		"createdDate": "2012-11-29T14:56:43Z",
+		"_links":
+		{
+		   "school": { "href": "/schools/{school-id}" },
+		   "self": { "href": "/teachers/{id}" },
+		   "classes": { "href": "/teachers/{id}/classes" }
+		}
     }
+}
+
+Update a particular teacher resource.
+
+Read-only properties will be ignored.
+PUT /teachers/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+	"id": "{id}",
+	"firstName": "Janet",
+	"lastName": "Benjamin",
+	"userName": "DI-JBenjamin",
+	"externalId": null,
+	"emailAddress": null,
+	"createdDate": "2012-11-29T14:56:43Z",
+	"_links":
+	{
+	   "school": { "href": "/schools/{school-id}" },
+	   "self": { "href": "/teachers/{id}" },
+	   "classes": { "href": "/teachers/{id}/classes" }
+	}
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+		"id": "{id}",
+		"firstName": "Hosea",
+		"lastName": "Alvarez",
+		"userName": "di-halvarez@oh",
+		"externalId": "2d7b7295efd3",
+		"dateOfBirth": null,
+		"grade": "2",
+		"mathDevelopmentalLevel": null,
+		"elaDevelopmentalLevel": null,
+		"englishLanguageLearner": "false",
+		"specialEducation": "false",
+		"economicallyDisadvantaged": "false",
+		"migrant": "false",
+		"gender": null,
+		"ethnicityId": "01",
+		"createdDate": "2012-12-03T16:02:43Z",
+		"_links":
+		{
+			"school": { "href": "/schools/{school-id}" },
+			"self": { "href": "/teachers/{id}" },
+			"classes": { "href": "/teachers/{id}/classes" }
+		}
+	}
+}
+
+Deleting of teacher resources is not supported.
+DELETE /teachers/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 405
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "405",
+        "errorCode": "C10004",
+		"userMessage": "Operation not supported.",
+        "detailsMessage": "Teacher resources can not be deleted."
+	}
+}
+
+--
+Teacher/Class Resources
+The following is a section of resources related to i-Ready Teacher/Class relationship resources.
+
+The teacher/class relationship resources are the same as the class/teacher relationship resources.  The teacher/{teacher-id}/classes relationship collections contains relationship resources that are stored under classes/{class-id}/teachers collection.  Creation of new relationships can be done via the teacher/{teacher-id}/classes collection but the new relationship item returned will be in the classes/class-id/teachers collection.
+--
+Retrieve the classes assigned to a particular teacher.
+GET /teachers/{id}/classes?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/teachers/{id}/classes?limit=2"}
+            "next": { "href": "/teachers/{id}/classes?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
+                "_links": {
+                    "self": { "href": "/classes/{first-relationship-id}/teachers/{id}"}
+                    "teacher": { "href": "/teachers/{id}"}
+                    "class": { "href": "/classes/{first-class-id}"}
+                }
+            },
+            {
+                "id": "{second-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
+                "_links": {
+                    "self": { "href": "classes/{second-relationship-id}/teachers/{id}/"}
+                    "teacher": { "href": "/teachers/{id}"}
+                    "class": { "href": "/classes/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Creation of new teacher/class relationship.
+POST /teachers/{id}/classes
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+	"id": null,
+	"_links": {
+		"self": null
+		"createdDate": null,
+		"teacher": { "href": "/teachers/{id}"}
+		"class": { "href": "/classes/{class-id}"}
+	}
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{relationship-id}",
+		"createdDate": "2012-12-03T16:02:43Z",
+        "_links": {
+            "self": { "href": "/classes/{relationship-id}/teachers/{id}"}
+			"teacher": { "href": "/teachers/{id}"}
+			"class": { "href": "/classes/{class-id}"}
+		}
+    }
+}
+
+Retrieve a particular teacher/class relationship.
+
+This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use. 
+GET /teachers/{id}/classes/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 404
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "404",
+        "errorCode": "C10003",
+        "userMessage": "The requested resource was not found.",
+        "detailsMessage": "No resources are available at this URI."
+    }
+}
+
+Updating of teacher/class relationships is not supported.  If a teacher changes changes the old relationship should be deleted and a new one added.
+
+This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
+PUT /teachers/{id}/classes/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 404
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "404",
+        "errorCode": "C10003",
+        "userMessage": "The requested resource was not found.",
+        "detailsMessage": "No resources are available at this URI."
+    }
+}
+
+Delete a particular teacher/class relationship.
+
+This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
+DELETE /teachers/{id}/classes/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 404
+< Content-Type: application/json
+{
+	"status": {
+		"httpCode": "404",
+		"errorCode": "C10003",
+		"userMessage": "The requested resource was not found.",
+		"detailsMessage": "No resources are available at this URI."
+	}
 }
