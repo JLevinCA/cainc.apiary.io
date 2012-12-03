@@ -1174,8 +1174,6 @@ GET /students?limit=2
 
 Create a new Student.
 
-When creating a new student the userName, externalId, grade and school reference properties must be specified.
-
 Read-only properties can be set to null.
 POST /students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
@@ -1357,6 +1355,132 @@ DELETE /students/{id}
 	}
 }
 
+--
+ Student/Class Resources
+The following is a section of resources related to i-Ready Student/Class relationship resources.
+
+The student/class relationship resources are the same as the class/student relationship resources.  The student/{student-id}/classes relationship collections contains realtionship resources that are stored under classes/{class-id}/students collection.  Creation of new relationships can be done via the student/{student-id}/classes collection but the new relationship item returned will be in the classes/class-id/students collection.
+--
+Retrieve the classes assigned to a particular student.
+GET /students/{id}/classes?limit=2
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/students/{id}/classes?limit=2"}
+            "next": { "href": "/students/{id}/classes?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
+                "_links": {
+                    "self": { "href": "/classes/{first-relationship-id}/students/{id}"}
+                    "student": { "href": "/students/{id}"}
+                    "class": { "href": "/classes/{first-class-id}"}
+                }
+            },
+            {
+                "id": "{second-relationship-id}",
+				"createdDate": "2012-12-03T16:02:43Z",
+                "_links": {
+                    "self": { "href": "classes/{second-relationship-id}/students/{id}/"}
+                    "student": { "href": "/students/{id}"}
+                    "class": { "href": "/classes/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Creation of new student/class relationship.
+POST /students/{id}/classes
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+	"id": null,
+	"_links": {
+		"self": null
+		"createdDate": null,
+		"student": { "href": "/students/{id}"}
+		"class": { "href": "/classes/{class-id}"}
+	}
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{relationship-id}",
+		"createdDate": "2012-12-03T16:02:43Z",
+        "_links": {
+            "self": { "href": "/classes/{relationship-id}/students/{id}"}
+			"student": { "href": "/students/{id}"}
+			"class": { "href": "/classes/{class-id}"}
+		}
+    }
+}
+
+Retrieve a particular student/class relationship.
+
+This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use. 
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 404
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "404",
+        "errorCode": "C10003",
+        "userMessage": "The requested resource was not found.",
+        "detailsMessage": "No resources are available at this URI."
+    }
+}
+
+Updating of student/class relationships is not supported.  If a class changes students the old relationship should be deleted and a new one added.
+
+This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.PUT /students/{id}/classes/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 404
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "404",
+        "errorCode": "C10003",
+        "userMessage": "The requested resource was not found.",
+        "detailsMessage": "No resources are available at this URI."
+    }
+}
+
+Delete a particular student/class relationship.
+
+This is not the proper path to access student/class realtionship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
+DELETE /students/{id}/classes/{relationship-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 404
+< Content-Type: application/json
+{
+	"status": {
+		"httpCode": "404",
+		"errorCode": "C10003",
+		"userMessage": "The requested resource was not found.",
+		"detailsMessage": "No resources are available at this URI."
+	}
+}
 
 
 
