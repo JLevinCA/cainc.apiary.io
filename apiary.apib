@@ -81,7 +81,7 @@ POST /<resource>
 }
 
 Update requests, http PUT, send a block of JSON that describes the new values to be assigned to the resource.  The JSON uses the same schema as that used in the POST method and retrieved with the GET requests.
-As with the POST read-only fields are ignored when processing the request.
+Read-only fields are ignored when processing the request.
 
 The response to the update will contain a data block with the details of updated resource.
 PUT /<resource>
@@ -118,10 +118,10 @@ All the resources in the i-Ready Provising APIs share a common pattern for acces
 
 --
 Top level collections contain all the resources, of a given type within, the account.
-All collections accept at least two parameters:
+All collections accept at least two, optional, parameters:
 
-- limit: The max number of items to retrieve.
-- offset: The index at which to start retrieving items.
+- limit: (Optional) The max number of items to retrieve.  A system limit of TBD will be imposed on all requests to collections.
+- offset: (Optional) The index at which to start retrieving items.
 
 The returned data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
 GET /<top-level-collection>?limit=10&offset=20
@@ -428,8 +428,8 @@ GET /schools/{id}
         "detailsMessage": "Success"
     },
    "data": {
-    	"id": "{id}",
-    	"name": "Harrington Elementary School",
+        "id": "{id}",
+        "name": "Harrington Elementary School",
 		"districtName": "oh-9-26",
 		"state": "OH",
 	   "_links":
@@ -1656,26 +1656,17 @@ PUT /teachers/{id}
     },
     "data": {
 		"id": "{id}",
-		"firstName": "Hosea",
-		"lastName": "Alvarez",
-		"userName": "di-halvarez@oh",
-		"externalId": "2d7b7295efd3",
-		"dateOfBirth": null,
-		"grade": "2",
-		"mathDevelopmentalLevel": null,
-		"elaDevelopmentalLevel": null,
-		"englishLanguageLearner": "false",
-		"specialEducation": "false",
-		"economicallyDisadvantaged": "false",
-		"migrant": "false",
-		"gender": null,
-		"ethnicityId": "01",
-		"createdDate": "2012-12-03T16:02:43Z",
+		"firstName": "Janet",
+		"lastName": "Benjamin",
+		"userName": "DI-JBenjamin",
+		"externalId": null,
+		"emailAddress": null,
+		"createdDate": "2012-11-29T14:56:43Z",
 		"_links":
 		{
-			"school": { "href": "/schools/{school-id}" },
-			"self": { "href": "/teachers/{id}" },
-			"classes": { "href": "/teachers/{id}/classes" }
+		   "school": { "href": "/schools/{school-id}" },
+		   "self": { "href": "/teachers/{id}" },
+		   "classes": { "href": "/teachers/{id}/classes" }
 		}
 	}
 }
@@ -1698,7 +1689,7 @@ DELETE /teachers/{id}
 Teacher/Class Resources
 The following is a section of resources related to i-Ready Teacher/Class relationship resources.
 
-The teacher/class relationship resources are the same as the class/teacher relationship resources.  The teacher/{teacher-id}/classes relationship collections contain relationship resources that are stored under classes/{class-id}/teachers collection.  Creation of new relationships can be done via the teacher/{teacher-id}/classes collection but the new relationship item created will be in the classes/class-id/teachers collection.
+> Note: The teacher/class relationship resources are the same as the class/teacher relationship resources.  The teacher/{teacher-id}/classes relationship collections contain relationship resources that are stored under classes/{class-id}/teachers collection.  Creation of new relationships can be done via the teacher/{teacher-id}/classes collection but the new relationship item created will be in the classes/class-id/teachers collection.
 --
 Retrieve the classes assigned to a particular teacher.
 GET /teachers/{id}/classes?limit=2
@@ -1775,9 +1766,7 @@ POST /teachers/{id}/classes
     }
 }
 
-Retrieve a particular teacher/class relationship.
-
-This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use. 
+This is not the proper path to access teacher/class relationship objects.  To retrieve teacher/class relationship see the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use. 
 GET /teachers/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
@@ -1807,9 +1796,7 @@ PUT /teachers/{id}/classes/{relationship-id}
     }
 }
 
-Delete a particular teacher/class relationship.
-
-This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
+This is not the proper path to access teacher/class relationship objects.  To delete teacher/class relationship see the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
 DELETE /teachers/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
