@@ -18,11 +18,74 @@ Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provis
 --
 API Pattern
 All the resources in the i-Ready Provising APIs share a common pattern for accessing them.
+
+sdd
 --
-GET /top-level-collection
+Requests to get data will return data formatted in to sections:
+
+- status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
+- data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
+GET /<resource>
 < 200
 < Content-Type: application/json
 {
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": { ... }
+}
+
+Requests to get data will return data formatted in to sections:
+
+- status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
+- data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
+POST /<resource>
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": { ... }
+}
+
+Requests to get data will return data formatted in to sections:
+
+- status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
+- data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
+PUT /<resource>
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+}
+
+Requests to delete data will return data formatted in to sections:
+
+- status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
+- data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
+DELETE /<resource>
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": { ... }
 }
 
 Top level collections contain all the resources, of a given type within, the account.
