@@ -20,7 +20,7 @@ The API supports four type of opertions:
 
 > Delete, done via an http DELET request.
 --
-Requests to get data will return data formatted in to sections:
+Query requests will return data formatted in to two sections:
 
 - status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
 - data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
@@ -37,10 +37,10 @@ GET /<resource>
     "data": { ... }
 }
 
-Requests to get data will return data formatted in to sections:
+Create requests send a block of JSON that describes the resourece to be created.  The JSON must contain all required fields.
+All read-only fields will be ignored by the server.
 
-- status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
-- data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
+The response will return a status and, if successful, data block.  The data block will contain the identity of the newly created resource.
 POST /<resource>
 < 200
 < Content-Type: application/json
