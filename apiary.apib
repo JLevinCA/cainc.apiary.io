@@ -428,7 +428,7 @@ GET /schools/{id}
         "detailsMessage": "Success"
     },
    "data": {
-		"id": "{id}",
+    	"id": "{id}",
     	"name": "Harrington Elementary School",
 		"districtName": "oh-9-26",
 		"state": "OH",
@@ -1460,7 +1460,7 @@ GET /students/{id}/classes/{relationship-id}
     }
 }
 
-Updating of student/class relationships is not supported.  If a student changes changes the old relationship should be deleted and a new one added.
+Updating of student/class relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
 
 This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
 PUT /students/{id}/classes/{relationship-id}
@@ -1791,7 +1791,7 @@ GET /teachers/{id}/classes/{relationship-id}
     }
 }
 
-Updating of teacher/class relationships is not supported.  If a teacher changes changes the old relationship should be deleted and a new one added.
+Updating of teacher/class relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
 
 This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
 PUT /teachers/{id}/classes/{relationship-id}
