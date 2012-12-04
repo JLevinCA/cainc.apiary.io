@@ -61,6 +61,7 @@ Create requests are always directed at the collection the new resource will be a
 The response will return a status and, if successful, data block.  The data block will return the details of the new resource including its identity.
 POST /<resource>
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+{ ... }
 < 200
 < Content-Type: application/json
 {
@@ -86,6 +87,7 @@ Read-only fields are ignored when processing the request.
 The response to the update will contain a data block with the details of updated resource.
 PUT /<resource>
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+{ ... }
 < 200
 < Content-Type: application/json
 {
