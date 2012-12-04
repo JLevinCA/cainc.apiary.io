@@ -440,14 +440,14 @@ GET /schools/{id}
         "id": "{id}",
         "name": "Harrington Elementary School",
         "districtName": "oh-9-26",
-		"state": "OH",
-	   "_links":
-	   {
-		   "self": "/schools/{id}",
-		   "classes": "/schools/{id}/classes"
-		   "students": "/schools/{id}/students"
-		   "teachers": "/schools/{id}/teachers"
-	   }
+        "state": "OH",
+       "_links":
+       {
+           "self": "/schools/{id}",
+           "classes": "/schools/{id}/classes"
+           "students": "/schools/{id}/students"
+           "teachers": "/schools/{id}/teachers"
+       }
     }
 }
 
@@ -729,20 +729,20 @@ POST /classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": null,
-	"name": "Eagles - Grade 1",
-	"grade": "1",
-	"location": "Room 212",
-	"createdDate": "null,
-	"externalId": "CL012341",
-	"_links":
-	{
-		"school": { "href": "/schools/{school-id}" },
-		"product": { "href": "/products/{product-id}" }
-		"self": null,
-		"students": null,
-		"teachers": null,
-	}
+    "id": null,
+    "name": "Eagles - Grade 1",
+    "grade": "1",
+    "location": "Room 212",
+    "createdDate": "null,
+    "externalId": "CL012341",
+    "_links":
+    {
+        "school": { "href": "/schools/{school-id}" },
+        "product": { "href": "/products/{product-id}" }
+        "self": null,
+        "students": null,
+        "teachers": null,
+    }
 }
 < 200
 < Content-Type: application/json
@@ -754,20 +754,20 @@ POST /classes
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"name": "Eagles - Grade 1",
-		"grade": "1",
-		"location": "Room 212",
-		"createdDate": "2012-11-29T14:56:43Z",
-		"externalId": "CL012341",
-		"_links":
-		{
-			"school": { "href": "/schools/{school-id}" },
-			"product": { "href": "/products/{product-id}" }
-			"self": { "href": "/classes/{id}" },
-			"students": { "href": "/classes/{id}/students" },
-			"teachers": { "href": "/classes/{id}/teachers" },
-		}
+        "id": "{id}",
+        "name": "Eagles - Grade 1",
+        "grade": "1",
+        "location": "Room 212",
+        "createdDate": "2012-11-29T14:56:43Z",
+        "externalId": "CL012341",
+        "_links":
+        {
+            "school": { "href": "/schools/{school-id}" },
+            "product": { "href": "/products/{product-id}" }
+            "self": { "href": "/classes/{id}" },
+            "students": { "href": "/classes/{id}/students" },
+            "teachers": { "href": "/classes/{id}/teachers" },
+        }
     }
 }
 
@@ -776,20 +776,20 @@ GET /classes/{id}
 < 200
 < Content-Type: application/json
 {
-	"id": "{id}",
-	"name": "Hoosiers Grade 2 Class",
-	"grade": "2",
-	"location": "Room 305",
-	"createdDate": "2012-08-17T14:56:43Z",
-	"externalId": "CL012337",
-	"_links":
-	{
-		"school": { "href": "/schools/{school-id}" },
-		"product": { "href": "/products/{product-id}" },
-		"self": { "href": "/classes/{id}" },
-		"students": { "href": "/classes/{id}/students" },
-		"teachers": { "href": "/classes/{id}/teachers" },
-	}
+    "id": "{id}",
+    "name": "Hoosiers Grade 2 Class",
+    "grade": "2",
+    "location": "Room 305",
+    "createdDate": "2012-08-17T14:56:43Z",
+    "externalId": "CL012337",
+    "_links":
+    {
+        "school": { "href": "/schools/{school-id}" },
+        "product": { "href": "/products/{product-id}" },
+        "self": { "href": "/classes/{id}" },
+        "students": { "href": "/classes/{id}/students" },
+        "teachers": { "href": "/classes/{id}/teachers" },
+    }
 }
 
 Update a particular class resource.
@@ -801,20 +801,20 @@ PUT /classes/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": "{id}",
-	"name": "Eagles - Grade 1",
-	"grade": "1",
-	"location": "Room 212",
-	"createdDate": "2012-11-29T14:56:43Z",
-	"externalId": "CL012341",
-	"_links":
-	{
-		"school": { "href": "/schools/{school-id}" },
-		"product": { "href": "/products/{product-id}" }
-		"self": { "href": "/classes/{id}" },
-		"students": { "href": "/classes/{id}/students" },
-		"teachers": { "href": "/classes/{id}/teachers" },
-	}
+    "id": "{id}",
+    "name": "Eagles - Grade 1",
+    "grade": "1",
+    "location": "Room 212",
+    "createdDate": "2012-11-29T14:56:43Z",
+    "externalId": "CL012341",
+    "_links":
+    {
+        "school": { "href": "/schools/{school-id}" },
+        "product": { "href": "/products/{product-id}" }
+        "self": { "href": "/classes/{id}" },
+        "students": { "href": "/classes/{id}/students" },
+        "teachers": { "href": "/classes/{id}/teachers" },
+    }
 }
 < 200
 < Content-Type: application/json
@@ -826,20 +826,20 @@ PUT /classes/{id}
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"name": "Eagles - Grade 1",
-		"grade": "1",
-		"location": "Room 212",
-		"createdDate": "2012-11-29T14:56:43Z",
-		"externalId": "CL012341",
-		"_links":
-		{
-			"school": { "href": "/schools/{school-id}" },
-			"product": { "href": "/products/{product-id}" }
-			"self": { "href": "/classes/{id}" },
-			"students": { "href": "/classes/{id}/students" },
-			"teachers": { "href": "/classes/{id}/teachers" },
-		}
+        "id": "{id}",
+        "name": "Eagles - Grade 1",
+        "grade": "1",
+        "location": "Room 212",
+        "createdDate": "2012-11-29T14:56:43Z",
+        "externalId": "CL012341",
+        "_links":
+        {
+            "school": { "href": "/schools/{school-id}" },
+            "product": { "href": "/products/{product-id}" }
+            "self": { "href": "/classes/{id}" },
+            "students": { "href": "/classes/{id}/students" },
+            "teachers": { "href": "/classes/{id}/teachers" },
+        }
     }
 }
 
@@ -884,7 +884,7 @@ GET /classes/{id}/students?limit=2
         "items": [
             {
                 "id": "{first-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/students/{first-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -893,7 +893,7 @@ GET /classes/{id}/students?limit=2
             },
             {
                 "id": "{second-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/students/{second-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -909,13 +909,13 @@ POST /classes/{id}/students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": null,
-	"createdDate": null,
-	"_links": {
-		"self": null
-		"class": { "href": "/classes/{id}"}
-		"student": { "href": "/students/{class-id}"}
-	}
+    "id": null,
+    "createdDate": null,
+    "_links": {
+        "self": null
+        "class": { "href": "/classes/{id}"}
+        "student": { "href": "/students/{class-id}"}
+    }
 }
 < 200
 < Content-Type: application/json
@@ -928,12 +928,12 @@ POST /classes/{id}/students
     },
     "data": {
         "id": "{relationship-id}",
-		"createdDate": "2012-12-03T16:02:43Z",
+        "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/students/{relationship-id}"}
-			"class": { "href": "/classes/{id}"}
-			"student": { "href": "/students/{class-id}"}
-		}
+            "class": { "href": "/classes/{id}"}
+            "student": { "href": "/students/{class-id}"}
+        }
     }
 }
 
@@ -951,7 +951,7 @@ GET /classes/{id}/students/{relationship-id}
     },
     "data":{
         "id": "{relationship-id}",
-		"createdDate": "2012-12-03T16:02:43Z",
+        "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/students/{relationship-id}"}
             "class": { "href": "/classes/{id}"}
@@ -1014,7 +1014,7 @@ GET /classes/{id}/teachers?limit=2
         "items": [
             {
                 "id": "{first-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/teachers/{first-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -1023,7 +1023,7 @@ GET /classes/{id}/teachers?limit=2
             },
             {
                 "id": "{second-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{id}/teachers/{second-relationship-id}"}
                     "class": { "href": "/classes/{id}"}
@@ -1039,13 +1039,13 @@ POST /classes/{id}/teachers
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": null,
-	"createdDate": null,
-	"_links": {
-		"self": null
-		"class": { "href": "/classes/{id}"}
-		"teacher": { "href": "/teachers/{class-id}"}
-	}
+    "id": null,
+    "createdDate": null,
+    "_links": {
+        "self": null
+        "class": { "href": "/classes/{id}"}
+        "teacher": { "href": "/teachers/{class-id}"}
+    }
 }
 < 200
 < Content-Type: application/json
@@ -1058,12 +1058,12 @@ POST /classes/{id}/teachers
     },
     "data": {
         "id": "{relationship-id}",
-		"createdDate": "2012-12-03T16:02:43Z",
+        "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
-			"class": { "href": "/classes/{id}"}
-			"teacher": { "href": "/teachers/{class-id}"}
-		}
+            "class": { "href": "/classes/{id}"}
+            "teacher": { "href": "/teachers/{class-id}"}
+        }
     }
 }
 
@@ -1081,7 +1081,7 @@ GET /classes/{id}/teachers/{relationship-id}
     },
     "data":{
         "id": "{relationship-id}",
-		"createdDate": "2012-12-03T16:02:43Z",
+        "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
             "class": { "href": "/classes/{id}"}
@@ -1140,63 +1140,63 @@ GET /students?limit=2
         "detailsMessage": "Success"
     },
     "data": {
-		"limit": 2,
-		"offset": 0,
-		"_links": {
-			"self": { "href": "/students?limit=2&offset=0"}
-			"next": { "href": "/students?limit=2&offset=2"}
-		},
-		"items": [
-			{
-				"id": "{first-student-id}",
-				"firstName": "Rick",
-				"lastName": "Campbell",
-				"userName": "di-rcampbell@oh",
-				"externalId": "e250345c39b7",
-				"dateOfBirth": null,
-				"grade": "5",
-				"mathDevelopmentalLevel": null,
-				"elaDevelopmentalLevel": null,
-				"englishLanguageLearner": "false",
-				"specialEducation": "false",
-				"economicallyDisadvantaged": "false",
-				"migrant": "false",
-				"gender": null,
-				"ethnicityId": "05",
-				"createdDate": "2012-11-29T14:56:43Z",
-				"_links":
-				{
-				   "school": { "href": "/schools/{first-school-id}" },
-				   "self": { "href": "/students/{first-student-id}" },
-				   "classes": { "href": "/students/{first-student-id}/classes" }
-				}
-			},
-			{
-				"id": "{second-student-id}",
-				"firstName": "Hosea",
-				"lastName": "Alvarez",
-				"userName": "di-halvarez@oh",
-				"externalId": "2d7b7295efd3",
-				"dateOfBirth": null,
-				"grade": "2",
-				"mathDevelopmentalLevel": null,
-				"elaDevelopmentalLevel": null,
-				"englishLanguageLearner": "false",
-				"specialEducation": "false",
-				"economicallyDisadvantaged": "false",
-				"migrant": "false",
-				"gender": null,
-				"ethnicityId": "01",
-				"createdDate": "2012-11-29T14:56:43Z",
-				"_links":
-				{
-				   "school": { "href": "/schools/{second-school-id}" },
-				   "self": { "href": "/students/{second-student-id}" },
-				   "classes": { "href": "/students/{second-student-id}/classes" }
-				}
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/students?limit=2&offset=0"}
+            "next": { "href": "/students?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-student-id}",
+                "firstName": "Rick",
+                "lastName": "Campbell",
+                "userName": "di-rcampbell@oh",
+                "externalId": "e250345c39b7",
+                "dateOfBirth": null,
+                "grade": "5",
+                "mathDevelopmentalLevel": null,
+                "elaDevelopmentalLevel": null,
+                "englishLanguageLearner": "false",
+                "specialEducation": "false",
+                "economicallyDisadvantaged": "false",
+                "migrant": "false",
+                "gender": null,
+                "ethnicityId": "05",
+                "createdDate": "2012-11-29T14:56:43Z",
+                "_links":
+                {
+                   "school": { "href": "/schools/{first-school-id}" },
+                   "self": { "href": "/students/{first-student-id}" },
+                   "classes": { "href": "/students/{first-student-id}/classes" }
+                }
+            },
+            {
+                "id": "{second-student-id}",
+                "firstName": "Hosea",
+                "lastName": "Alvarez",
+                "userName": "di-halvarez@oh",
+                "externalId": "2d7b7295efd3",
+                "dateOfBirth": null,
+                "grade": "2",
+                "mathDevelopmentalLevel": null,
+                "elaDevelopmentalLevel": null,
+                "englishLanguageLearner": "false",
+                "specialEducation": "false",
+                "economicallyDisadvantaged": "false",
+                "migrant": "false",
+                "gender": null,
+                "ethnicityId": "01",
+                "createdDate": "2012-11-29T14:56:43Z",
+                "_links":
+                {
+                   "school": { "href": "/schools/{second-school-id}" },
+                   "self": { "href": "/students/{second-student-id}" },
+                   "classes": { "href": "/students/{second-student-id}/classes" }
+                }
            }
        ]
-	}
+    }
 }
 
 Create a new Student.
@@ -1206,28 +1206,28 @@ POST /students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": null,
-	"firstName": "Hosea",
-	"lastName": "Alvarez",
-	"userName": "di-halvarez@oh",
-	"externalId": "2d7b7295efd3",
-	"dateOfBirth": null,
-	"grade": "2",
-	"mathDevelopmentalLevel": null,
-	"elaDevelopmentalLevel": null,
-	"englishLanguageLearner": "false",
-	"specialEducation": "false",
-	"economicallyDisadvantaged": "false",
-	"migrant": "false",
-	"gender": null,
-	"ethnicityId": "01",
-	"createdDate": null,
-	"_links":
-	{
-		"school": { "href": "/schools/{school-id}" },
-		"self": null,
-		"classes": null
-	}
+    "id": null,
+    "firstName": "Hosea",
+    "lastName": "Alvarez",
+    "userName": "di-halvarez@oh",
+    "externalId": "2d7b7295efd3",
+    "dateOfBirth": null,
+    "grade": "2",
+    "mathDevelopmentalLevel": null,
+    "elaDevelopmentalLevel": null,
+    "englishLanguageLearner": "false",
+    "specialEducation": "false",
+    "economicallyDisadvantaged": "false",
+    "migrant": "false",
+    "gender": null,
+    "ethnicityId": "01",
+    "createdDate": null,
+    "_links":
+    {
+        "school": { "href": "/schools/{school-id}" },
+        "self": null,
+        "classes": null
+    }
 }
 < 200
 < Content-Type: application/json
@@ -1239,28 +1239,28 @@ POST /students
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"firstName": "Hosea",
-		"lastName": "Alvarez",
-		"userName": "di-halvarez@oh",
-		"externalId": "2d7b7295efd3",
-		"dateOfBirth": null,
-		"grade": "2",
-		"mathDevelopmentalLevel": null,
-		"elaDevelopmentalLevel": null,
-		"englishLanguageLearner": "false",
-		"specialEducation": "false",
-		"economicallyDisadvantaged": "false",
-		"migrant": "false",
-		"gender": null,
-		"ethnicityId": "01",
-		"createdDate": "2012-11-31T10:32:43Z",
-		"_links":
-		{
-		   "school": { "href": "/schools/{school-id}" },
-		   "self": { "href": "/students/{id}" },
-		   "classes": { "href": "/students/{id}/classes" }
-		}
+        "id": "{id}",
+        "firstName": "Hosea",
+        "lastName": "Alvarez",
+        "userName": "di-halvarez@oh",
+        "externalId": "2d7b7295efd3",
+        "dateOfBirth": null,
+        "grade": "2",
+        "mathDevelopmentalLevel": null,
+        "elaDevelopmentalLevel": null,
+        "englishLanguageLearner": "false",
+        "specialEducation": "false",
+        "economicallyDisadvantaged": "false",
+        "migrant": "false",
+        "gender": null,
+        "ethnicityId": "01",
+        "createdDate": "2012-11-31T10:32:43Z",
+        "_links":
+        {
+           "school": { "href": "/schools/{school-id}" },
+           "self": { "href": "/students/{id}" },
+           "classes": { "href": "/students/{id}/classes" }
+        }
     }
 }
 
@@ -1276,28 +1276,28 @@ GET /students/{id}
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"firstName": "Hosea",
-		"lastName": "Alvarez",
-		"userName": "di-halvarez@oh",
-		"externalId": "2d7b7295efd3",
-		"dateOfBirth": null,
-		"grade": "2",
-		"mathDevelopmentalLevel": null,
-		"elaDevelopmentalLevel": null,
-		"englishLanguageLearner": "false",
-		"specialEducation": "false",
-		"economicallyDisadvantaged": "false",
-		"migrant": "false",
-		"gender": null,
-		"ethnicityId": "01",
-		"createdDate": "2012-11-29T14:56:43Z",
-		"_links":
-		{
-			"school": { "href": "/schools/{school-id}" },
-			"self": { "href": "/students/{id}" },
-			"classes": { "href": "/students/{id}/classes" }
-		}
+        "id": "{id}",
+        "firstName": "Hosea",
+        "lastName": "Alvarez",
+        "userName": "di-halvarez@oh",
+        "externalId": "2d7b7295efd3",
+        "dateOfBirth": null,
+        "grade": "2",
+        "mathDevelopmentalLevel": null,
+        "elaDevelopmentalLevel": null,
+        "englishLanguageLearner": "false",
+        "specialEducation": "false",
+        "economicallyDisadvantaged": "false",
+        "migrant": "false",
+        "gender": null,
+        "ethnicityId": "01",
+        "createdDate": "2012-11-29T14:56:43Z",
+        "_links":
+        {
+            "school": { "href": "/schools/{school-id}" },
+            "self": { "href": "/students/{id}" },
+            "classes": { "href": "/students/{id}/classes" }
+        }
     }
 }
 
@@ -1308,28 +1308,28 @@ PUT /students/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": "{id}",
-	"firstName": "Hosea",
-	"lastName": "Alvarez",
-	"userName": "di-halvarez@oh",
-	"externalId": "2d7b7295efd3",
-	"dateOfBirth": null,
-	"grade": "2",
-	"mathDevelopmentalLevel": null,
-	"elaDevelopmentalLevel": null,
-	"englishLanguageLearner": "false",
-	"specialEducation": "false",
-	"economicallyDisadvantaged": "false",
-	"migrant": "false",
-	"gender": null,
-	"ethnicityId": "01",
-	"createdDate": "2012-11-29T14:56:43Z",
-	"_links":
-	{
-		"school": { "href": "/schools/{school-id}" },
-		"self": { "href": "/students/{id}" },
-		"classes": { "href": "/students/{id}/classes" }
-	}
+    "id": "{id}",
+    "firstName": "Hosea",
+    "lastName": "Alvarez",
+    "userName": "di-halvarez@oh",
+    "externalId": "2d7b7295efd3",
+    "dateOfBirth": null,
+    "grade": "2",
+    "mathDevelopmentalLevel": null,
+    "elaDevelopmentalLevel": null,
+    "englishLanguageLearner": "false",
+    "specialEducation": "false",
+    "economicallyDisadvantaged": "false",
+    "migrant": "false",
+    "gender": null,
+    "ethnicityId": "01",
+    "createdDate": "2012-11-29T14:56:43Z",
+    "_links":
+    {
+        "school": { "href": "/schools/{school-id}" },
+        "self": { "href": "/students/{id}" },
+        "classes": { "href": "/students/{id}/classes" }
+    }
 }
 < 200
 < Content-Type: application/json
@@ -1341,29 +1341,29 @@ PUT /students/{id}
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"firstName": "Hosea",
-		"lastName": "Alvarez",
-		"userName": "di-halvarez@oh",
-		"externalId": "2d7b7295efd3",
-		"dateOfBirth": null,
-		"grade": "2",
-		"mathDevelopmentalLevel": null,
-		"elaDevelopmentalLevel": null,
-		"englishLanguageLearner": "false",
-		"specialEducation": "false",
-		"economicallyDisadvantaged": "false",
-		"migrant": "false",
-		"gender": null,
-		"ethnicityId": "01",
-		"createdDate": "2012-12-03T16:02:43Z",
-		"_links":
-		{
-			"school": { "href": "/schools/{school-id}" },
-			"self": { "href": "/students/{id}" },
-			"classes": { "href": "/students/{id}/classes" }
-		}
-	}
+        "id": "{id}",
+        "firstName": "Hosea",
+        "lastName": "Alvarez",
+        "userName": "di-halvarez@oh",
+        "externalId": "2d7b7295efd3",
+        "dateOfBirth": null,
+        "grade": "2",
+        "mathDevelopmentalLevel": null,
+        "elaDevelopmentalLevel": null,
+        "englishLanguageLearner": "false",
+        "specialEducation": "false",
+        "economicallyDisadvantaged": "false",
+        "migrant": "false",
+        "gender": null,
+        "ethnicityId": "01",
+        "createdDate": "2012-12-03T16:02:43Z",
+        "_links":
+        {
+            "school": { "href": "/schools/{school-id}" },
+            "self": { "href": "/students/{id}" },
+            "classes": { "href": "/students/{id}/classes" }
+        }
+    }
 }
 
 Deleting of student resources is not supported.
@@ -1375,9 +1375,9 @@ DELETE /students/{id}
     "status": {
         "httpCode": "405",
         "errorCode": "C10004",
-		"userMessage": "Operation not supported.",
+        "userMessage": "Operation not supported.",
         "detailsMessage": "Student resources can not be deleted."
-	}
+    }
 }
 
 --
@@ -1410,7 +1410,7 @@ GET /students/{id}/classes?limit=2
         "items": [
             {
                 "id": "{first-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{first-relationship-id}/students/{id}"}
                     "student": { "href": "/students/{id}"}
@@ -1419,7 +1419,7 @@ GET /students/{id}/classes?limit=2
             },
             {
                 "id": "{second-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "classes/{second-relationship-id}/students/{id}/"}
                     "student": { "href": "/students/{id}"}
@@ -1435,13 +1435,13 @@ POST /students/{id}/classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": null,
-	"_links": {
-		"self": null
-		"createdDate": null,
-		"student": { "href": "/students/{id}"}
-		"class": { "href": "/classes/{class-id}"}
-	}
+    "id": null,
+    "_links": {
+        "self": null
+        "createdDate": null,
+        "student": { "href": "/students/{id}"}
+        "class": { "href": "/classes/{class-id}"}
+    }
 }
 < 200
 < Content-Type: application/json
@@ -1454,12 +1454,12 @@ POST /students/{id}/classes
     },
     "data": {
         "id": "{relationship-id}",
-		"createdDate": "2012-12-03T16:02:43Z",
+        "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{relationship-id}/students/{id}"}
-			"student": { "href": "/students/{id}"}
-			"class": { "href": "/classes/{class-id}"}
-		}
+            "student": { "href": "/students/{id}"}
+            "class": { "href": "/classes/{class-id}"}
+        }
     }
 }
 
@@ -1503,12 +1503,12 @@ DELETE /students/{id}/classes/{relationship-id}
 < 404
 < Content-Type: application/json
 {
-	"status": {
-		"httpCode": "404",
-		"errorCode": "C10003",
-		"userMessage": "The requested resource was not found.",
-		"detailsMessage": "No resources are available at this URI."
-	}
+    "status": {
+        "httpCode": "404",
+        "errorCode": "C10003",
+        "userMessage": "The requested resource was not found.",
+        "detailsMessage": "No resources are available at this URI."
+    }
 }
 
 
@@ -1531,45 +1531,45 @@ GET /teachers?limit=2
         "detailsMessage": "Success"
     },
     "data": {
-		"limit": 2,
-		"offset": 0,
+        "limit": 2,
+        "offset": 0,
         "_links": {
             "self": { "href": "/teachers?limit=2&offset=0"}
             "next": { "href": "/teachers?limit=2&offset=2"}
         },
-		"items": [
-			{
-				"id": "{first-teacher-id}",
-				"firstName": "Janet",
-				"lastName": "Benjamin",
-				"userName": "DI-JBenjamin",
-				"externalId": null,
-				"emailAddress": null,
-				"createdDate": "2012-11-29T14:56:43Z",
-				"_links":
-				{
-				   "school": { "href": "/schools/{first-school-id}" },
-				   "self": { "href": "/teachers/{first-teacher-id}" },
-				   "classes": { "href": "/teachers/{first-teacher-id}/classes" }
-				}
-			},
-			{
-				"id": "{first-teacher-id}",
-				"firstName": "Michael",
-				"lastName": "Williams",
-				"userName": "DI-MWilliams",
-				"externalId": null,
-				"emailAddress": null,
-				"createdDate": "2012-11-29T14:56:43Z",
-				"_links":
-				{
-				   "school": { "href": "/schools/{second-school-id}" },
-				   "self": { "href": "/teachers/{second-teacher-id}" },
-				   "classes": { "href": "/teachers/{second-teacher-id}/classes" }
-				}
-			}
+        "items": [
+            {
+                "id": "{first-teacher-id}",
+                "firstName": "Janet",
+                "lastName": "Benjamin",
+                "userName": "DI-JBenjamin",
+                "externalId": null,
+                "emailAddress": null,
+                "createdDate": "2012-11-29T14:56:43Z",
+                "_links":
+                {
+                   "school": { "href": "/schools/{first-school-id}" },
+                   "self": { "href": "/teachers/{first-teacher-id}" },
+                   "classes": { "href": "/teachers/{first-teacher-id}/classes" }
+                }
+            },
+            {
+                "id": "{first-teacher-id}",
+                "firstName": "Michael",
+                "lastName": "Williams",
+                "userName": "DI-MWilliams",
+                "externalId": null,
+                "emailAddress": null,
+                "createdDate": "2012-11-29T14:56:43Z",
+                "_links":
+                {
+                   "school": { "href": "/schools/{second-school-id}" },
+                   "self": { "href": "/teachers/{second-teacher-id}" },
+                   "classes": { "href": "/teachers/{second-teacher-id}/classes" }
+                }
+            }
        ]
-	}
+    }
 }
 
 Create a new Teacher.
@@ -1579,19 +1579,19 @@ POST /teachers
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": null,
-	"firstName": "Janet",
-	"lastName": "Benjamin",
-	"userName": "DI-JBenjamin",
-	"externalId": null,
-	"emailAddress": null,
-	"createdDate": null,
-	"_links":
-	{
-	   "school": { "href": "/schools/{school-id}" },
-	   "self": null,
-	   "classes": null
-	}
+    "id": null,
+    "firstName": "Janet",
+    "lastName": "Benjamin",
+    "userName": "DI-JBenjamin",
+    "externalId": null,
+    "emailAddress": null,
+    "createdDate": null,
+    "_links":
+    {
+       "school": { "href": "/schools/{school-id}" },
+       "self": null,
+       "classes": null
+    }
 }
 < 200
 < Content-Type: application/json
@@ -1603,20 +1603,20 @@ POST /teachers
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"firstName": "Janet",
-		"lastName": "Benjamin",
-		"userName": "DI-JBenjamin",
-		"externalId": null,
-		"emailAddress": null,
-		"createdDate": "2012-11-29T14:56:43Z",
-		"_links":
-		{
-		   "school": { "href": "/schools/{school-id}" },
-		   "self": { "href": "/teachers/{id}" },
-		   "classes": { "href": "/teachers/{id}/classes" }
-		}
-	}
+        "id": "{id}",
+        "firstName": "Janet",
+        "lastName": "Benjamin",
+        "userName": "DI-JBenjamin",
+        "externalId": null,
+        "emailAddress": null,
+        "createdDate": "2012-11-29T14:56:43Z",
+        "_links":
+        {
+           "school": { "href": "/schools/{school-id}" },
+           "self": { "href": "/teachers/{id}" },
+           "classes": { "href": "/teachers/{id}/classes" }
+        }
+    }
 }
 
 Get the details of a particular Teacher.
@@ -1631,19 +1631,19 @@ GET /teachers/{id}
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"firstName": "Janet",
-		"lastName": "Benjamin",
-		"userName": "DI-JBenjamin",
-		"externalId": null,
-		"emailAddress": null,
-		"createdDate": "2012-11-29T14:56:43Z",
-		"_links":
-		{
-		   "school": { "href": "/schools/{school-id}" },
-		   "self": { "href": "/teachers/{id}" },
-		   "classes": { "href": "/teachers/{id}/classes" }
-		}
+        "id": "{id}",
+        "firstName": "Janet",
+        "lastName": "Benjamin",
+        "userName": "DI-JBenjamin",
+        "externalId": null,
+        "emailAddress": null,
+        "createdDate": "2012-11-29T14:56:43Z",
+        "_links":
+        {
+           "school": { "href": "/schools/{school-id}" },
+           "self": { "href": "/teachers/{id}" },
+           "classes": { "href": "/teachers/{id}/classes" }
+        }
     }
 }
 
@@ -1654,19 +1654,19 @@ PUT /teachers/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": "{id}",
-	"firstName": "Janet",
-	"lastName": "Benjamin",
-	"userName": "DI-JBenjamin",
-	"externalId": null,
-	"emailAddress": null,
-	"createdDate": "2012-11-29T14:56:43Z",
-	"_links":
-	{
-	   "school": { "href": "/schools/{school-id}" },
-	   "self": { "href": "/teachers/{id}" },
-	   "classes": { "href": "/teachers/{id}/classes" }
-	}
+    "id": "{id}",
+    "firstName": "Janet",
+    "lastName": "Benjamin",
+    "userName": "DI-JBenjamin",
+    "externalId": null,
+    "emailAddress": null,
+    "createdDate": "2012-11-29T14:56:43Z",
+    "_links":
+    {
+       "school": { "href": "/schools/{school-id}" },
+       "self": { "href": "/teachers/{id}" },
+       "classes": { "href": "/teachers/{id}/classes" }
+    }
 }
 < 200
 < Content-Type: application/json
@@ -1678,20 +1678,20 @@ PUT /teachers/{id}
         "detailsMessage": "Success"
     },
     "data": {
-		"id": "{id}",
-		"firstName": "Janet",
-		"lastName": "Benjamin",
-		"userName": "DI-JBenjamin",
-		"externalId": null,
-		"emailAddress": null,
-		"createdDate": "2012-11-29T14:56:43Z",
-		"_links":
-		{
-		   "school": { "href": "/schools/{school-id}" },
-		   "self": { "href": "/teachers/{id}" },
-		   "classes": { "href": "/teachers/{id}/classes" }
-		}
-	}
+        "id": "{id}",
+        "firstName": "Janet",
+        "lastName": "Benjamin",
+        "userName": "DI-JBenjamin",
+        "externalId": null,
+        "emailAddress": null,
+        "createdDate": "2012-11-29T14:56:43Z",
+        "_links":
+        {
+           "school": { "href": "/schools/{school-id}" },
+           "self": { "href": "/teachers/{id}" },
+           "classes": { "href": "/teachers/{id}/classes" }
+        }
+    }
 }
 
 Deleting of teacher resources is not supported.
@@ -1703,9 +1703,9 @@ DELETE /teachers/{id}
     "status": {
         "httpCode": "405",
         "errorCode": "C10004",
-		"userMessage": "Operation not supported.",
+        "userMessage": "Operation not supported.",
         "detailsMessage": "Teacher resources can not be deleted."
-	}
+    }
 }
 
 --
@@ -1738,7 +1738,7 @@ GET /teachers/{id}/classes?limit=2
         "items": [
             {
                 "id": "{first-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "/classes/{first-relationship-id}/teachers/{id}"}
                     "teacher": { "href": "/teachers/{id}"}
@@ -1747,7 +1747,7 @@ GET /teachers/{id}/classes?limit=2
             },
             {
                 "id": "{second-relationship-id}",
-				"createdDate": "2012-12-03T16:02:43Z",
+                "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "classes/{second-relationship-id}/teachers/{id}/"}
                     "teacher": { "href": "/teachers/{id}"}
@@ -1763,13 +1763,13 @@ POST /teachers/{id}/classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
-	"id": null,
-	"_links": {
-		"self": null
-		"createdDate": null,
-		"teacher": { "href": "/teachers/{id}"}
-		"class": { "href": "/classes/{class-id}"}
-	}
+    "id": null,
+    "_links": {
+        "self": null
+        "createdDate": null,
+        "teacher": { "href": "/teachers/{id}"}
+        "class": { "href": "/classes/{class-id}"}
+    }
 }
 < 200
 < Content-Type: application/json
@@ -1782,12 +1782,12 @@ POST /teachers/{id}/classes
     },
     "data": {
         "id": "{relationship-id}",
-		"createdDate": "2012-12-03T16:02:43Z",
+        "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
             "self": { "href": "/classes/{relationship-id}/teachers/{id}"}
-			"teacher": { "href": "/teachers/{id}"}
-			"class": { "href": "/classes/{class-id}"}
-		}
+            "teacher": { "href": "/teachers/{id}"}
+            "class": { "href": "/classes/{class-id}"}
+        }
     }
 }
 
@@ -1827,10 +1827,10 @@ DELETE /teachers/{id}/classes/{relationship-id}
 < 404
 < Content-Type: application/json
 {
-	"status": {
-		"httpCode": "404",
-		"errorCode": "C10003",
-		"userMessage": "The requested resource was not found.",
-		"detailsMessage": "No resources are available at this URI."
-	}
+    "status": {
+        "httpCode": "404",
+        "errorCode": "C10003",
+        "userMessage": "The requested resource was not found.",
+        "detailsMessage": "No resources are available at this URI."
+    }
 }
