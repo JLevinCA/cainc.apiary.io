@@ -242,6 +242,10 @@ GET /products?limit=2
     "data": {
         "limit": 2,
         "offset": 0,
+        "_links": {
+            "self": { "href": "/products?limit=2&offset=0"}
+            "next": { "href": "/products?limit=2&offset=2"}
+        },
         "items": [
             {
                "id": "{first-id}",
@@ -386,6 +390,10 @@ GET /schools?limit=2
     "data": {
         "limit": 2,
         "offset": 0,
+        "_links": {
+            "self": { "href": "/schools?limit=2&offset=0"}
+            "next": { "href": "/schools?limit=2&offset=2"}
+        },
         "items": [
             {
                 "id": "{first-id}",
@@ -431,7 +439,7 @@ GET /schools/{id}
    "data": {
         "id": "{id}",
         "name": "Harrington Elementary School",
-		"districtName": "oh-9-26",
+        "districtName": "oh-9-26",
 		"state": "OH",
 	   "_links":
 	   {
@@ -671,6 +679,10 @@ GET /classes?limit=2
     "data": {
         "limit": 2,
         "offset": 0,
+        "_links": {
+            "self": { "href": "/classes?limit=2&offset=0"}
+            "next": { "href": "/classes?limit=2&offset=2"}
+        },
         "items": [
             {
                "id": "{first-class-id}",
@@ -1130,8 +1142,12 @@ GET /students?limit=2
     "data": {
 		"limit": 2,
 		"offset": 0,
+		"_links": {
+			"self": { "href": "/students?limit=2&offset=0"}
+			"next": { "href": "/students?limit=2&offset=2"}
+		},
 		"items": [
-           {
+			{
 				"id": "{first-student-id}",
 				"firstName": "Rick",
 				"lastName": "Campbell",
@@ -1154,8 +1170,8 @@ GET /students?limit=2
 				   "self": { "href": "/students/{first-student-id}" },
 				   "classes": { "href": "/students/{first-student-id}/classes" }
 				}
-           },
-           {
+			},
+			{
 				"id": "{second-student-id}",
 				"firstName": "Hosea",
 				"lastName": "Alvarez",
@@ -1517,6 +1533,10 @@ GET /teachers?limit=2
     "data": {
 		"limit": 2,
 		"offset": 0,
+        "_links": {
+            "self": { "href": "/teachers?limit=2&offset=0"}
+            "next": { "href": "/teachers?limit=2&offset=2"}
+        },
 		"items": [
 			{
 				"id": "{first-teacher-id}",
