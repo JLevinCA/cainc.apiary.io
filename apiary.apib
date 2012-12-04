@@ -29,9 +29,9 @@ The API supports four type of opertions:
 
 > Query, done via an http GET request.
 
-> Create, done via an http PUT request.
+> Create, done via an http POST request.
 
-> Update, done via an http POST request.
+> Update, done via an http PUT request.
 
 > Delete, done via an http DELETE request.
 --
@@ -53,13 +53,13 @@ GET /<resource>
     "data": { ... }
 }
 
-Create requests, http PUT, send a block of JSON that describes the new resource to be created.  The JSON must contain all required fields.
+Create requests, http POST, send a block of JSON that describes the new resource to be created.  The JSON must contain all required fields.
 All read-only fields will be ignored by the server.
 
 Create requests are always directed at the collection the new resource will be added to.  For example, a new Student will be created via a post to the /API/Students/ collection.
 
 The response will return a status and, if successful, data block.  The data block will return the details of the new resource including its identity.
-PUT /<resource>
+POST /<resource>
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 { ... }
 < 200
@@ -81,11 +81,11 @@ PUT /<resource>
     }
 }
 
-Update requests, http POST, send a block of JSON that describes the new values to be assigned to the resource.  The JSON uses the same schema as that used in the PUT method and retrieved with the GET requests.
+Update requests, http PUT, send a block of JSON that describes the new values to be assigned to the resource.  The JSON uses the same schema as that used in the POST method and retrieved with the GET requests.
 Read-only fields are ignored when processing the request.
 
 The response to the update will contain a data block with the details of updated resource.
-POST /<resource>
+PUT /<resource>
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 { ... }
 < 200
@@ -727,7 +727,7 @@ Create a new Class.
 When creating a new class the name, grade, school reference and product reference properties are required.
 
 Read-only properties will be ignored.
-PUT /classes
+POST /classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -799,7 +799,7 @@ Update a particular class resource.
 When updating the name, classCode and location values can be changed.  A class's school and product references cannot be modified after it had been created.
 
 Read-only properties will be ignored.
-POST /classes/{id}
+PUT /classes/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -907,7 +907,7 @@ GET /classes/{id}/students?limit=2
 }
 
 Create a new class/student relationship.
-PUT /classes/{id}/students
+POST /classes/{id}/students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -963,7 +963,7 @@ GET /classes/{id}/students/{relationship-id}
 }
 
 Updating of class/student relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
-POST /classes/{id}/students/{relationship-id}
+PUT /classes/{id}/students/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
 < Content-Type: application/json
@@ -1037,7 +1037,7 @@ GET /classes/{id}/teachers?limit=2
 }
 
 Create a new class/teacher relationship.
-PUT /classes/{id}/teachers
+POST /classes/{id}/teachers
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1093,7 +1093,7 @@ GET /classes/{id}/teachers/{relationship-id}
 }
 
 Updating of class/teacher relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
-POST /classes/{id}/teachers/{relationship-id}
+PUT /classes/{id}/teachers/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
 < Content-Type: application/json
@@ -1204,7 +1204,7 @@ GET /students?limit=2
 Create a new Student.
 
 Read-only properties will be ignored.
-PUT /students
+POST /students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1306,7 +1306,7 @@ GET /students/{id}
 Update a particular student resource.
 
 Read-only properties will be ignored.
-POST /students/{id}
+PUT /students/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1388,7 +1388,7 @@ The following is a section of resources related to i-Ready Student/Class relatio
 
 > Note: The relationship resources within the /students/{student-id}/classes collection will typically be stored at the path /classes/{class-id}/students/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
 
-> Creation of new relationships can be done via a PUT to the students/{student-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/students/{relationship-id}.
+> Creation of new relationships can be done via a POST to the students/{student-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/students/{relationship-id}.
 --
 Retrieve the classes assigned to a particular student.
 GET /students/{id}/classes?limit=2
@@ -1433,7 +1433,7 @@ GET /students/{id}/classes?limit=2
 }
 
 Creation of new student/class relationship.
-PUT /students/{id}/classes
+POST /students/{id}/classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1484,7 +1484,7 @@ GET /students/{id}/classes/{relationship-id}
 Updating of student/class relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
 
 This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
-POST /students/{id}/classes/{relationship-id}
+PUT /students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -1577,7 +1577,7 @@ GET /teachers?limit=2
 Create a new Teacher.
 
 Read-only properties will be ignored.
-PUT /teachers
+POST /teachers
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1652,7 +1652,7 @@ GET /teachers/{id}
 Update a particular teacher resource.
 
 Read-only properties will be ignored.
-POST /teachers/{id}
+PUT /teachers/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1716,7 +1716,7 @@ The following is a section of resources related to i-Ready Teacher/Class relatio
 
 > Note: The relationship resources within the /teachers/{teacher-id}/classes collection will typically be stored at the path /classes/{class-id}/teachers/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
 
-> Creation of new relationships can be done via a PUT to the teachers/{teacher-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/teachers/{relationship-id}.
+> Creation of new relationships can be done via a POST to the teachers/{teacher-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/teachers/{relationship-id}.
 --
 Retrieve the classes assigned to a particular teacher.
 GET /teachers/{id}/classes?limit=2
@@ -1761,7 +1761,7 @@ GET /teachers/{id}/classes?limit=2
 }
 
 Creation of new teacher/class relationship.
-PUT /teachers/{id}/classes
+POST /teachers/{id}/classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1810,7 +1810,7 @@ GET /teachers/{id}/classes/{relationship-id}
 Updating of teacher/class relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
 
 This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
-POST /teachers/{id}/classes/{relationship-id}
+PUT /teachers/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
