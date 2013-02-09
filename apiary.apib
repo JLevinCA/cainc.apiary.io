@@ -1,10 +1,10 @@
-HOST: http://api.i-ready.com/
+HOST: https://api.i-Ready.com/
 
 --- Curriculum Associates Provisioning API v1 ---
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.6 - updated 12/3/12*
+*i-Ready API Documentation version 0.7 - updated 2/5/13*
 
 ## Authentication  & Authorization
 
@@ -127,7 +127,7 @@ All collections accept at least two, optional, parameters:
 - offset: (Optional) The index at which to start retrieving items.
 
 The returned data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
-GET /<top-level-collection>?limit=10&offset=20
+GET /<top-level-collection>?limit=10&offset
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -172,7 +172,7 @@ GET /<top-level-collection>/{id}
 Relationship collections are identified as resources within a top level resource.  For example all the classes assigned to a particular student will be accessed via a URI of the form:
 
 > /api/students/{id}/classes/.
-GET /<top-level-collection>/{id}/<relationship-collection>&limit=20&offset=20
+GET /<top-level-collection>/{id}/relationship-collection{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -202,7 +202,7 @@ GET /<top-level-collection>/{id}/<relationship-collection>&limit=20&offset=20
 
 Relationship resources define the relationship between two top level resources.
 Relationship objects contain references to the two top level resources and, optionally, additional properties used to describe the relationship.
-GET /<top-level-collection>/{id}/<relationship-collection>/{relationship-id}
+GET /<top-level-collection>/{id}/relationship-collection/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -227,10 +227,21 @@ GET /<top-level-collection>/{id}/<relationship-collection>/{relationship-id}
 Product Resources
 The following is a section of resources related to i-Ready Product resources.
 
+>### Product Properties
+>|Name|Type|Unique|Nullable|Behavior|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date|||read-only|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**family**|string|||read-only||
+>|**id**|string|globally||read-only|String|
+>|**name**|string|||read-only||
+>|**subject**|string|||read-only||
+>|_**classes**_|link|||read-only||
+>|_**self**_|link|globally||read-only||
+
 The Product resources are all read-only; Only http GET requests are supported.
---
+
 Retrieve all of the products available to the calling i-Ready account. 
-GET /products?limit=2
+GET /products{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -308,9 +319,19 @@ GET /products/{id}
 The following is a section of resources related to i-Ready Product/Class relationship resources.
 
 The Product/Class resources are all read-only; Only http GET requests are supported.
+
+>### Product/Class Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|_**product**_|link||read-only|no||
+>|_**class**_|link||read-only|no||
+>|_**self**_|link|globally|read-only|no||
+
 --
 Retrieve the classes assigned to a particular product.
-GET /products/{id}/classes?limit=2
+GET /products/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -375,10 +396,24 @@ GET /products/{id}/classes/{reference-id}
 School Resources
 The following is a section of resources related to i-Ready School resources.
 
+>### School Properties
+>|Name|Type|Unique|Nullable|Modifiable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||no|read-only|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**districtName**|string||no|read-only||
+>|**id**|string|globally|no|read-only||
+>|**name**|string||no|read-only||
+>|**state**|string||no|read-only|*us-state-abreviation*|
+>|_**administrators**_|link||no|read-only||
+>|_**classes**_|link||no|read-only||
+>|_**self**_|link|globally|no|read-only||
+>|_**students**_|link||no|read-only||
+>|_**teachers**_|link||no|read-only||
+
 The School resources are all read-only; Only http GET requests are supported.
 --
 Retrieve all of the schools in the i-Ready account. 
-GET /schools?limit=2
+GET /schools{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -458,9 +493,19 @@ GET /schools/{id}
 The following is a section of resources related to i-Ready School/Class relationship resources.
 
 The School/Class resources are all read-only; Only http GET requests are supported.
+
+>### School/Class Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|_**school**_|link||read-only|no||
+>|_**class**_|link||read-only|no||
+>|_**self**_|link|globally|read-only|no||
+
 --
 Retrieve the classes assigned to a particular school.
-GET /schools/{id}/classes?limit=2
+GET /schools/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -526,9 +571,19 @@ GET /schools/{id}/classes/{reference-id}
 The following is a section of resources related to i-Ready School/Student relationship resources.
 
 The School/Student resources are all read-only; Only http GET requests are supported.
+
+>### School/Student Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|_**student**_|link||read-only|no||
+>|_**school**_|link||read-only|no||
+>|_**self**_|link|globally|read-only|no||
+
 --
 Retrieve the students assigned to a particular school.
-GET /schools/{id}/students?limit=2
+GET /schools/{id}/students{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -595,9 +650,19 @@ GET /schools/{id}/students/{reference-id}
 The following is a section of resources related to i-Ready School/Teacher relationship resources.
 
 The School/Teacher resources are all read-only; Only http GET requests are supported.
+
+>### School/Teacher Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|_**teacher**_|link||read-only|no||
+>|_**school**_|link||read-only|no||
+>|_**self**_|link|globally|read-only|no||
+
 --
 Retrieve the teachers assigned to a particular school.
-GET /schools/{id}/teachers?limit=2
+GET /schools/{id}/teachers{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -662,12 +727,29 @@ GET /schools/{id}/teachers/{reference-id}
 Class Resources
 The following is a section of resources related to i-Ready Class resources.
 
+>### Class Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**classCode**|string, length 10|||yes|string, length 10|
+>|**createdDate**|string||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**grade**|int||create-time|no|0 - 12|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**location**|string|||yes|null &#124;string, length 255|
+>|**name**|string|within academic-year/school/product||no|null &#124;string, length 255|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|_**product**_|link||create-time|no||
+>|_**school**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
+>|_**students**_|link||read-only|no||
+>|_**teachers**_|link||read-only|no||
+
 Within a district account a class is uniquely identified by the combination of 4 properties; name, grade, school reference and product reference.
 
 The class has an externalId property that can be set by the user.  This value must be unique within the district account or null.
 --
 Get all of the classes related to an i-Ready account.
-GET /classes?limit=2
+GET /classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -862,10 +944,22 @@ DELETE /classes/{id}
 --
  Class/Student Resources
 The following is a section of resources related to i-Ready Class/Student relationship resources.
+
+>### Class/Student Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|_**student**_|link||create-time|no||
+>|_**class**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
+
 --
 
 Retrieve the students assigned to a particular class.
-GET /classes/{id}/students?limit=2
+GET /classes/{id}/students{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -993,9 +1087,21 @@ DELETE /classes/{id}/students/{relationship-id}
 --
  Class/Teacher Resources
 The following is a section of resources related to i-Ready Class/Teacher relationship resources.
+
+>### Class/Teacher Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|_**teacher**_|link||create-time|no||
+>|_**class**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
+
 --
 Retrieve the teachers assigned to a particular class.
-GET /classes/{id}/teachers?limit=2
+GET /classes/{id}/teachers{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1127,10 +1233,36 @@ The following is a section of resources related to i-Ready Student resources.
 
 Students are identified by their userName. The student's userName must by unique to all users within their distict account's state.
 
-Additionally the student's have an externalId that must be set.  The externalId is unique to all students in the district account; for students the externalId cannot be null.
+Additionally the student's have a studentNumber that must be set.  The studentNumber is unique to all students in the district account and can't be null.
+
+>### Student Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|string||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**dateOfBirth**|string|||yes|null &#124; yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**economicallyDisadvantaged**|string|||yes|null &#124; true &#124; false|
+>|**elaDevelopmentalLevel**|int|||yes|null &#124; 0-12|
+>|**englishLanguageLearner**|string|||yes|null &#124; true &#124; false|
+>|**ethnicityId**|string|||yes|(Under Review) Enter 1 for American Indian, Native American, or Alaska native; 2 for Asian; <BR/>3 for black or African American; 4 for Hispanic, Latino, or Hispanic Latino;<BR/> 5 for white or Caucasian; 6 for Native Hawaiian or Other Pacific Islander; 7 for two or more races.|
+>|**firstName**|string|||no|string, length 50|
+>|**gender**|string|||yes|null &#124; male &#124; female|
+>|**gradeLevel**|int|||no|0-12|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**lastName**|string|||no|string, length 50|
+>|**mathDevelopmentalLevel**|int|||yes|null &#124; 0-12|
+>|**migrant**|string|||yes|null &#124; true &#124; false|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|**password**|string||*write-only*|no|string, length 4-24|
+>|**specialEducation**|string|||yes|null &#124; true &#124; false|
+>|**studentNumber**|string|within district||no|string, length 50|
+>|**userName**|string|within state||no|string, length 50|
+>|_**classes**_|link||read-only|no||
+>|_**school**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
 --
 Get all of the students related to an i-Ready account.
-GET /students?limit=2
+GET /students{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1386,12 +1518,23 @@ DELETE /students/{id}
 Student/Class Resources
 The following is a section of resources related to i-Ready Student/Class relationship resources.
 
+>### Class/Student Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|_**student**_|link||create-time|no||
+>|_**class**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
+
 > Note: The relationship resources within the /students/{student-id}/classes collection will typically be stored at the path /classes/{class-id}/students/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
 
 > Creation of new relationships can be done via a POST to the students/{student-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/students/{relationship-id}.
 --
 Retrieve the classes assigned to a particular student.
-GET /students/{id}/classes?limit=2
+GET /students/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1519,9 +1662,26 @@ Teacher Resources
 The following is a section of resources related to i-Ready Teacher resources.
 
 Teachers are identified by their userName. The teacher's userName must by unique to all users within their distict account's state.
+
+>### Teacher Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**emailAddress**|string|||yes|null &#124; string, length 100<BR/>requires a properly formated e-mail address|
+>|**firstName**|string|||no|string, length 50|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**lastName**|string|||no|string, length 50|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|**password**|string||*write-only*|no|string, length 4 - 24|
+>|**userName**|string|within state||no|string, length 50|
+>|_**classes**_|link||read-only|no||
+>|_**school**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
+
 --
 Get all of the teachers related to an i-Ready account.
-GET /teachers?limit=2
+GET /teachers{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1714,12 +1874,23 @@ DELETE /teachers/{id}
 Teacher/Class Resources
 The following is a section of resources related to i-Ready Teacher/Class relationship resources.
 
+>### Class/Teacher Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|_**teacher**_|link||create-time|no||
+>|_**class**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
+
 > Note: The relationship resources within the /teachers/{teacher-id}/classes collection will typically be stored at the path /classes/{class-id}/teachers/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
 
 > Creation of new relationships can be done via a POST to the teachers/{teacher-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/teachers/{relationship-id}.
 --
 Retrieve the classes assigned to a particular teacher.
-GET /teachers/{id}/classes?limit=2
+GET /teachers/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
