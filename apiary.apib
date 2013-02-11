@@ -320,13 +320,15 @@ The following is a section of resources related to i-Ready Product/Class relatio
 
 The Product/Class resources are all read-only; Only http GET requests are supported.
 
->### Product/Class Properties
+>### Product Properties
 >|Name|Type|Unique|Modifiable|Nullable|Valid Values|
 >|--------|------|--------|-----------|-----------|----------------|
 >|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**family**|string||read-only|no|string, length 35|
 >|**id**|string|globally|read-only|no|string, length 32|
->|_**product**_|link||read-only|no||
->|_**class**_|link||read-only|no||
+>|**name**|string||read-only|no|string, length 64|
+>|**subject**|string||read-only|no|Math &#124; ELA|
+>|_**classes**_|link||read-only|no||
 >|_**self**_|link|globally|read-only|no||
 
 --
@@ -400,17 +402,18 @@ School Resources
 The following is a section of resources related to i-Ready School resources.
 
 >### School Properties
->|Name|Type|Unique|Nullable|Modifiable|Valid Values|
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
 >|--------|------|--------|-----------|-----------|----------------|
->|**createdDate**|date||no|read-only|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
->|**districtName**|string||no|read-only||
->|**id**|string|globally|no|read-only||
->|**name**|string||no|read-only||
->|**state**|string||no|read-only|*us-state-abreviation*|
->|_**classes**_|link||no|read-only||
->|_**self**_|link|globally|no|read-only||
->|_**students**_|link||no|read-only||
->|_**teachers**_|link||no|read-only||
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**districtName**|string||read-only|no|string, length 100|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**name**|string||read-only|no|string, length 100|
+>|**state**|string||read-only|no|*us-state-abreviation*|
+>|_**administrators**_|link||read-only|no||
+>|_**classes**_|link||read-only|no||
+>|_**self**_|link|globally|read-only|no||
+>|_**students**_|link||read-only|no||
+>|_**teachers**_|link||read-only|no||
 
 The School resources are all read-only; Only http GET requests are supported.
 --
