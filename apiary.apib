@@ -228,15 +228,15 @@ Product Resources
 The following is a section of resources related to i-Ready Product resources.
 
 >### Product Properties
->|Name|Type|Unique|Nullable|Behavior|Valid Values|
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
 >|--------|------|--------|-----------|-----------|----------------|
->|**createdDate**|date|||read-only|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
->|**family**|string|||read-only||
->|**id**|string|globally||read-only|String|
->|**name**|string|||read-only||
->|**subject**|string|||read-only||
->|_**classes**_|link|||read-only||
->|_**self**_|link|globally||read-only||
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**family**|string||read-only|no|string, length 35|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**name**|string||read-only|no|string, length 64|
+>|**subject**|string||read-only|no|Math &#124; ELA|
+>|_**classes**_|link||read-only|no||
+>|_**self**_|link|globally|read-only|no||
 
 The Product resources are all read-only; Only http GET requests are supported.
 --
@@ -320,15 +320,13 @@ The following is a section of resources related to i-Ready Product/Class relatio
 
 The Product/Class resources are all read-only; Only http GET requests are supported.
 
->### Product Properties
+>### Product/Class Properties
 >|Name|Type|Unique|Modifiable|Nullable|Valid Values|
 >|--------|------|--------|-----------|-----------|----------------|
 >|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
->|**family**|string||read-only|no|string, length 35|
 >|**id**|string|globally|read-only|no|string, length 32|
->|**name**|string||read-only|no|string, length 64|
->|**subject**|string||read-only|no|Math &#124; ELA|
->|_**classes**_|link||read-only|no||
+>|_**product**_|link||read-only|no||
+>|_**class**_|link||read-only|no||
 >|_**self**_|link|globally|read-only|no||
 
 --
