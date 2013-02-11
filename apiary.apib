@@ -261,10 +261,10 @@ GET /products{?limit,offset}
         },
         "items": [
             {
+               "createdDate": "2012-12-03T16:02:43Z",
+               "family": "Diagnostic & Instruction",
                "id": "{first-id}",
-               "longName": "i-Ready Diagnostic & Instruction Math",
-               "shortName": "D&I Math",
-               "productFamily": "Diagnostic & Instruction",
+               "name": "i-Ready Diagnostic & Instruction Math",
                "subject": "Math",
                "_links":
                {
@@ -273,10 +273,10 @@ GET /products{?limit,offset}
                }
             },
             {
+               "createdDate": "2012-12-03T16:02:43Z",
+               "family": "Diagnostic & Instruction",
                "id": "{second-id}",
-               "longName": "i-Ready Diagnostic & Instruction ELA",
-               "shortName": "D&I ELA",
-               "productFamily": "Diagnostic & Instruction",
+               "name": "i-Ready Diagnostic & Instruction ELA",
                "subject": "ELA",
                "_links":
                {
@@ -301,10 +301,10 @@ GET /products/{id}
         "detailsMessage": "Success"
     },
    "data": {
+       "createdDate": "2012-12-03T16:02:43Z",
+       "family": "Diagnostic & Instruction",
        "id": "{id}",
-       "longName": "i-Ready Diagnostic & Instruction Math",
-       "shortName": "D&I Math",
-       "productFamily": "Diagnostic & Instruction",
+       "name": "i-Ready Diagnostic & Instruction Math",
        "subject": "Math",
        "_links":
        {
@@ -351,6 +351,7 @@ GET /products/{id}/classes{?limit,offset}
         },
         "items": [
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
                     "self": { "href": "/products/{id}/classes/{first-reference-id}"}
@@ -359,6 +360,7 @@ GET /products/{id}/classes{?limit,offset}
                 }
             },
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
                     "self": { "href": "/products/{id}/classes/{second-reference-id}"}
@@ -383,6 +385,7 @@ GET /products/{id}/classes/{reference-id}
         "detailsMessage": "Success"
     },
     "data":{
+        "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
             "self": { "href": "/products/{id}/classes/{reference-id}"}
@@ -404,7 +407,6 @@ The following is a section of resources related to i-Ready School resources.
 >|**id**|string|globally|no|read-only||
 >|**name**|string||no|read-only||
 >|**state**|string||no|read-only|*us-state-abreviation*|
->|_**administrators**_|link||no|read-only||
 >|_**classes**_|link||no|read-only||
 >|_**self**_|link|globally|no|read-only||
 >|_**students**_|link||no|read-only||
@@ -433,6 +435,7 @@ GET /schools{?limit,offset}
         },
         "items": [
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-id}",
                 "name": "Harrington Elementary School",
                 "districtName": "oh-9-26",
@@ -446,6 +449,7 @@ GET /schools{?limit,offset}
                }
             },
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-id}",
                 "name": "Lincoln Middle School",
                 "districtName": "oh-9-26",
@@ -474,6 +478,7 @@ GET /schools/{id}
         "detailsMessage": "Success"
     },
    "data": {
+        "createdDate": "2012-12-03T16:02:43Z",
         "id": "{id}",
         "name": "Harrington Elementary School",
         "districtName": "oh-9-26",
@@ -525,6 +530,7 @@ GET /schools/{id}/classes{?limit,offset}
         },
         "items": [
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
                     "self": { "href": "/schools/{id}/classes/{first-reference-id}"}
@@ -533,6 +539,7 @@ GET /schools/{id}/classes{?limit,offset}
                 }
             },
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
                     "self": { "href": "/schools/{id}/classes/{second-reference-id}"}
@@ -557,6 +564,7 @@ GET /schools/{id}/classes/{reference-id}
         "detailsMessage": "Success"
     },
     "data":{
+        "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
             "self": { "href": "/schools/{id}/classes/{reference-id}"}
@@ -603,6 +611,7 @@ GET /schools/{id}/students{?limit,offset}
         },
         "items": [
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
                     "self": { "href": "/schools/{id}/students/{first-reference-id}"}
@@ -611,6 +620,7 @@ GET /schools/{id}/students{?limit,offset}
                 }
             },
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
                     "self": { "href": "/schools/{id}/students/{second-reference-id}"}
@@ -635,6 +645,7 @@ GET /schools/{id}/students/{reference-id}
         "detailsMessage": "Success"
     },
     "data":{
+        "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
             "self": { "href": "/schools/{id}/students/{reference-id}"}
@@ -682,6 +693,7 @@ GET /schools/{id}/teachers{?limit,offset}
         },
         "items": [
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
                     "self": { "href": "/schools/{id}/teachers/{first-reference-id}"}
@@ -690,6 +702,7 @@ GET /schools/{id}/teachers{?limit,offset}
                 }
             },
             {
+                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
                     "self": { "href": "/schools/{id}/teachers/{second-reference-id}"}
@@ -714,6 +727,7 @@ GET /schools/{id}/teachers/{reference-id}
         "detailsMessage": "Success"
     },
     "data":{
+        "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
             "self": { "href": "/schools/{id}/teachers/{reference-id}"}
@@ -774,7 +788,8 @@ GET /classes{?limit,offset}
                "grade": "0",
                "location": "Room 201",
                "createdDate": "2012-08-17T14:56:43Z",
-               "externalId": "CL012345",
+               "ownerId": "CL012345",
+               "partnerId": null,
                "_links":
                {
                    "school": { "href": "/schools/{first-school-id}" },
@@ -790,7 +805,8 @@ GET /classes{?limit,offset}
                "grade": "2",
                "location": "Room 305",
                "createdDate": "2012-08-17T14:56:43Z",
-               "externalId": "CL012337",
+               "ownerId": "CL012337",
+               "partnerId": null,
                "_links":
                {
                    "school": { "href": "/schools/{second-school-id}" },
@@ -818,7 +834,8 @@ POST /classes
     "grade": "1",
     "location": "Room 212",
     "createdDate": "null,
-    "externalId": "CL012341",
+    "ownerId": "CL012341",
+    "partnerId": null,
     "_links":
     {
         "school": { "href": "/schools/{school-id}" },
@@ -843,7 +860,8 @@ POST /classes
         "grade": "1",
         "location": "Room 212",
         "createdDate": "2012-11-29T14:56:43Z",
-        "externalId": "CL012341",
+        "ownerId": "CL012341",
+        "partnerId": null,
         "_links":
         {
             "school": { "href": "/schools/{school-id}" },
@@ -860,19 +878,28 @@ GET /classes/{id}
 < 200
 < Content-Type: application/json
 {
-    "id": "{id}",
-    "name": "Hoosiers Grade 2 Class",
-    "grade": "2",
-    "location": "Room 305",
-    "createdDate": "2012-08-17T14:56:43Z",
-    "externalId": "CL012337",
-    "_links":
-    {
-        "school": { "href": "/schools/{school-id}" },
-        "product": { "href": "/products/{product-id}" },
-        "self": { "href": "/classes/{id}" },
-        "students": { "href": "/classes/{id}/students" },
-        "teachers": { "href": "/classes/{id}/teachers" },
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{id}",
+        "name": "Hoosiers Grade 2 Class",
+        "grade": "2",
+        "location": "Room 305",
+        "createdDate": "2012-08-17T14:56:43Z",
+        "ownerId": "CL012341",
+        "partnerId": null,
+        "_links":
+        {
+            "school": { "href": "/schools/{school-id}" },
+            "product": { "href": "/products/{product-id}" },
+            "self": { "href": "/classes/{id}" },
+            "students": { "href": "/classes/{id}/students" },
+            "teachers": { "href": "/classes/{id}/teachers" },
+        }
     }
 }
 
@@ -890,7 +917,8 @@ PUT /classes/{id}
     "grade": "1",
     "location": "Room 212",
     "createdDate": "2012-11-29T14:56:43Z",
-    "externalId": "CL012341",
+    "ownerId": "CL012341",
+    "partnerId": "P0579",
     "_links":
     {
         "school": { "href": "/schools/{school-id}" },
@@ -915,7 +943,8 @@ PUT /classes/{id}
         "grade": "1",
         "location": "Room 212",
         "createdDate": "2012-11-29T14:56:43Z",
-        "externalId": "CL012341",
+        "ownerId": "CL012341",
+        "partnerId": "P0579",
         "_links":
         {
             "school": { "href": "/schools/{school-id}" },
