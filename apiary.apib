@@ -4,7 +4,7 @@ HOST: https://api.i-Ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.7 - updated 2/5/13*
+*i-Ready API Documentation version 0.8 - updated 3/7/13*
 
 ## Authentication  & Authorization
 
@@ -241,7 +241,7 @@ The following is a section of resources related to i-Ready Product resources.
 The Product resources are all read-only; Only http GET requests are supported.
 --
 Retrieve all of the products available to the calling i-Ready account. 
-GET /products{?limit,offset}
+GET /api/v1/products{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -256,8 +256,8 @@ GET /products{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/products?limit=2&offset=0"}
-            "next": { "href": "/products?limit=2&offset=2"}
+            "self": { "href": "/api/v1/products?limit=2&offset=0"}
+            "next": { "href": "/api/v1/products?limit=2&offset=2"}
         },
         "items": [
             {
@@ -289,7 +289,7 @@ GET /products{?limit,offset}
 }
 
 Retrieve the details of a particular product.
-GET /products/{id}
+GET /api/v1/products/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -331,7 +331,7 @@ The Product/Class resources are all read-only; Only http GET requests are suppor
 
 --
 Retrieve the classes assigned to a particular product.
-GET /products/{id}/classes{?limit,offset}
+GET /api/v1/products/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -346,26 +346,26 @@ GET /products/{id}/classes{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/products/{id}/classes?limit=2"}
-            "next": { "href": "/products/{id}/classes?limit=2&offset=2"}
+            "self": { "href": "/api/v1/products/{id}/classes?limit=2"}
+            "next": { "href": "/api/v1/products/{id}/classes?limit=2&offset=2"}
         },
         "items": [
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
-                    "self": { "href": "/products/{id}/classes/{first-reference-id}"}
-                    "product": { "href": "/products/{id}"}
-                    "class": { "href": "/classes/{first-class-id}"}
+                    "self": { "href": "/api/v1/products/{id}/classes/{first-reference-id}"}
+                    "product": { "href": "/api/v1/products/{id}"}
+                    "class": { "href": "/api/v1/classes/{first-class-id}"}
                 }
             },
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
-                    "self": { "href": "/products/{id}/classes/{second-reference-id}"}
-                    "product": { "href": "/products/{id}"}
-                    "class": { "href": "/classes/{second-class-id}"}
+                    "self": { "href": "/api/v1/products/{id}/classes/{second-reference-id}"}
+                    "product": { "href": "/api/v1/products/{id}"}
+                    "class": { "href": "/api/v1/classes/{second-class-id}"}
                 }
             }
         ]
@@ -373,7 +373,7 @@ GET /products/{id}/classes{?limit,offset}
 }
 
 Retrieve a particular product/class reference.
-GET /products/{id}/classes/{reference-id}
+GET /api/v1/products/{id}/classes/{reference-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -388,9 +388,9 @@ GET /products/{id}/classes/{reference-id}
         "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
-            "self": { "href": "/products/{id}/classes/{reference-id}"}
-            "product": { "href": "/products/{id}"}
-            "class": { "href": "/classes/{class-id}"}
+            "self": { "href": "/api/v1/products/{id}/classes/{reference-id}"}
+            "product": { "href": "/api/v1/products/{id}"}
+            "class": { "href": "/api/v1/classes/{class-id}"}
         }
     }
 }
@@ -409,13 +409,14 @@ The following is a section of resources related to i-Ready School resources.
 >|**state**|string||read-only|no|*us-state-abreviation*|
 >|_**classes**_|link||read-only|no||
 >|_**self**_|link|globally|read-only|no||
+>|_**administrators**_|link||read-only|no||
 >|_**students**_|link||read-only|no||
 >|_**teachers**_|link||read-only|no||
 
 The School resources are all read-only; Only http GET requests are supported.
 --
 Retrieve all of the schools in the i-Ready account. 
-GET /schools{?limit,offset}
+GET /api/v1/schools{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -430,8 +431,8 @@ GET /schools{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/schools?limit=2&offset=0"}
-            "next": { "href": "/schools?limit=2&offset=2"}
+            "self": { "href": "/api/v1/schools?limit=2&offset=0"}
+            "next": { "href": "/api/v1/schools?limit=2&offset=2"}
         },
         "items": [
             {
@@ -444,6 +445,7 @@ GET /schools{?limit,offset}
                {
                    "self": "/schools/{first-id}",
                    "classes": "/schools/{first-id}/classes"
+                   "administrators": "/schools/{first-id}/administrators"
                    "students": "/schools/{first-id}/students"
                    "teachers": "/schools/{first-id}/teachers"
                }
@@ -457,6 +459,8 @@ GET /schools{?limit,offset}
                "_links":
                {
                    "self": "/schools/{second-id}",
+                   "classes": "/schools/{second-id}/classes"
+                   "administrators": "/schools/{second-id}/administrators"
                    "students": "/schools/{second-id}/students"
                    "teachers": "/schools/{second-id}/teachers"
                }
@@ -466,7 +470,7 @@ GET /schools{?limit,offset}
 }
 
 Retrieve the details of a particular school.
-GET /schools/{id}
+GET /api/v1/schools/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -487,6 +491,7 @@ GET /schools/{id}
        {
            "self": "/schools/{id}",
            "classes": "/schools/{id}/classes"
+           "administrators": "/schools/{id}/administrators"
            "students": "/schools/{id}/students"
            "teachers": "/schools/{id}/teachers"
        }
@@ -510,7 +515,7 @@ The School/Class resources are all read-only; Only http GET requests are support
 
 --
 Retrieve the classes assigned to a particular school.
-GET /schools/{id}/classes{?limit,offset}
+GET /api/v1/schools/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -525,26 +530,26 @@ GET /schools/{id}/classes{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/schools/{id}/classes?limit=2"}
-            "next": { "href": "/schools/{id}/classes?limit=2&offset=2"}
+            "self": { "href": "/api/v1/schools/{id}/classes?limit=2"}
+            "next": { "href": "/api/v1/schools/{id}/classes?limit=2&offset=2"}
         },
         "items": [
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/{id}/classes/{first-reference-id}"}
-                    "school": { "href": "/schools/{id}"}
-                    "class": { "href": "/classes/{first-class-id}"}
+                    "self": { "href": "/api/v1/schools/{id}/classes/{first-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "class": { "href": "/api/v1/classes/{first-class-id}"}
                 }
             },
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/{id}/classes/{second-reference-id}"}
-                    "school": { "href": "/schools/{id}"}
-                    "class": { "href": "/classes/{second-class-id}"}
+                    "self": { "href": "/api/v1/schools/{id}/classes/{second-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "class": { "href": "/api/v1/classes/{second-class-id}"}
                 }
             }
         ]
@@ -552,7 +557,7 @@ GET /schools/{id}/classes{?limit,offset}
 }
 
 Retrieve a particular school/class reference.
-GET /schools/{id}/classes/{reference-id}
+GET /api/v1/schools/{id}/classes/{reference-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -567,9 +572,9 @@ GET /schools/{id}/classes/{reference-id}
         "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
-            "self": { "href": "/schools/{id}/classes/{reference-id}"}
-            "school": { "href": "/schools/{id}"}
-            "class": { "href": "/classes/{class-id}"}
+            "self": { "href": "/api/v1/schools/{id}/classes/{reference-id}"}
+            "school": { "href": "/api/v1/schools/{id}"}
+            "class": { "href": "/api/v1/classes/{class-id}"}
         }
     }
 }
@@ -591,7 +596,7 @@ The School/Student resources are all read-only; Only http GET requests are suppo
 
 --
 Retrieve the students assigned to a particular school.
-GET /schools/{id}/students{?limit,offset}
+GET /api/v1/schools/{id}/students{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -606,26 +611,26 @@ GET /schools/{id}/students{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/schools/{id}/students?limit=2"}
-            "next": { "href": "/schools/{id}/students?limit=2&offset=2"}
+            "self": { "href": "/api/v1/schools/{id}/students?limit=2"}
+            "next": { "href": "/api/v1/schools/{id}/students?limit=2&offset=2"}
         },
         "items": [
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/{id}/students/{first-reference-id}"}
-                    "school": { "href": "/schools/{id}"}
-                    "student": { "href": "/students/{first-class-id}"}
+                    "self": { "href": "/api/v1/schools/{id}/students/{first-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "student": { "href": "/api/v1/students/{first-class-id}"}
                 }
             },
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/{id}/students/{second-reference-id}"}
-                    "school": { "href": "/schools/{id}"}
-                    "student": { "href": "/students/{second-class-id}"}
+                    "self": { "href": "/api/v1/schools/{id}/students/{second-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "student": { "href": "/api/v1/students/{second-class-id}"}
                 }
             }
         ]
@@ -633,7 +638,7 @@ GET /schools/{id}/students{?limit,offset}
 }
 
 Retrieve a particular school/student reference.
-GET /schools/{id}/students/{reference-id}
+GET /api/v1/schools/{id}/students/{reference-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -648,9 +653,9 @@ GET /schools/{id}/students/{reference-id}
         "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
-            "self": { "href": "/schools/{id}/students/{reference-id}"}
-            "school": { "href": "/schools/{id}"}
-            "student": { "href": "/students/{class-id}"}
+            "self": { "href": "/api/v1/schools/{id}/students/{reference-id}"}
+            "school": { "href": "/api/v1/schools/{id}"}
+            "student": { "href": "/api/v1/students/{class-id}"}
         }
     }
 }
@@ -673,7 +678,7 @@ The School/Teacher resources are all read-only; Only http GET requests are suppo
 
 --
 Retrieve the teachers assigned to a particular school.
-GET /schools/{id}/teachers{?limit,offset}
+GET /api/v1/schools/{id}/teachers{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -688,26 +693,26 @@ GET /schools/{id}/teachers{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/schools/{id}/teachers?limit=2"}
-            "next": { "href": "/schools/{id}/teachers?limit=2&offset=2"}
+            "self": { "href": "/api/v1/schools/{id}/teachers?limit=2"}
+            "next": { "href": "/api/v1/schools/{id}/teachers?limit=2&offset=2"}
         },
         "items": [
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/{id}/teachers/{first-reference-id}"}
-                    "school": { "href": "/schools/{id}"}
-                    "teacher": { "href": "/teachers/{first-class-id}"}
+                    "self": { "href": "/api/v1/schools/{id}/teachers/{first-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "teacher": { "href": "/api/v1/teachers/{first-class-id}"}
                 }
             },
             {
                 "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-reference-id}",
                 "_links": {
-                    "self": { "href": "/schools/{id}/teachers/{second-reference-id}"}
-                    "school": { "href": "/schools/{id}"}
-                    "teacher": { "href": "/teachers/{second-class-id}"}
+                    "self": { "href": "/api/v1/schools/{id}/teachers/{second-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "teacher": { "href": "/api/v1/teachers/{second-class-id}"}
                 }
             }
         ]
@@ -715,7 +720,7 @@ GET /schools/{id}/teachers{?limit,offset}
 }
 
 Retrieve a particular school/teacher reference.
-GET /schools/{id}/teachers/{reference-id}
+GET /api/v1/schools/{id}/teachers/{reference-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -730,9 +735,90 @@ GET /schools/{id}/teachers/{reference-id}
         "createdDate": "2012-12-03T16:02:43Z",
         "id": "{reference-id}",
         "_links": {
-            "self": { "href": "/schools/{id}/teachers/{reference-id}"}
-            "school": { "href": "/schools/{id}"}
-            "teacher": { "href": "/teachers/{class-id}"}
+            "self": { "href": "/api/v1/schools/{id}/teachers/{reference-id}"}
+            "school": { "href": "/api/v1/schools/{id}"}
+            "teacher": { "href": "/api/v1/teachers/{class-id}"}
+        }
+    }
+}
+
+--
+ School/Administrator Resources
+The following is a section of resources related to i-Ready School/Administrator relationship resources.
+
+The School/Administrator resources are all read-only; Only http GET requests are supported.
+
+>### School/Administrator Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|_**administrator**_|link||read-only|no||
+>|_**school**_|link||read-only|no||
+>|_**self**_|link|globally|read-only|no||
+
+--
+Retrieve the administrators assigned to a particular school.
+GET /api/v1/schools/{id}/administrators{?limit,offset}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/api/v1/schools/{id}/administrators?limit=2"}
+            "next": { "href": "/api/v1/schools/{id}/administrators?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "createdDate": "2012-12-03T16:02:43Z",
+                "id": "{first-reference-id}",
+                "_links": {
+                    "self": { "href": "/api/v1/schools/{id}/administrators/{first-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "administrator": { "href": "/api/v1/administrators/{first-class-id}"}
+                }
+            },
+            {
+                "createdDate": "2012-12-03T16:02:43Z",
+                "id": "{second-reference-id}",
+                "_links": {
+                    "self": { "href": "/api/v1/schools/{id}/administrators/{second-reference-id}"}
+                    "school": { "href": "/api/v1/schools/{id}"}
+                    "administrator": { "href": "/api/v1/administrators/{second-class-id}"}
+                }
+            }
+        ]
+    }
+}
+
+Retrieve a particular school/administrator reference.
+GET /api/v1/schools/{id}/administrators/{reference-id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data":{
+        "createdDate": "2012-12-03T16:02:43Z",
+        "id": "{reference-id}",
+        "_links": {
+            "self": { "href": "/api/v1/schools/{id}/administrators/{reference-id}"}
+            "school": { "href": "/api/v1/schools/{id}"}
+            "administrator": { "href": "/api/v1/administrators/{class-id}"}
         }
     }
 }
@@ -763,7 +849,7 @@ Within a district account a class is uniquely identified by the combination of 4
 The class has an externalId property that can be set by the user.  This value must be unique within the district account or null.
 --
 Get all of the classes related to an i-Ready account.
-GET /classes{?limit,offset}
+GET /api/v1/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -778,8 +864,8 @@ GET /classes{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/classes?limit=2&offset=0"}
-            "next": { "href": "/classes?limit=2&offset=2"}
+            "self": { "href": "/api/v1/classes?limit=2&offset=0"}
+            "next": { "href": "/api/v1/classes?limit=2&offset=2"}
         },
         "items": [
             {
@@ -788,15 +874,16 @@ GET /classes{?limit,offset}
                "grade": "0",
                "location": "Room 201",
                "createdDate": "2012-08-17T14:56:43Z",
-               "ownerId": "CL012345",
+               "classCode": "CL012345",
+               "ownerId": null,
                "partnerId": null,
                "_links":
                {
-                   "school": { "href": "/schools/{first-school-id}" },
-                   "product": { "href": "/products/{first-product-id}" },
-                   "self": { "href": "/classes/{first-class-id}" },
-                   "students": { "href": "/classes/{first-class-id}/students" },
-                   "teachers": { "href": "/classes/{first-class-id}/teachers" },
+                   "school": { "href": "/api/v1/schools/{first-school-id}" },
+                   "product": { "href": "/api/v1/products/{first-product-id}" },
+                   "self": { "href": "/api/v1/classes/{first-class-id}" },
+                   "students": { "href": "/api/v1/classes/{first-class-id}/students" },
+                   "teachers": { "href": "/api/v1/classes/{first-class-id}/teachers" },
                }
            },
            {
@@ -805,15 +892,16 @@ GET /classes{?limit,offset}
                "grade": "2",
                "location": "Room 305",
                "createdDate": "2012-08-17T14:56:43Z",
-               "ownerId": "CL012337",
+               "classCode": "CL012337",
+               "ownerId": null,
                "partnerId": null,
                "_links":
                {
-                   "school": { "href": "/schools/{second-school-id}" },
-                   "product": { "href": "/products/{second-product-id}" },
-                   "self": { "href": "/classes/{second-class-id}" },
-                   "students": { "href": "/classes/{second-class-id}/students" },
-                   "teachers": { "href": "/classes/{second-class-id}/teachers" },
+                   "school": { "href": "/api/v1/schools/{second-school-id}" },
+                   "product": { "href": "/api/v1/products/{second-product-id}" },
+                   "self": { "href": "/api/v1/classes/{second-class-id}" },
+                   "students": { "href": "/api/v1/classes/{second-class-id}/students" },
+                   "teachers": { "href": "/api/v1/classes/{second-class-id}/teachers" },
                }
            }
         ]
@@ -825,7 +913,7 @@ Create a new Class.
 When creating a new class the name, grade, school reference and product reference properties are required.
 
 Read-only properties will be ignored.
-POST /classes
+POST /api/v1/classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -834,12 +922,13 @@ POST /classes
     "grade": "1",
     "location": "Room 212",
     "createdDate": "null,
-    "ownerId": "CL012341",
+    "classCode": "CL012341",
+    "ownerId": null,
     "partnerId": null,
     "_links":
     {
-        "school": { "href": "/schools/{school-id}" },
-        "product": { "href": "/products/{product-id}" }
+        "school": { "href": "/api/v1/schools/{school-id}" },
+        "product": { "href": "/api/v1/products/{product-id}" }
         "self": null,
         "students": null,
         "teachers": null,
@@ -860,21 +949,22 @@ POST /classes
         "grade": "1",
         "location": "Room 212",
         "createdDate": "2012-11-29T14:56:43Z",
-        "ownerId": "CL012341",
+        "classCode": "CL012341",
+        "ownerId": null,
         "partnerId": null,
         "_links":
         {
-            "school": { "href": "/schools/{school-id}" },
-            "product": { "href": "/products/{product-id}" }
-            "self": { "href": "/classes/{id}" },
-            "students": { "href": "/classes/{id}/students" },
-            "teachers": { "href": "/classes/{id}/teachers" },
+            "school": { "href": "/api/v1/schools/{school-id}" },
+            "product": { "href": "/api/v1/products/{product-id}" }
+            "self": { "href": "/api/v1/classes/{id}" },
+            "students": { "href": "/api/v1/classes/{id}/students" },
+            "teachers": { "href": "/api/v1/classes/{id}/teachers" },
         }
     }
 }
 
 Get the details of a particular Class.
-GET /classes/{id}
+GET /api/v1/classes/{id}
 < 200
 < Content-Type: application/json
 {
@@ -890,15 +980,16 @@ GET /classes/{id}
         "grade": "2",
         "location": "Room 305",
         "createdDate": "2012-08-17T14:56:43Z",
-        "ownerId": "CL012341",
+        "classCode": "CL012341",
+        "ownerId": null,
         "partnerId": null,
         "_links":
         {
-            "school": { "href": "/schools/{school-id}" },
-            "product": { "href": "/products/{product-id}" },
-            "self": { "href": "/classes/{id}" },
-            "students": { "href": "/classes/{id}/students" },
-            "teachers": { "href": "/classes/{id}/teachers" },
+            "school": { "href": "/api/v1/schools/{school-id}" },
+            "product": { "href": "/api/v1/products/{product-id}" },
+            "self": { "href": "/api/v1/classes/{id}" },
+            "students": { "href": "/api/v1/classes/{id}/students" },
+            "teachers": { "href": "/api/v1/classes/{id}/teachers" },
         }
     }
 }
@@ -908,7 +999,7 @@ Update a particular class resource.
 When updating the name, classCode and location values can be changed.  A class's school and product references cannot be modified after it had been created.
 
 Read-only properties will be ignored.
-PUT /classes/{id}
+PUT /api/v1/classes/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -917,15 +1008,16 @@ PUT /classes/{id}
     "grade": "1",
     "location": "Room 212",
     "createdDate": "2012-11-29T14:56:43Z",
-    "ownerId": "CL012341",
+    "classCode": "CL012341",
+    "ownerId": null,
     "partnerId": "P0579",
     "_links":
     {
-        "school": { "href": "/schools/{school-id}" },
-        "product": { "href": "/products/{product-id}" }
-        "self": { "href": "/classes/{id}" },
-        "students": { "href": "/classes/{id}/students" },
-        "teachers": { "href": "/classes/{id}/teachers" },
+        "school": { "href": "/api/v1/schools/{school-id}" },
+        "product": { "href": "/api/v1/products/{product-id}" }
+        "self": { "href": "/api/v1/classes/{id}" },
+        "students": { "href": "/api/v1/classes/{id}/students" },
+        "teachers": { "href": "/api/v1/classes/{id}/teachers" },
     }
 }
 < 200
@@ -943,21 +1035,22 @@ PUT /classes/{id}
         "grade": "1",
         "location": "Room 212",
         "createdDate": "2012-11-29T14:56:43Z",
-        "ownerId": "CL012341",
+        "classCode": "CL012341",
+        "ownerId": null,
         "partnerId": "P0579",
         "_links":
         {
-            "school": { "href": "/schools/{school-id}" },
-            "product": { "href": "/products/{product-id}" }
-            "self": { "href": "/classes/{id}" },
-            "students": { "href": "/classes/{id}/students" },
-            "teachers": { "href": "/classes/{id}/teachers" },
+            "school": { "href": "/api/v1/schools/{school-id}" },
+            "product": { "href": "/api/v1/products/{product-id}" }
+            "self": { "href": "/api/v1/classes/{id}" },
+            "students": { "href": "/api/v1/classes/{id}/students" },
+            "teachers": { "href": "/api/v1/classes/{id}/teachers" },
         }
     }
 }
 
 Delete a particular class.
-DELETE /classes/{id}
+DELETE /api/v1/classes/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -988,7 +1081,7 @@ The following is a section of resources related to i-Ready Class/Student relatio
 --
 
 Retrieve the students assigned to a particular class.
-GET /classes/{id}/students{?limit,offset}
+GET /api/v1/classes/{id}/students{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1003,26 +1096,30 @@ GET /classes/{id}/students{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/classes/{id}/students?limit=2"}
-            "next": { "href": "/classes/{id}/students?limit=2&offset=2"}
+            "self": { "href": "/api/v1/classes/{id}/students?limit=2"}
+            "next": { "href": "/api/v1/classes/{id}/students?limit=2&offset=2"}
         },
         "items": [
             {
                 "id": "{first-relationship-id}",
                 "createdDate": "2012-12-03T16:02:43Z",
+                "ownerId": null,
+                "partnerId": null,
                 "_links": {
-                    "self": { "href": "/classes/{id}/students/{first-relationship-id}"}
-                    "class": { "href": "/classes/{id}"}
-                    "student": { "href": "/students/{first-class-id}"}
+                    "self": { "href": "/api/v1/classes/{id}/students/{first-relationship-id}"}
+                    "class": { "href": "/api/v1/classes/{id}"}
+                    "student": { "href": "/api/v1/students/{first-class-id}"}
                 }
             },
             {
                 "id": "{second-relationship-id}",
                 "createdDate": "2012-12-03T16:02:43Z",
+                "ownerId": null,
+                "partnerId": null,
                 "_links": {
-                    "self": { "href": "/classes/{id}/students/{second-relationship-id}"}
-                    "class": { "href": "/classes/{id}"}
-                    "student": { "href": "/students/{second-class-id}"}
+                    "self": { "href": "/api/v1/classes/{id}/students/{second-relationship-id}"}
+                    "class": { "href": "/api/v1/classes/{id}"}
+                    "student": { "href": "/api/v1/students/{second-class-id}"}
                 }
             }
         ]
@@ -1030,16 +1127,18 @@ GET /classes/{id}/students{?limit,offset}
 }
 
 Create a new class/student relationship.
-POST /classes/{id}/students
+POST /api/v1/classes/{id}/students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
     "id": null,
     "createdDate": null,
+    "ownerId": null,
+    "partnerId": null,
     "_links": {
         "self": null
-        "class": { "href": "/classes/{id}"}
-        "student": { "href": "/students/{class-id}"}
+        "class": { "href": "/api/v1/classes/{id}"}
+        "student": { "href": "/api/v1/students/{class-id}"}
     }
 }
 < 200
@@ -1054,16 +1153,18 @@ POST /classes/{id}/students
     "data": {
         "id": "{relationship-id}",
         "createdDate": "2012-12-03T16:02:43Z",
+        "ownerId": null,
+        "partnerId": null,
         "_links": {
-            "self": { "href": "/classes/{id}/students/{relationship-id}"}
-            "class": { "href": "/classes/{id}"}
-            "student": { "href": "/students/{class-id}"}
+            "self": { "href": "/api/v1/classes/{id}/students/{relationship-id}"}
+            "class": { "href": "/api/v1/classes/{id}"}
+            "student": { "href": "/api/v1/students/{class-id}"}
         }
     }
 }
 
 Retrieve a particular class/student relationship.
-GET /classes/{id}/students/{relationship-id}
+GET /api/v1/classes/{id}/students/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1077,16 +1178,18 @@ GET /classes/{id}/students/{relationship-id}
     "data":{
         "id": "{relationship-id}",
         "createdDate": "2012-12-03T16:02:43Z",
+        "ownerId": null,
+        "partnerId": null,
         "_links": {
-            "self": { "href": "/classes/{id}/students/{relationship-id}"}
-            "class": { "href": "/classes/{id}"}
-            "student": { "href": "/students/{class-id}"}
+            "self": { "href": "/api/v1/classes/{id}/students/{relationship-id}"}
+            "class": { "href": "/api/v1/classes/{id}"}
+            "student": { "href": "/api/v1/students/{class-id}"}
         }
     }
 }
 
 Updating of class/student relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
-PUT /classes/{id}/students/{relationship-id}
+PUT /api/v1/classes/{id}/students/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
 < Content-Type: application/json
@@ -1100,7 +1203,7 @@ PUT /classes/{id}/students/{relationship-id}
 }
 
 Delete a particular class/student relationship.
-DELETE /classes/{id}/students/{relationship-id}
+DELETE /api/v1/classes/{id}/students/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1130,7 +1233,7 @@ The following is a section of resources related to i-Ready Class/Teacher relatio
 
 --
 Retrieve the teachers assigned to a particular class.
-GET /classes/{id}/teachers{?limit,offset}
+GET /api/v1/classes/{id}/teachers{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1145,26 +1248,30 @@ GET /classes/{id}/teachers{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/classes/{id}/teachers?limit=2"}
-            "next": { "href": "/classes/{id}/teachers?limit=2&offset=2"}
+            "self": { "href": "/api/v1/classes/{id}/teachers?limit=2"}
+            "next": { "href": "/api/v1/classes/{id}/teachers?limit=2&offset=2"}
         },
         "items": [
             {
                 "id": "{first-relationship-id}",
                 "createdDate": "2012-12-03T16:02:43Z",
+                "ownerId": null,
+                "partnerId": null,
                 "_links": {
-                    "self": { "href": "/classes/{id}/teachers/{first-relationship-id}"}
-                    "class": { "href": "/classes/{id}"}
-                    "teacher": { "href": "/teachers/{first-class-id}"}
+                    "self": { "href": "/api/v1/classes/{id}/teachers/{first-relationship-id}"}
+                    "class": { "href": "/api/v1/classes/{id}"}
+                    "teacher": { "href": "/api/v1/teachers/{first-class-id}"}
                 }
             },
             {
                 "id": "{second-relationship-id}",
                 "createdDate": "2012-12-03T16:02:43Z",
+                "ownerId": null,
+                "partnerId": null,
                 "_links": {
-                    "self": { "href": "/classes/{id}/teachers/{second-relationship-id}"}
-                    "class": { "href": "/classes/{id}"}
-                    "teacher": { "href": "/teachers/{second-class-id}"}
+                    "self": { "href": "/api/v1/classes/{id}/teachers/{second-relationship-id}"}
+                    "class": { "href": "/api/v1/classes/{id}"}
+                    "teacher": { "href": "/api/v1/teachers/{second-class-id}"}
                 }
             }
         ]
@@ -1172,16 +1279,18 @@ GET /classes/{id}/teachers{?limit,offset}
 }
 
 Create a new class/teacher relationship.
-POST /classes/{id}/teachers
+POST /api/v1/classes/{id}/teachers
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
     "id": null,
     "createdDate": null,
+    "ownerId": null,
+    "partnerId": null,
     "_links": {
         "self": null
-        "class": { "href": "/classes/{id}"}
-        "teacher": { "href": "/teachers/{class-id}"}
+        "class": { "href": "/api/v1/classes/{id}"}
+        "teacher": { "href": "/api/v1/teachers/{class-id}"}
     }
 }
 < 200
@@ -1196,16 +1305,18 @@ POST /classes/{id}/teachers
     "data": {
         "id": "{relationship-id}",
         "createdDate": "2012-12-03T16:02:43Z",
+        "ownerId": null,
+        "partnerId": null,
         "_links": {
-            "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
-            "class": { "href": "/classes/{id}"}
-            "teacher": { "href": "/teachers/{class-id}"}
+            "self": { "href": "/api/v1/classes/{id}/teachers/{relationship-id}"}
+            "class": { "href": "/api/v1/classes/{id}"}
+            "teacher": { "href": "/api/v1/teachers/{class-id}"}
         }
     }
 }
 
 Retrieve a particular class/teacher relationship.
-GET /classes/{id}/teachers/{relationship-id}
+GET /api/v1/classes/{id}/teachers/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1219,16 +1330,18 @@ GET /classes/{id}/teachers/{relationship-id}
     "data":{
         "id": "{relationship-id}",
         "createdDate": "2012-12-03T16:02:43Z",
+        "ownerId": null,
+        "partnerId": null,
         "_links": {
-            "self": { "href": "/classes/{id}/teachers/{relationship-id}"}
-            "class": { "href": "/classes/{id}"}
-            "teacher": { "href": "/teachers/{class-id}"}
+            "self": { "href": "/api/v1/classes/{id}/teachers/{relationship-id}"}
+            "class": { "href": "/api/v1/classes/{id}"}
+            "teacher": { "href": "/api/v1/teachers/{class-id}"}
         }
     }
 }
 
 Updating of class/teacher relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
-PUT /classes/{id}/teachers/{relationship-id}
+PUT /api/v1/classes/{id}/teachers/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
 < Content-Type: application/json
@@ -1242,7 +1355,7 @@ PUT /classes/{id}/teachers/{relationship-id}
 }
 
 Delete a particular class/teacher relationship.
-DELETE /classes/{id}/teachers/{relationship-id}
+DELETE /api/v1/classes/{id}/teachers/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1277,21 +1390,23 @@ Additionally the student's have a studentNumber that must be set.  The studentNu
 >|**gender**|string|||yes|null &#124; male &#124; female|
 >|**gradeLevel**|int|||no|0-12|
 >|**id**|string|globally|read-only|no|string, length 32|
+>|**lastLoginDate**|date||read-only|yes|null &#124; yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
 >|**lastName**|string|||no|string, length 50|
 >|**mathDevelopmentalLevel**|int|||yes|null &#124; 0-12|
 >|**migrant**|string|||yes|null &#124; true &#124; false|
 >|**ownerId**|string|within district||yes|null &#124; string, length 64|
 >|**partnerId**|string|within district||yes|null &#124; string, length 64|
->|**password**|string||*write-only*|no|string, length 4-24|
+>|**password**|string||*write-only*|no|string, length 4-24 - setting null on update leaves the password unchanged|
 >|**specialEducation**|string|||yes|null &#124; true &#124; false|
->|**studentNumber**|string|within district||no|string, length 50|
+>|**studentId**|string|within district||no|string, length 50|
 >|**userName**|string|within state||no|string, length 50|
 >|_**classes**_|link||read-only|no||
 >|_**school**_|link||create-time|no||
 >|_**self**_|link|globally|read-only|no||
+
 --
 Get all of the students related to an i-Ready account.
-GET /students{?limit,offset}
+GET /api/v1/students{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1306,8 +1421,8 @@ GET /students{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/students?limit=2&offset=0"}
-            "next": { "href": "/students?limit=2&offset=2"}
+            "self": { "href": "/api/v1/students?limit=2&offset=0"}
+            "next": { "href": "/api/v1/students?limit=2&offset=2"}
         },
         "items": [
             {
@@ -1315,9 +1430,11 @@ GET /students{?limit,offset}
                 "firstName": "Rick",
                 "lastName": "Campbell",
                 "userName": "di-rcampbell@oh",
-                "externalId": "e250345c39b7",
+                "studentId": "e250345c39b7",
+                "ownerId": null,
+                "partnerId": null,
                 "dateOfBirth": null,
-                "grade": "5",
+                "gradeLevel": "5",
                 "mathDevelopmentalLevel": null,
                 "elaDevelopmentalLevel": null,
                 "englishLanguageLearner": "false",
@@ -1327,11 +1444,12 @@ GET /students{?limit,offset}
                 "gender": null,
                 "ethnicityId": "05",
                 "createdDate": "2012-11-29T14:56:43Z",
+                "lastLoginDate": "2013-02-13T14:26:17Z",
                 "_links":
                 {
-                   "school": { "href": "/schools/{first-school-id}" },
-                   "self": { "href": "/students/{first-student-id}" },
-                   "classes": { "href": "/students/{first-student-id}/classes" }
+                   "school": { "href": "/api/v1/schools/{first-school-id}" },
+                   "self": { "href": "/api/v1/students/{first-student-id}" },
+                   "classes": { "href": "/api/v1/students/{first-student-id}/classes" }
                 }
             },
             {
@@ -1339,9 +1457,11 @@ GET /students{?limit,offset}
                 "firstName": "Hosea",
                 "lastName": "Alvarez",
                 "userName": "di-halvarez@oh",
-                "externalId": "2d7b7295efd3",
+                "studentId": "2d7b7295efd3",
+                "ownerId": null,
+                "partnerId": null,
                 "dateOfBirth": null,
-                "grade": "2",
+                "gradeLevel": "2",
                 "mathDevelopmentalLevel": null,
                 "elaDevelopmentalLevel": null,
                 "englishLanguageLearner": "false",
@@ -1351,11 +1471,12 @@ GET /students{?limit,offset}
                 "gender": null,
                 "ethnicityId": "01",
                 "createdDate": "2012-11-29T14:56:43Z",
+                "lastLoginDate": null,
                 "_links":
                 {
-                   "school": { "href": "/schools/{second-school-id}" },
-                   "self": { "href": "/students/{second-student-id}" },
-                   "classes": { "href": "/students/{second-student-id}/classes" }
+                   "school": { "href": "/api/v1/schools/{second-school-id}" },
+                   "self": { "href": "/api/v1/students/{second-student-id}" },
+                   "classes": { "href": "/api/v1/students/{second-student-id}/classes" }
                 }
            }
        ]
@@ -1365,7 +1486,7 @@ GET /students{?limit,offset}
 Create a new Student.
 
 Read-only properties will be ignored.
-POST /students
+POST /api/v1/students
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1373,9 +1494,11 @@ POST /students
     "firstName": "Hosea",
     "lastName": "Alvarez",
     "userName": "di-halvarez@oh",
-    "externalId": "2d7b7295efd3",
+    "studentId": "2d7b7295efd3",
+    "ownerId": null,
+    "partnerId": null,
     "dateOfBirth": null,
-    "grade": "2",
+    "gradeLevel": "2",
     "mathDevelopmentalLevel": null,
     "elaDevelopmentalLevel": null,
     "englishLanguageLearner": "false",
@@ -1384,10 +1507,12 @@ POST /students
     "migrant": "false",
     "gender": null,
     "ethnicityId": "01",
+    "password": "secret",
     "createdDate": null,
+    "lastLoginDate": null,
     "_links":
     {
-        "school": { "href": "/schools/{school-id}" },
+        "school": { "href": "/api/v1/schools/{school-id}" },
         "self": null,
         "classes": null
     }
@@ -1406,9 +1531,11 @@ POST /students
         "firstName": "Hosea",
         "lastName": "Alvarez",
         "userName": "di-halvarez@oh",
-        "externalId": "2d7b7295efd3",
+        "studentId": "2d7b7295efd3",
+        "ownerId": null,
+        "partnerId": null,
         "dateOfBirth": null,
-        "grade": "2",
+        "gradeLevel": "2",
         "mathDevelopmentalLevel": null,
         "elaDevelopmentalLevel": null,
         "englishLanguageLearner": "false",
@@ -1418,17 +1545,18 @@ POST /students
         "gender": null,
         "ethnicityId": "01",
         "createdDate": "2012-11-31T10:32:43Z",
+        "lastLoginDate": null,
         "_links":
         {
-           "school": { "href": "/schools/{school-id}" },
-           "self": { "href": "/students/{id}" },
-           "classes": { "href": "/students/{id}/classes" }
+           "school": { "href": "/api/v1/schools/{school-id}" },
+           "self": { "href": "/api/v1/students/{id}" },
+           "classes": { "href": "/api/v1/students/{id}/classes" }
         }
     }
 }
 
 Get the details of a particular Student.
-GET /students/{id}
+GET /api/v1/students/{id}
 < 200
 < Content-Type: application/json
 {
@@ -1443,9 +1571,11 @@ GET /students/{id}
         "firstName": "Hosea",
         "lastName": "Alvarez",
         "userName": "di-halvarez@oh",
-        "externalId": "2d7b7295efd3",
+        "studentId": "2d7b7295efd3",
+        "ownerId": null,
+        "partnerId": null,
         "dateOfBirth": null,
-        "grade": "2",
+        "gradeLevel": "2",
         "mathDevelopmentalLevel": null,
         "elaDevelopmentalLevel": null,
         "englishLanguageLearner": "false",
@@ -1455,11 +1585,12 @@ GET /students/{id}
         "gender": null,
         "ethnicityId": "01",
         "createdDate": "2012-11-29T14:56:43Z",
+        "lastLoginDate": null,
         "_links":
         {
-            "school": { "href": "/schools/{school-id}" },
-            "self": { "href": "/students/{id}" },
-            "classes": { "href": "/students/{id}/classes" }
+            "school": { "href": "/api/v1/schools/{school-id}" },
+            "self": { "href": "/api/v1/students/{id}" },
+            "classes": { "href": "/api/v1/students/{id}/classes" }
         }
     }
 }
@@ -1467,7 +1598,7 @@ GET /students/{id}
 Update a particular student resource.
 
 Read-only properties will be ignored.
-PUT /students/{id}
+PUT /api/v1/students/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1475,9 +1606,11 @@ PUT /students/{id}
     "firstName": "Hosea",
     "lastName": "Alvarez",
     "userName": "di-halvarez@oh",
-    "externalId": "2d7b7295efd3",
+    "studentId": "2d7b7295efd3",
+    "ownerId": null,
+    "partnerId": null,
     "dateOfBirth": null,
-    "grade": "2",
+    "gradeLevel": "2",
     "mathDevelopmentalLevel": null,
     "elaDevelopmentalLevel": null,
     "englishLanguageLearner": "false",
@@ -1486,12 +1619,14 @@ PUT /students/{id}
     "migrant": "false",
     "gender": null,
     "ethnicityId": "01",
+    "password": "newSecret",
     "createdDate": "2012-11-29T14:56:43Z",
+    "lastLoginDate": null,
     "_links":
     {
-        "school": { "href": "/schools/{school-id}" },
-        "self": { "href": "/students/{id}" },
-        "classes": { "href": "/students/{id}/classes" }
+        "school": { "href": "/api/v1/schools/{school-id}" },
+        "self": { "href": "/api/v1/students/{id}" },
+        "classes": { "href": "/api/v1/students/{id}/classes" }
     }
 }
 < 200
@@ -1508,9 +1643,11 @@ PUT /students/{id}
         "firstName": "Hosea",
         "lastName": "Alvarez",
         "userName": "di-halvarez@oh",
-        "externalId": "2d7b7295efd3",
+        "studentId": "2d7b7295efd3",
+        "ownerId": null,
+        "partnerId": null,
         "dateOfBirth": null,
-        "grade": "2",
+        "gradeLevel": "2",
         "mathDevelopmentalLevel": null,
         "elaDevelopmentalLevel": null,
         "englishLanguageLearner": "false",
@@ -1520,26 +1657,27 @@ PUT /students/{id}
         "gender": null,
         "ethnicityId": "01",
         "createdDate": "2012-12-03T16:02:43Z",
+        "lastLoginDate": null,
         "_links":
         {
-            "school": { "href": "/schools/{school-id}" },
-            "self": { "href": "/students/{id}" },
-            "classes": { "href": "/students/{id}/classes" }
+            "school": { "href": "/api/v1/schools/{school-id}" },
+            "self": { "href": "/api/v1/students/{id}" },
+            "classes": { "href": "/api/v1/students/{id}/classes" }
         }
     }
 }
 
-Deleting of student resources is not supported.
-DELETE /students/{id}
+Deleting of student resources is supported only for student accounts that have not been used yet and are not assigned to any classes.  Student accounts that have not been used will have lastLoginDate set to null.
+DELETE /api/v1/students/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
 < Content-Type: application/json
 {
     "status": {
-        "httpCode": "405",
-        "errorCode": "C10004",
-        "userMessage": "Operation not supported.",
-        "detailsMessage": "Student resources can not be deleted."
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
     }
 }
 
@@ -1558,12 +1696,12 @@ The following is a section of resources related to i-Ready Student/Class relatio
 >|_**class**_|link||create-time|no||
 >|_**self**_|link|globally|read-only|no||
 
-> Note: The relationship resources within the /students/{student-id}/classes collection will typically be stored at the path /classes/{class-id}/students/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
+> Note: The relationship resources within the /api/v1/students/{student-id}/classes collection will typically be stored at the path /api/v1/classes/{class-id}/students/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
 
 > Creation of new relationships can be done via a POST to the students/{student-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/students/{relationship-id}.
 --
 Retrieve the classes assigned to a particular student.
-GET /students/{id}/classes{?limit,offset}
+GET /api/v1/students/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1578,26 +1716,30 @@ GET /students/{id}/classes{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/students/{id}/classes?limit=2"}
-            "next": { "href": "/students/{id}/classes?limit=2&offset=2"}
+            "self": { "href": "/api/v1/students/{id}/classes?limit=2"}
+            "next": { "href": "/api/v1/students/{id}/classes?limit=2&offset=2"}
         },
         "items": [
             {
                 "id": "{first-relationship-id}",
+                "ownerId": null,
+                "partnerId": null,
                 "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
-                    "self": { "href": "/classes/{first-relationship-id}/students/{id}"}
-                    "student": { "href": "/students/{id}"}
-                    "class": { "href": "/classes/{first-class-id}"}
+                    "self": { "href": "/api/v1/classes/{first-relationship-id}/students/{id}"}
+                    "student": { "href": "/api/v1/students/{id}"}
+                    "class": { "href": "/api/v1/classes/{first-class-id}"}
                 }
             },
             {
                 "id": "{second-relationship-id}",
+                "ownerId": null,
+                "partnerId": null,
                 "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "classes/{second-relationship-id}/students/{id}/"}
-                    "student": { "href": "/students/{id}"}
-                    "class": { "href": "/classes/{second-class-id}"}
+                    "student": { "href": "/api/v1/students/{id}"}
+                    "class": { "href": "/api/v1/classes/{second-class-id}"}
                 }
             }
         ]
@@ -1605,16 +1747,18 @@ GET /students/{id}/classes{?limit,offset}
 }
 
 Creation of new student/class relationship.
-POST /students/{id}/classes
+POST /api/v1/students/{id}/classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
     "id": null,
+    "ownerId": null,
+    "partnerId": null,
+    "createdDate": null,
     "_links": {
         "self": null
-        "createdDate": null,
-        "student": { "href": "/students/{id}"}
-        "class": { "href": "/classes/{class-id}"}
+        "student": { "href": "/api/v1/students/{id}"}
+        "class": { "href": "/api/v1/classes/{class-id}"}
     }
 }
 < 200
@@ -1628,11 +1772,13 @@ POST /students/{id}/classes
     },
     "data": {
         "id": "{relationship-id}",
+        "ownerId": null,
+        "partnerId": null,
         "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
-            "self": { "href": "/classes/{relationship-id}/students/{id}"}
-            "student": { "href": "/students/{id}"}
-            "class": { "href": "/classes/{class-id}"}
+            "self": { "href": "/api/v1/classes/{relationship-id}/students/{id}"}
+            "student": { "href": "/api/v1/students/{id}"}
+            "class": { "href": "/api/v1/classes/{class-id}"}
         }
     }
 }
@@ -1640,7 +1786,7 @@ POST /students/{id}/classes
 Retrieve a particular student/class relationship.
 
 This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use. 
-GET /students/{id}/classes/{relationship-id}
+GET /api/v1/students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -1656,7 +1802,7 @@ GET /students/{id}/classes/{relationship-id}
 Updating of student/class relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
 
 This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
-PUT /students/{id}/classes/{relationship-id}
+PUT /api/v1/students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -1672,7 +1818,7 @@ PUT /students/{id}/classes/{relationship-id}
 Delete a particular student/class relationship.
 
 This is not the proper path to access student/class relationship objects.  See the [Class/Student Resources](http://docs.cainc.apiary.io/#classstudent resources) section for the proper path to use.
-DELETE /students/{id}/classes/{relationship-id}
+DELETE /api/v1/students/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -1699,10 +1845,11 @@ Teachers are identified by their userName. The teacher's userName must by unique
 >|**emailAddress**|string|||yes|null &#124; string, length 100<BR/>requires a properly formated e-mail address|
 >|**firstName**|string|||no|string, length 50|
 >|**id**|string|globally|read-only|no|string, length 32|
+>|**lastLoginDate**|date||read-only|yes|null &#124; yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
 >|**lastName**|string|||no|string, length 50|
 >|**ownerId**|string|within district||yes|null &#124; string, length 64|
 >|**partnerId**|string|within district||yes|null &#124; string, length 64|
->|**password**|string||*write-only*|no|string, length 4 - 24|
+>|**password**|string||*write-only*|no|string, length 4-24 - setting null on update leaves the password unchanged|
 >|**userName**|string|within state||no|string, length 50|
 >|_**classes**_|link||read-only|no||
 >|_**school**_|link||create-time|no||
@@ -1710,7 +1857,7 @@ Teachers are identified by their userName. The teacher's userName must by unique
 
 --
 Get all of the teachers related to an i-Ready account.
-GET /teachers{?limit,offset}
+GET /api/v1/teachers{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1725,8 +1872,8 @@ GET /teachers{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/teachers?limit=2&offset=0"}
-            "next": { "href": "/teachers?limit=2&offset=2"}
+            "self": { "href": "/api/v1/teachers?limit=2&offset=0"}
+            "next": { "href": "/api/v1/teachers?limit=2&offset=2"}
         },
         "items": [
             {
@@ -1734,14 +1881,16 @@ GET /teachers{?limit,offset}
                 "firstName": "Janet",
                 "lastName": "Benjamin",
                 "userName": "DI-JBenjamin",
-                "externalId": null,
+                "ownerId": null,
+                "partnerId": null,
                 "emailAddress": null,
                 "createdDate": "2012-11-29T14:56:43Z",
+                "lastLoginDate": "2013-01-29T09:56:43Z",
                 "_links":
                 {
-                   "school": { "href": "/schools/{first-school-id}" },
-                   "self": { "href": "/teachers/{first-teacher-id}" },
-                   "classes": { "href": "/teachers/{first-teacher-id}/classes" }
+                   "school": { "href": "/api/v1/schools/{first-school-id}" },
+                   "self": { "href": "/api/v1/teachers/{first-teacher-id}" },
+                   "classes": { "href": "/api/v1/teachers/{first-teacher-id}/classes" }
                 }
             },
             {
@@ -1749,14 +1898,16 @@ GET /teachers{?limit,offset}
                 "firstName": "Michael",
                 "lastName": "Williams",
                 "userName": "DI-MWilliams",
-                "externalId": null,
+                "ownerId": null,
+                "partnerId": null,
                 "emailAddress": null,
                 "createdDate": "2012-11-29T14:56:43Z",
+                "lastLoginDate": null,
                 "_links":
                 {
-                   "school": { "href": "/schools/{second-school-id}" },
-                   "self": { "href": "/teachers/{second-teacher-id}" },
-                   "classes": { "href": "/teachers/{second-teacher-id}/classes" }
+                   "school": { "href": "/api/v1/schools/{second-school-id}" },
+                   "self": { "href": "/api/v1/teachers/{second-teacher-id}" },
+                   "classes": { "href": "/api/v1/teachers/{second-teacher-id}/classes" }
                 }
             }
        ]
@@ -1766,7 +1917,7 @@ GET /teachers{?limit,offset}
 Create a new Teacher.
 
 Read-only properties will be ignored.
-POST /teachers
+POST /api/v1/teachers
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1774,12 +1925,15 @@ POST /teachers
     "firstName": "Janet",
     "lastName": "Benjamin",
     "userName": "DI-JBenjamin",
-    "externalId": null,
+    "ownerId": null,
+    "partnerId": null,
     "emailAddress": null,
+    "password": "myPassword",
     "createdDate": null,
+    "lastLoginDate": "2013-01-29T09:56:43Z",
     "_links":
     {
-       "school": { "href": "/schools/{school-id}" },
+       "school": { "href": "/api/v1/schools/{school-id}" },
        "self": null,
        "classes": null
     }
@@ -1798,20 +1952,22 @@ POST /teachers
         "firstName": "Janet",
         "lastName": "Benjamin",
         "userName": "DI-JBenjamin",
-        "externalId": null,
+        "ownerId": null,
+        "partnerId": null,
         "emailAddress": null,
         "createdDate": "2012-11-29T14:56:43Z",
+        "lastLoginDate": "2013-01-29T09:56:43Z",
         "_links":
         {
-           "school": { "href": "/schools/{school-id}" },
-           "self": { "href": "/teachers/{id}" },
-           "classes": { "href": "/teachers/{id}/classes" }
+           "school": { "href": "/api/v1/schools/{school-id}" },
+           "self": { "href": "/api/v1/teachers/{id}" },
+           "classes": { "href": "/api/v1/teachers/{id}/classes" }
         }
     }
 }
 
 Get the details of a particular Teacher.
-GET /teachers/{id}
+GET /api/v1/teachers/{id}
 < 200
 < Content-Type: application/json
 {
@@ -1826,14 +1982,16 @@ GET /teachers/{id}
         "firstName": "Janet",
         "lastName": "Benjamin",
         "userName": "DI-JBenjamin",
-        "externalId": null,
+        "ownerId": null,
+        "partnerId": null,
         "emailAddress": null,
         "createdDate": "2012-11-29T14:56:43Z",
+        "lastLoginDate": "2013-01-29T09:56:43Z",
         "_links":
         {
-           "school": { "href": "/schools/{school-id}" },
-           "self": { "href": "/teachers/{id}" },
-           "classes": { "href": "/teachers/{id}/classes" }
+           "school": { "href": "/api/v1/schools/{school-id}" },
+           "self": { "href": "/api/v1/teachers/{id}" },
+           "classes": { "href": "/api/v1/teachers/{id}/classes" }
         }
     }
 }
@@ -1841,7 +1999,7 @@ GET /teachers/{id}
 Update a particular teacher resource.
 
 Read-only properties will be ignored.
-PUT /teachers/{id}
+PUT /api/v1/teachers/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
@@ -1849,14 +2007,17 @@ PUT /teachers/{id}
     "firstName": "Janet",
     "lastName": "Benjamin",
     "userName": "DI-JBenjamin",
-    "externalId": null,
+    "ownerId": null,
+    "partnerId": null,
     "emailAddress": null,
+    "password": "myNewPassword",
     "createdDate": "2012-11-29T14:56:43Z",
+    "lastLoginDate": "2013-01-29T09:56:43Z",
     "_links":
     {
-       "school": { "href": "/schools/{school-id}" },
-       "self": { "href": "/teachers/{id}" },
-       "classes": { "href": "/teachers/{id}/classes" }
+       "school": { "href": "/api/v1/schools/{school-id}" },
+       "self": { "href": "/api/v1/teachers/{id}" },
+       "classes": { "href": "/api/v1/teachers/{id}/classes" }
     }
 }
 < 200
@@ -1873,29 +2034,31 @@ PUT /teachers/{id}
         "firstName": "Janet",
         "lastName": "Benjamin",
         "userName": "DI-JBenjamin",
-        "externalId": null,
+        "ownerId": null,
+        "partnerId": null,
         "emailAddress": null,
         "createdDate": "2012-11-29T14:56:43Z",
+        "lastLoginDate": "2013-01-29T09:56:43Z",
         "_links":
         {
-           "school": { "href": "/schools/{school-id}" },
-           "self": { "href": "/teachers/{id}" },
-           "classes": { "href": "/teachers/{id}/classes" }
+           "school": { "href": "/api/v1/schools/{school-id}" },
+           "self": { "href": "/api/v1/teachers/{id}" },
+           "classes": { "href": "/api/v1/teachers/{id}/classes" }
         }
     }
 }
 
-Deleting of teacher resources is not supported.
-DELETE /teachers/{id}
+Deleting of teacher resources is supported only for teacher accounts that have not been used yet and are not assigned to any classes.  Teacher accounts that have not been used will have lastLoginDate set to null.
+DELETE /api/v1/teachers/{id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
-< 405
+< 200
 < Content-Type: application/json
 {
     "status": {
-        "httpCode": "405",
-        "errorCode": "C10004",
-        "userMessage": "Operation not supported.",
-        "detailsMessage": "Teacher resources can not be deleted."
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
     }
 }
 
@@ -1914,12 +2077,12 @@ The following is a section of resources related to i-Ready Teacher/Class relatio
 >|_**class**_|link||create-time|no||
 >|_**self**_|link|globally|read-only|no||
 
-> Note: The relationship resources within the /teachers/{teacher-id}/classes collection will typically be stored at the path /classes/{class-id}/teachers/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
+> Note: The relationship resources within the /api/v1/teachers/{teacher-id}/classes collection will typically be stored at the path /api/v1/classes/{class-id}/teachers/{relationship-id}.  For accurate consumption of a resource the 'self' link should be utilized to directly access the relationship resource.
 
 > Creation of new relationships can be done via a POST to the teachers/{teacher-id}/classes collection however the new relationship item created will have a URI fo the form classes/{class-id}/teachers/{relationship-id}.
 --
 Retrieve the classes assigned to a particular teacher.
-GET /teachers/{id}/classes{?limit,offset}
+GET /api/v1/teachers/{id}/classes{?limit,offset}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
 < Content-Type: application/json
@@ -1934,26 +2097,30 @@ GET /teachers/{id}/classes{?limit,offset}
         "limit": 2,
         "offset": 0,
         "_links": {
-            "self": { "href": "/teachers/{id}/classes?limit=2"}
-            "next": { "href": "/teachers/{id}/classes?limit=2&offset=2"}
+            "self": { "href": "/api/v1/teachers/{id}/classes?limit=2"}
+            "next": { "href": "/api/v1/teachers/{id}/classes?limit=2&offset=2"}
         },
         "items": [
             {
                 "id": "{first-relationship-id}",
+                "ownerId": null,
+                "partnerId": null,
                 "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
-                    "self": { "href": "/classes/{first-relationship-id}/teachers/{id}"}
-                    "teacher": { "href": "/teachers/{id}"}
-                    "class": { "href": "/classes/{first-class-id}"}
+                    "self": { "href": "/api/v1/classes/{first-relationship-id}/teachers/{id}"}
+                    "teacher": { "href": "/api/v1/teachers/{id}"}
+                    "class": { "href": "/api/v1/classes/{first-class-id}"}
                 }
             },
             {
                 "id": "{second-relationship-id}",
+                "ownerId": null,
+                "partnerId": null,
                 "createdDate": "2012-12-03T16:02:43Z",
                 "_links": {
                     "self": { "href": "classes/{second-relationship-id}/teachers/{id}/"}
-                    "teacher": { "href": "/teachers/{id}"}
-                    "class": { "href": "/classes/{second-class-id}"}
+                    "teacher": { "href": "/api/v1/teachers/{id}"}
+                    "class": { "href": "/api/v1/classes/{second-class-id}"}
                 }
             }
         ]
@@ -1961,16 +2128,18 @@ GET /teachers/{id}/classes{?limit,offset}
 }
 
 Creation of new teacher/class relationship.
-POST /teachers/{id}/classes
+POST /api/v1/teachers/{id}/classes
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 > Content-Type: application/json
 {
     "id": null,
+    "ownerId": null,
+    "partnerId": null,
+    "createdDate": null,
     "_links": {
         "self": null
-        "createdDate": null,
-        "teacher": { "href": "/teachers/{id}"}
-        "class": { "href": "/classes/{class-id}"}
+        "teacher": { "href": "/api/v1/teachers/{id}"}
+        "class": { "href": "/api/v1/classes/{class-id}"}
     }
 }
 < 200
@@ -1984,17 +2153,19 @@ POST /teachers/{id}/classes
     },
     "data": {
         "id": "{relationship-id}",
+        "ownerId": null,
+        "partnerId": null,
         "createdDate": "2012-12-03T16:02:43Z",
         "_links": {
-            "self": { "href": "/classes/{relationship-id}/teachers/{id}"}
-            "teacher": { "href": "/teachers/{id}"}
-            "class": { "href": "/classes/{class-id}"}
+            "self": { "href": "/api/v1/classes/{relationship-id}/teachers/{id}"}
+            "teacher": { "href": "/api/v1/teachers/{id}"}
+            "class": { "href": "/api/v1/classes/{class-id}"}
         }
     }
 }
 
 This is not the proper path to access teacher/class relationship objects.  To retrieve teacher/class relationship see the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use. 
-GET /teachers/{id}/classes/{relationship-id}
+GET /api/v1/teachers/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -2010,7 +2181,7 @@ GET /teachers/{id}/classes/{relationship-id}
 Updating of teacher/class relationships is not supported.  If a teacher changes classes the old relationship should be deleted and a new one added.
 
 This is not the proper path to access teacher/class relationship objects.  See the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
-PUT /teachers/{id}/classes/{relationship-id}
+PUT /api/v1/teachers/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -2024,7 +2195,7 @@ PUT /teachers/{id}/classes/{relationship-id}
 }
 
 This is not the proper path to access teacher/class relationship objects.  To delete teacher/class relationship see the [Class/Teacher Resources](http://docs.cainc.apiary.io/#classteacher resources) section for the proper path to use.
-DELETE /teachers/{id}/classes/{relationship-id}
+DELETE /api/v1/teachers/{id}/classes/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 404
 < Content-Type: application/json
@@ -2034,5 +2205,228 @@ DELETE /teachers/{id}/classes/{relationship-id}
         "errorCode": "C10003",
         "userMessage": "The requested resource was not found.",
         "detailsMessage": "No resources are available at this URI."
+    }
+}
+
+--
+Administrator Resources
+The following is a section of resources related to i-Ready Administrator resources.
+
+Administrators are identified by their userName. The administrator's userName must by unique to all users within their distict account's state.
+
+>### Administrator Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**emailAddress**|string|||yes|null &#124; string, length 100<BR/>requires a properly formated e-mail address|
+>|**firstName**|string|||no|string, length 50|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**lastLoginDate**|date||read-only|yes|null &#124; yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**lastName**|string|||no|string, length 50|
+>|**ownerId**|string|within district||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|**password**|string||*write-only*|no|string, length 4-24 - setting null on update leaves the password unchanged|
+>|**userName**|string|within state|read-only|no|string, length 50|
+>|_**school**_|link||create-time|no||
+>|_**self**_|link|globally|read-only|no||
+
+--
+Get all of the administrators related to an i-Ready account.
+GET /api/v1/administrators{?limit,offset}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "limit": 2,
+        "offset": 0,
+        "_links": {
+            "self": { "href": "/api/v1/administrators?limit=2&offset=0"},
+            "next": { "href": "/api/v1/administrators?limit=2&offset=2"}
+        },
+        "items": [
+            {
+                "id": "{first-administrator-id}",
+                "firstName": "Janet",
+                "lastName": "Benjamin",
+                "userName": "DI-JBenjamin",
+                "ownerId": null,
+                "partnerId": null,
+                "emailAddress": null,
+                "createdDate": "2012-11-29T14:56:43Z",
+                "lastLoginDate": "2013-01-29T09:56:43Z",
+                "_links":
+                {
+                   "school": { "href": "/api/v1/schools/{first-school-id}" },
+                   "self": { "href": "/api/v1/administrators/{first-administrator-id}" }
+                }
+            },
+            {
+                "id": "{first-administrator-id}",
+                "firstName": "Michael",
+                "lastName": "Williams",
+                "userName": "DI-MWilliams",
+                "ownerId": null,
+                "partnerId": null,
+                "emailAddress": null,
+                "createdDate": "2012-11-29T14:56:43Z",
+                "lastLoginDate": null,
+                "_links":
+                {
+                   "school": { "href": "/api/v1/schools/{second-school-id}" },
+                   "self": { "href": "/api/v1/administrators/{second-administrator-id}" }
+                }
+            }
+       ]
+    }
+}
+
+Create a new Administrator.
+
+Read-only properties will be ignored.
+POST /api/v1/administrators
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+    "id": null,
+    "firstName": "Janet",
+    "lastName": "Benjamin",
+    "userName": "DI-JBenjamin",
+    "externalId": null,
+    "emailAddress": null,
+    "password": "myAdminPassword",
+    "createdDate": null,
+    "lastLoginDate": "2013-01-29T09:56:43Z",
+    "_links":
+    {
+       "school": { "href": "/api/v1/schools/{school-id}" },
+       "self": null,
+       "administrators": null
+    }
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{id}",
+        "firstName": "Janet",
+        "lastName": "Benjamin",
+        "userName": "DI-JBenjamin",
+        "ownerId": null,
+        "partnerId": null,
+        "emailAddress": null,
+        "createdDate": "2012-11-29T14:56:43Z",
+        "lastLoginDate": "2013-01-29T09:56:43Z",
+        "_links":
+        {
+           "school": { "href": "/api/v1/schools/{school-id}" },
+           "self": { "href": "/api/v1/administrators/{id}" }
+        }
+    }
+}
+
+Get the details of a particular Administrator.
+GET /api/v1/administrators/{id}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{id}",
+        "firstName": "Janet",
+        "lastName": "Benjamin",
+        "userName": "DI-JBenjamin",
+        "ownerId": null,
+        "partnerId": null,
+        "emailAddress": null,
+        "createdDate": "2012-11-29T14:56:43Z",
+        "lastLoginDate": "2013-01-29T09:56:43Z",
+        "_links":
+        {
+           "school": { "href": "/api/v1/schools/{school-id}" },
+           "self": { "href": "/api/v1/administrators/{id}" }
+        }
+    }
+}
+
+Update a particular administrator resource.
+
+Read-only properties will be ignored.
+PUT /api/v1/administrators/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{
+    "id": "{id}",
+    "firstName": "Janet",
+    "lastName": "Benjamin",
+    "userName": "DI-JBenjamin",
+    "ownerId": null,
+    "partnerId": null,
+    "emailAddress": null,
+    "password": "myUpdatedPassword",
+    "createdDate": "2012-11-29T14:56:43Z",
+    "lastLoginDate": "2013-01-29T09:56:43Z",
+    "_links":
+    {
+       "school": { "href": "/api/v1/schools/{school-id}" },
+       "self": { "href": "/api/v1/administrators/{id}" }
+    }
+}
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
+    },
+    "data": {
+        "id": "{id}",
+        "firstName": "Janet",
+        "lastName": "Benjamin",
+        "userName": "DI-JBenjamin",
+        "ownerId": null,
+        "partnerId": null,
+        "emailAddress": null,
+        "createdDate": "2012-11-29T14:56:43Z",
+        "lastLoginDate": "2013-01-29T09:56:43Z",
+        "_links":
+        {
+           "school": { "href": "/api/v1/schools/{school-id}" },
+           "self": { "href": "/api/v1/administrators/{id}" },
+        }
+    }
+}
+
+Deleting of administrator resources is supported only for administrator accounts that have not been used yet.
+Administrator accounts that have not been used will have lastLoginDate set to null.
+DELETE /api/v1/administrators/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorCode": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success"
     }
 }
