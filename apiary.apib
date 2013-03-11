@@ -4,7 +4,7 @@ HOST: https://api.i-Ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.8 - updated 3/7/13*
+*i-Ready API Documentation version 0.8.1 - updated 3/7/13*
 
 ## Authentication  & Authorization
 
@@ -37,6 +37,7 @@ The API supports four type of opertions:
 Query requests, http GET, will retrieve information about the resource identified by the URI.  The request body should be empty.  The request response will return data formatted in to two sections:
 
 - status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
+    - In debug environments the status block will include details about the account being accessed and, if applicable, exception data.
 - data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
 GET /<resource>
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
@@ -45,9 +46,10 @@ GET /<resource>
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": { ... }
 }
@@ -66,9 +68,10 @@ POST /<resource>
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         ...,
@@ -92,9 +95,10 @@ PUT /<resource>
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": { ... }
 }
@@ -107,9 +111,10 @@ DELETE /<resource>
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
 
@@ -133,9 +138,10 @@ GET /<top-level-collection>?limit=10&offset
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 10,
@@ -162,9 +168,10 @@ GET /<top-level-collection>/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
 
@@ -178,9 +185,10 @@ GET /<top-level-collection>/{id}/relationship-collection{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 20,
@@ -208,9 +216,10 @@ GET /<top-level-collection>/{id}/relationship-collection/{relationship-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         ...,
@@ -247,9 +256,10 @@ GET /api/v1/products{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -295,9 +305,10 @@ GET /api/v1/products/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
    "data": {
        "createdDate": "2012-12-03T16:02:43Z",
@@ -337,9 +348,10 @@ GET /api/v1/products/{id}/classes{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -379,9 +391,10 @@ GET /api/v1/products/{id}/classes/{reference-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data":{
         "createdDate": "2012-12-03T16:02:43Z",
@@ -422,9 +435,10 @@ GET /api/v1/schools{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -476,9 +490,10 @@ GET /api/v1/schools/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
    "data": {
         "createdDate": "2012-12-03T16:02:43Z",
@@ -521,9 +536,10 @@ GET /api/v1/schools/{id}/classes{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -563,9 +579,10 @@ GET /api/v1/schools/{id}/classes/{reference-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data":{
         "createdDate": "2012-12-03T16:02:43Z",
@@ -602,9 +619,10 @@ GET /api/v1/schools/{id}/students{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -644,9 +662,10 @@ GET /api/v1/schools/{id}/students/{reference-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data":{
         "createdDate": "2012-12-03T16:02:43Z",
@@ -684,9 +703,10 @@ GET /api/v1/schools/{id}/teachers{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -726,9 +746,10 @@ GET /api/v1/schools/{id}/teachers/{reference-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data":{
         "createdDate": "2012-12-03T16:02:43Z",
@@ -765,9 +786,10 @@ GET /api/v1/schools/{id}/administrators{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -807,9 +829,10 @@ GET /api/v1/schools/{id}/administrators/{reference-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data":{
         "createdDate": "2012-12-03T16:02:43Z",
@@ -855,9 +878,10 @@ GET /api/v1/classes{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -938,9 +962,10 @@ POST /api/v1/classes
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -969,9 +994,10 @@ GET /api/v1/classes/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -1024,9 +1050,10 @@ PUT /api/v1/classes/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -1056,9 +1083,10 @@ DELETE /api/v1/classes/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
 
@@ -1087,9 +1115,10 @@ GET /api/v1/classes/{id}/students{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -1145,9 +1174,10 @@ POST /api/v1/classes/{id}/students
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{relationship-id}",
@@ -1170,9 +1200,10 @@ GET /api/v1/classes/{id}/students/{relationship-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data":{
         "id": "{relationship-id}",
@@ -1195,9 +1226,10 @@ PUT /api/v1/classes/{id}/students/{relationship-id}
 {
     "status": {
         "httpCode": "405",
-        "errorCode": "C10004",
+        "errorId": "C10004",
         "userMessage": "Operation not supported.",
-        "detailsMessage": "Class/Student relationship resources can not be modified."
+        "detailsMessage": "Class/Student relationship resources can not be modified.",
+        "apiVersion": "v1"
     }
 }
 
@@ -1209,9 +1241,10 @@ DELETE /api/v1/classes/{id}/students/{relationship-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
 
@@ -1239,9 +1272,10 @@ GET /api/v1/classes/{id}/teachers{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -1297,9 +1331,10 @@ POST /api/v1/classes/{id}/teachers
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{relationship-id}",
@@ -1322,9 +1357,10 @@ GET /api/v1/classes/{id}/teachers/{relationship-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data":{
         "id": "{relationship-id}",
@@ -1347,9 +1383,10 @@ PUT /api/v1/classes/{id}/teachers/{relationship-id}
 {
     "status": {
         "httpCode": "405",
-        "errorCode": "C10004",
+        "errorId": "C10004",
         "userMessage": "Operation not supported.",
-        "detailsMessage": "Class/Teacher relationship resources can not be modified."
+        "detailsMessage": "Class/Teacher relationship resources can not be modified.",
+        "apiVersion": "v1"
     }
 }
 
@@ -1361,9 +1398,10 @@ DELETE /api/v1/classes/{id}/teachers/{relationship-id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
 
@@ -1412,9 +1450,10 @@ GET /api/v1/students{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -1521,9 +1560,10 @@ POST /api/v1/students
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -1561,9 +1601,10 @@ GET /api/v1/students/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -1633,9 +1674,10 @@ PUT /api/v1/students/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -1674,9 +1716,10 @@ DELETE /api/v1/students/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
 
@@ -1707,9 +1750,10 @@ GET /api/v1/students/{id}/classes{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -1765,9 +1809,10 @@ POST /api/v1/students/{id}/classes
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{relationship-id}",
@@ -1792,9 +1837,10 @@ GET /api/v1/students/{id}/classes/{relationship-id}
 {
     "status": {
         "httpCode": "404",
-        "errorCode": "C10003",
+        "errorId": "C10003",
         "userMessage": "The requested resource was not found.",
-        "detailsMessage": "No resources are available at this URI."
+        "detailsMessage": "No resources are available at this URI.",
+        "apiVersion": "v1"
     }
 }
 
@@ -1808,9 +1854,10 @@ PUT /api/v1/students/{id}/classes/{relationship-id}
 {
     "status": {
         "httpCode": "404",
-        "errorCode": "C10003",
+        "errorId": "C10003",
         "userMessage": "The requested resource was not found.",
-        "detailsMessage": "No resources are available at this URI."
+        "detailsMessage": "No resources are available at this URI.",
+        "apiVersion": "v1"
     }
 }
 
@@ -1824,9 +1871,10 @@ DELETE /api/v1/students/{id}/classes/{relationship-id}
 {
     "status": {
         "httpCode": "404",
-        "errorCode": "C10003",
+        "errorId": "C10003",
         "userMessage": "The requested resource was not found.",
-        "detailsMessage": "No resources are available at this URI."
+        "detailsMessage": "No resources are available at this URI.",
+        "apiVersion": "v1"
     }
 }
 
@@ -1863,9 +1911,10 @@ GET /api/v1/teachers{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -1942,9 +1991,10 @@ POST /api/v1/teachers
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -1972,9 +2022,10 @@ GET /api/v1/teachers/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -2024,9 +2075,10 @@ PUT /api/v1/teachers/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -2055,9 +2107,10 @@ DELETE /api/v1/teachers/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
 
@@ -2088,9 +2141,10 @@ GET /api/v1/teachers/{id}/classes{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -2146,9 +2200,10 @@ POST /api/v1/teachers/{id}/classes
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{relationship-id}",
@@ -2171,9 +2226,10 @@ GET /api/v1/teachers/{id}/classes/{relationship-id}
 {
     "status": {
         "httpCode": "404",
-        "errorCode": "C10003",
+        "errorId": "C10003",
         "userMessage": "The requested resource was not found.",
-        "detailsMessage": "No resources are available at this URI."
+        "detailsMessage": "No resources are available at this URI.",
+        "apiVersion": "v1"
     }
 }
 
@@ -2187,9 +2243,10 @@ PUT /api/v1/teachers/{id}/classes/{relationship-id}
 {
     "status": {
         "httpCode": "404",
-        "errorCode": "C10003",
+        "errorId": "C10003",
         "userMessage": "The requested resource was not found.",
-        "detailsMessage": "No resources are available at this URI."
+        "detailsMessage": "No resources are available at this URI.",
+        "apiVersion": "v1"
     }
 }
 
@@ -2201,9 +2258,10 @@ DELETE /api/v1/teachers/{id}/classes/{relationship-id}
 {
     "status": {
         "httpCode": "404",
-        "errorCode": "C10003",
+        "errorId": "C10003",
         "userMessage": "The requested resource was not found.",
-        "detailsMessage": "No resources are available at this URI."
+        "detailsMessage": "No resources are available at this URI.",
+        "apiVersion": "v1"
     }
 }
 
@@ -2238,9 +2296,10 @@ GET /api/v1/administrators{?limit,offset}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "limit": 2,
@@ -2314,9 +2373,10 @@ POST /api/v1/administrators
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -2343,9 +2403,10 @@ GET /api/v1/administrators/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -2393,9 +2454,10 @@ PUT /api/v1/administrators/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     },
     "data": {
         "id": "{id}",
@@ -2424,8 +2486,9 @@ DELETE /api/v1/administrators/{id}
 {
     "status": {
         "httpCode": "200",
-        "errorCode": "C00000",
+        "errorId": "C00000",
         "userMessage": "Success",
-        "detailsMessage": "Success"
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
     }
 }
