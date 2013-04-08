@@ -4,7 +4,7 @@ HOST: https://api.i-Ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.8.1 - updated 3/7/13*
+*i-Ready API Documentation version 0.8.2 - updated 4/7/13*
 
 ## Authentication  & Authorization
 
@@ -59,6 +59,8 @@ All read-only fields will be ignored by the server.
 
 Create requests are always directed at the collection the new resource will be added to.  For example, a new Student will be created via a post to the /API/Students/ collection.
 
+> Note: The i-Ready APIs will handle any properties not specified explicitly in the JSON passed to the POST operation as being null and will process the property accordingly.
+
 The response will return a status and, if successful, data block.  The data block will return the details of the new resource including its identity.
 POST /<resource>
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
@@ -85,6 +87,8 @@ POST /<resource>
 
 Update requests, http PUT, send a block of JSON that describes the new values to be assigned to the resource.  The JSON uses the same schema as that used in the POST method and retrieved with the GET requests.
 Read-only fields are ignored when processing the request.
+
+> Note: The i-Ready APIs will handle any properties not specified explicitly in the JSON passed to the PUT operation as being null and will process the property accordingly.
 
 The response to the update will contain a data block with the details of updated resource.
 PUT /<resource>
@@ -854,7 +858,7 @@ The following is a section of resources related to i-Ready Class resources.
 >|--------|------|--------|-----------|-----------|----------------|
 >|**classCode**|string, length 10|||yes|string, length 10|
 >|**createdDate**|string||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
->|**grade**|int||create-time|no|0 - 12|
+>|**gradeLevel**|int||create-time|no|0 - 12|
 >|**id**|string|globally|read-only|no|string, length 32|
 >|**location**|string|||yes|null &#124;string, length 255|
 >|**name**|string|within academic-year/school/product||no|null &#124;string, length 255|
@@ -866,7 +870,7 @@ The following is a section of resources related to i-Ready Class resources.
 >|_**students**_|link||read-only|no||
 >|_**teachers**_|link||read-only|no||
 
-Within a district account a class is uniquely identified by the combination of 4 properties; name, grade, school reference and product reference.
+Within a district account a class is uniquely identified by the combination of 4 properties; name, gradeLevel, school reference and product reference.
 
 The class has an externalId property that can be set by the user.  This value must be unique within the district account or null.
 --
@@ -894,7 +898,7 @@ GET /api/v1/classes{?limit,offset}
             {
                "id": "{first-class-id}",
                "name": "Grade K Class",
-               "grade": "0",
+               "gradeLevel": "0",
                "location": "Room 201",
                "createdDate": "2012-08-17T14:56:43Z",
                "classCode": "CL012345",
@@ -912,7 +916,7 @@ GET /api/v1/classes{?limit,offset}
            {
                "id": "{second-class-id}",
                "name": "Hoosiers Grade 2 Class",
-               "grade": "2",
+               "gradeLevel": "2",
                "location": "Room 305",
                "createdDate": "2012-08-17T14:56:43Z",
                "classCode": "CL012337",
@@ -942,7 +946,7 @@ POST /api/v1/classes
 {
     "id": null,
     "name": "Eagles - Grade 1",
-    "grade": "1",
+    "gradeLevel": "1",
     "location": "Room 212",
     "createdDate": "null,
     "classCode": "CL012341",
@@ -970,7 +974,7 @@ POST /api/v1/classes
     "data": {
         "id": "{id}",
         "name": "Eagles - Grade 1",
-        "grade": "1",
+        "gradeLevel": "1",
         "location": "Room 212",
         "createdDate": "2012-11-29T14:56:43Z",
         "classCode": "CL012341",
@@ -1002,7 +1006,7 @@ GET /api/v1/classes/{id}
     "data": {
         "id": "{id}",
         "name": "Hoosiers Grade 2 Class",
-        "grade": "2",
+        "gradeLevel": "2",
         "location": "Room 305",
         "createdDate": "2012-08-17T14:56:43Z",
         "classCode": "CL012341",
@@ -1030,7 +1034,7 @@ PUT /api/v1/classes/{id}
 {
     "id": "{id}",
     "name": "Eagles - Grade 1",
-    "grade": "1",
+    "gradeLevel": "1",
     "location": "Room 212",
     "createdDate": "2012-11-29T14:56:43Z",
     "classCode": "CL012341",
@@ -1058,7 +1062,7 @@ PUT /api/v1/classes/{id}
     "data": {
         "id": "{id}",
         "name": "Eagles - Grade 1",
-        "grade": "1",
+        "gradeLevel": "1",
         "location": "Room 212",
         "createdDate": "2012-11-29T14:56:43Z",
         "classCode": "CL012341",
@@ -1104,6 +1108,13 @@ The following is a section of resources related to i-Ready Class/Student relatio
 >|_**student**_|link||create-time|no||
 >|_**class**_|link||create-time|no||
 >|_**self**_|link|globally|read-only|no||
+
+Restrictions:
+> I-Ready restricts the number of classes a student can be assigned to based on the product and grade of the class.
+
+> For i-Ready Diagnostic and Instruction each student can be assigned to one class per subject; In other words they can be assigne one ELA class and one Math class.
+
+> For i-Ready Screener and i-Ready Practice each student can be assigned to one class per subject per grade.  For example a student can be in one 3rd grade Math Practice class, one 3rd grade ELA Practice class and one 4th grade ELS Practice class.
 
 --
 
@@ -1219,6 +1230,7 @@ GET /api/v1/classes/{id}/students/{relationship-id}
 }
 
 Updating of class/student relationships is not supported.  If a student changes classes the old relationship should be deleted and a new one added.
+
 PUT /api/v1/classes/{id}/students/{relationship-id}
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 405
@@ -1262,6 +1274,9 @@ The following is a section of resources related to i-Ready Class/Teacher relatio
 >|_**teacher**_|link||create-time|no||
 >|_**class**_|link||create-time|no||
 >|_**self**_|link|globally|read-only|no||
+
+Restrictions:
+> I-Ready does not restrict either the number of teachers that can be assigned to a class or the number of classes that a teacher can be assigned to.
 
 --
 Retrieve the teachers assigned to a particular class.
@@ -2283,7 +2298,7 @@ Administrators are identified by their userName. The administrator's userName mu
 >|**ownerId**|string|within district||yes|null &#124; string, length 64|
 >|**partnerId**|string|within district||yes|null &#124; string, length 64|
 >|**password**|string||*write-only*|no|string, length 4-24 - setting null on update leaves the password unchanged|
->|**userName**|string|within state|read-only|no|string, length 50|
+>|**userName**|string|within state||no|string, length 50|
 >|_**school**_|link||create-time|no||
 >|_**self**_|link|globally|read-only|no||
 
