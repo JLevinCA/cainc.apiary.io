@@ -2507,3 +2507,176 @@ DELETE /api/v1/administrators/{id}
         "apiVersion": "v1"
     }
 }
+
+
+--
+Error Handling
+The i-Ready APIs return, when possible, error details in json.
+
+>### Error Types
+>|Error Code|HTTP Code|User Message|Details Message|Properties|
+>|--------------------|-----------|--------------|--------------|-----------|
+>|SUCCESS|200|Success|Success||
+>|*Request Validation Errors*|||||
+>|NO_OBJECT_FOUND|404|The requested entity was not found.|No entity with the id {value} was found.|value|
+>|INVALID_PARAMETER_VALUE|400|The request included an invalid parameter value.|The value {value} is invalid for the parameter {property}.|value, property|
+>|UNIQUENESS_VALIDATION_FAILURE|409|The request included an invalid parameter value.|The value {value} is invalid for the parameter {property} based on system uniqueness validation rules.|value, property|
+>|PATH_BODY_VALIDATION_FAILURE|400|The data in the URI path has a mismatch with data in the request body.|The value {value} is invalid for the parameter {property} for the given API request URI.|value, property|
+>|REQUESTED_RELATIONSHIP_ALREADY_EXISTS|400|The requested operation is not supported as the relationship already exists.|The requested operation is not supported as the relationship already exists.||
+>|*Invalid JSON Errors*|||||
+>|INVALID_JSON|400|The request included invalid data.|There was an error parsing the JSON. {details} - Line {rowNumber} Column {columnNumber}|details, rowNumber, columnNumber|
+>|INVALID_JSON_PROPERTY|400|The request included an invalid property.|An unknown property {value} was included in the supplied json.|value|
+>|*Invalid Operation Errors*|||||
+>|INVALID_VERB_FOR_RESOURCE|405|The resource doesn't support the request.|The resource doesn't support HTTP {httpVerb} requests.|httpVerb|
+>|APPLICATION_ACTION_NOT_ALLOWED|400|Based on permitted application logic, the requested operation is not supported for an entity in this state.|Based on permitted application logic, the resource cannot be modified in the requested manner.||
+>|*Generic Error Codes*|||||
+>|UNHANDLED_ERROR|400|An unknown error occurred.|An unknown error occurred.||
+>|UNKNOWN_ERROR|500|An unknown error occurred.|Unknown error with id {internalId} and Parameters {data}.|internalId, data|
+>|UNKNOWN_APPLICATION_ERROR|500|An unknown error occurred in the application.|An unknown error occurred in the application.||
+
+--
+GET /api/v1/{resource}     - NO_OBJECT_FOUND
+< 404
+< Content-Type: application/json
+/* This error occurs when the {id} value does not match any resources on the server. */
+{
+    "httpCode":"404",
+    "errorId":"NO_OBJECT_FOUND",
+    "userMessage":"The requested entity was not found.",
+    "detailsMessage":"No entity with the id {id} was found. Entity not found for id {id}.",
+    "parameters": {
+        "value":"{id}"
+    },
+    "exceptionString":"",
+    "apiVersion":"v1"
+}
+
+PUT /api/v1/{collection}/{id}    - INVALID_PARAMETER_VALUE
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{ ... }
+< 404
+< Content-Type: application/json
+/* This error will occur when an invalid parameter is specified on create.  For example if the id value is specified in a PUT request. */
+{
+    "httpCode": "400",
+    "errorId": "INVALID_PARAMETER_VALUE",
+    "userMessage": "The request included an invalid parameter value.",
+    "detailsMessage": "The value {invalid-value} is invalid for the parameter {property-name}.",
+    "parameters": {
+        "value": "{invalid-value}",
+        "property": "{property-name}"
+    },
+    "apiVersion": "v1"
+}
+
+
+POST /api/v1/{collection}/{id}    - INVALID_PARAMETER_VALUE
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{ ... }
+< 404
+< Content-Type: application/json
+/* This error will occur when an invalid parameter is specified on create.  For example if the id value is specified in a PUT request. */
+{
+    "httpCode": "400",
+    "errorId": "INVALID_PARAMETER_VALUE",
+    "userMessage": "The request included an invalid parameter value.",
+    "detailsMessage": "The value {invalid-value} is invalid for the parameter {property-name}.",
+    "parameters": {
+        "value": "{invalid-value}",
+        "property": "{property-name}"
+    },
+    "apiVersion": "v1"
+}
+
+PUT /api/v1/{collection}/{id}    - UNIQUENESS_VALIDATION_FAILURE
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{ ... }
+< 409
+< Content-Type: application/json
+/* This error will occur when the json in a create request has property values that fail to meet their uniqueness criteria.  In this example a value of the name property conflicts with an existing object. */
+/* For uniqueness rules that involve more than one property the system will return details about one of the properties involved.  For a given uniqueness constraint the details will always report on the same property. */
+{
+    "httpCode": "409",
+    "errorId": "UNIQUENESS_VALIDATION_FAILURE",
+    "userMessage": "The request included an invalid parameter value.",
+    "detailsMessage": "The value Class Two is invalid for the parameter name based on system uniqueness validation rules. A class with this name (for the same school and product) already exists.",
+    "parameters": {
+        "value": "Class Two",
+        "property": "name"
+    },
+    "apiVersion": "v1"
+}
+
+POST /api/v1/{collection}/{id}    - UNIQUENESS_VALIDATION_FAILURE
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+> Content-Type: application/json
+{ ... }
+< 409
+< Content-Type: application/json
+/* This error will occur when the json in a create request has property values that fail to meet their uniqueness criteria.  In this example a value of the name property conflicts with an existing object. */
+/* For uniqueness rules that involve more than one property the system will return details about one of the properties involved.  For a given uniqueness constraint the details will always report on the same property. */
+{
+    "httpCode": "409",
+    "errorId": "UNIQUENESS_VALIDATION_FAILURE",
+    "userMessage": "The request included an invalid parameter value.",
+    "detailsMessage": "The value Class Two is invalid for the parameter name based on system uniqueness validation rules. A class with this name (for the same school and product) already exists.",
+    "parameters": {
+        "value": "Class Two",
+        "property": "name"
+    },
+    "apiVersion": "v1"
+}
+
+
+
+
+GET /api/v1/{resource}     - INVALID_VERB_FOR_RESOURCE
+< 405
+< Content-Type: application/json
+/* This error will occur when the an http request is made that isn’t supported by the resource specified.  */
+ {
+    "httpCode": "405",
+    "errorId": "INVALID_VERB_FOR_RESOURCE",
+    "userMessage": "The resource doesn't support the request.",
+    "detailsMessage": "The resource doesn't support HTTP GET requests.",
+    "apiVersion": "v1"
+}
+
+PUT /api/v1/{resource}     - INVALID_VERB_FOR_RESOURCE
+< 405
+< Content-Type: application/json
+/* This error will occur when the an http request is made that isn’t supported by the resource specified.  */
+ {
+    "httpCode": "405",
+    "errorId": "INVALID_VERB_FOR_RESOURCE",
+    "userMessage": "The resource doesn't support the request.",
+    "detailsMessage": "The resource doesn't support HTTP PUT requests.",
+    "apiVersion": "v1"
+}
+
+POST /api/v1/{resource}     - INVALID_VERB_FOR_RESOURCE
+< 405
+< Content-Type: application/json
+/* This error will occur when the an http request is made that isn’t supported by the resource specified.  */
+ {
+    "httpCode": "405",
+    "errorId": "INVALID_VERB_FOR_RESOURCE",
+    "userMessage": "The resource doesn't support the request.",
+    "detailsMessage": "The resource doesn't support HTTP POST requests.",
+    "apiVersion": "v1"
+}
+
+DELETE /api/v1/{resource}     - INVALID_VERB_FOR_RESOURCE
+< 405
+< Content-Type: application/json
+/* This error will occur when the an http request is made that isn’t supported by the resource specified.  */
+ {
+    "httpCode": "405",
+    "errorId": "INVALID_VERB_FOR_RESOURCE",
+    "userMessage": "The resource doesn't support the request.",
+    "detailsMessage": "The resource doesn't support HTTP DELETE requests.",
+    "apiVersion": "v1"
+}
