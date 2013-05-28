@@ -4,7 +4,7 @@ HOST: https://api.i-Ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.8.2 - updated 4/7/13*
+*i-Ready API Documentation version 0.8.4 - updated 5/28/13*
 
 ## Authentication  & Authorization
 
@@ -236,6 +236,91 @@ GET /<top-level-collection>/{id}/relationship-collection/{relationship-id}
 }
 
 --
+Account Resources
+The following is a section of resources related to i-Ready Account resources.  There will be a single Account object per i-Ready account.
+
+>### Account Properties
+>|Name|Type|Unique|Modifiable|Nullable|Valid Values|
+>|--------|------|--------|-----------|-----------|----------------|
+>|**academicYear**|string||read-only|no|XXXX-YYYY' where XXXX and YYYY are years; E.g. 2012-2013|
+>|**accountScope**|string||read-only|no|School &#124; District|
+>|**accountType**|string||read-only|no|'Current' For all production accounts.  Other values for test/development/pilot/etc accounts.|
+>|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
+>|**districtName**|string||read-only|no|string, length 100|
+>|**id**|string|globally|read-only|no|string, length 32|
+>|**state**|string||read-only|no|2 Character state code; e.g. CA.|
+>|_**self**_|link|globally|read-only|no||
+
+
+The Account resources are all read-only; Only http GET requests are supported.
+--
+Retrieve all of the accounts available to the calling i-Ready account. 
+GET /api/v1/accounts{?limit,offset}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorId": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
+    },
+    {
+    	"offset":"0",
+		"limit":"200",
+		"_links":{
+			"self":{ "href":"/api/v1/accounts?offset=0&limit=200" }
+			},
+		"items":{
+			"item":{
+				"id":"{id}",
+				"academicYear":"2012-2013",
+				"accountScope":"District",
+				"accountType":"Current",
+				"districtName":"ACME District",
+				"state":"CA",
+				"createdDate":null,
+				"_links":{
+					"self":{ "href":"/api/v1/accounts/{id}" }
+					}
+				}
+			}
+		}
+	}
+}
+
+Retrieve the details of a particular account.
+GET /api/v1/accounts/{id}
+> Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
+< 200
+< Content-Type: application/json
+{
+    "status": {
+        "httpCode": "200",
+        "errorId": "C00000",
+        "userMessage": "Success",
+        "detailsMessage": "Success",
+        "apiVersion": "v1"
+    },
+   "data": {
+		"item":{
+			"id":"{id}",
+			"academicYear":"2012-2013",
+			"accountScope":"District",
+			"accountType":"Current",
+			"districtName":"ACME District",
+			"state":"CA",
+			"createdDate":null,
+			"_links":{
+				"self":{ "href":"/api/v1/accounts/{id}" }
+				}
+			}
+		}
+}
+
+--
 Product Resources
 The following is a section of resources related to i-Ready Product resources.
 
@@ -245,6 +330,8 @@ The following is a section of resources related to i-Ready Product resources.
 >|**createdDate**|date||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
 >|**family**|string||read-only|no|string, length 35|
 >|**id**|string|globally|read-only|no|string, length 32|
+>|**minGradeLevel**|int||read-only|no|0-12|
+>|**maxGradeLevel**|int||read-only|no|0-12|
 >|**name**|string||read-only|no|string, length 64|
 >|**subject**|string||read-only|no|Math &#124; ELA|
 >|_**classes**_|link||read-only|no||
@@ -2629,9 +2716,6 @@ POST /api/v1/{collection}/{id}    - UNIQUENESS_VALIDATION_FAILURE
     },
     "apiVersion": "v1"
 }
-
-
-
 
 GET /api/v1/{resource}     - INVALID_VERB_FOR_RESOURCE
 < 405
