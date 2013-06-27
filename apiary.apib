@@ -4,7 +4,7 @@ HOST: https://api.i-Ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.8.4 - updated 5/28/13*
+*i-Ready API Documentation version 0.8.7 - updated 6/27/13*
 
 ## Authentication  & Authorization
 
@@ -268,7 +268,7 @@ GET /api/v1/accounts{?limit,offset}
         "apiVersion": "v1"
     },
     {
-    	"offset":"0",
+        "offset":"0",
 		"limit":"200",
 		"_links":{
 			"self":{ "href":"/api/v1/accounts?offset=0&limit=200" }
@@ -514,10 +514,10 @@ The following is a section of resources related to i-Ready School resources.
 >|**districtName**|string||read-only|no|string, length 100|
 >|**id**|string|globally|read-only|no|string, length 32|
 >|**name**|string||read-only|no|string, length 100|
+>|**ncesId**|string||read-only|no|string, length 12|
 >|**state**|string||read-only|no|*us-state-abreviation*|
 >|_**classes**_|link||read-only|no||
 >|_**self**_|link|globally|read-only|no||
->|_**administrators**_|link||read-only|no||
 >|_**students**_|link||read-only|no||
 >|_**teachers**_|link||read-only|no||
 
@@ -545,31 +545,28 @@ GET /api/v1/schools{?limit,offset}
         },
         "items": [
             {
-                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{first-id}",
                 "name": "Harrington Elementary School",
                 "districtName": "oh-9-26",
+                "ncesId": null,
                 "state": "OH",
                "_links":
                {
                    "self": "/schools/{first-id}",
                    "classes": "/schools/{first-id}/classes"
-                   "administrators": "/schools/{first-id}/administrators"
                    "students": "/schools/{first-id}/students"
                    "teachers": "/schools/{first-id}/teachers"
                }
             },
             {
-                "createdDate": "2012-12-03T16:02:43Z",
                 "id": "{second-id}",
                 "name": "Lincoln Middle School",
                 "districtName": "oh-9-26",
-                "state": "OH",
+                "ncesId": "062069004673",
                "_links":
                {
                    "self": "/schools/{second-id}",
                    "classes": "/schools/{second-id}/classes"
-                   "administrators": "/schools/{second-id}/administrators"
                    "students": "/schools/{second-id}/students"
                    "teachers": "/schools/{second-id}/teachers"
                }
@@ -592,16 +589,15 @@ GET /api/v1/schools/{id}
         "apiVersion": "v1"
     },
    "data": {
-        "createdDate": "2012-12-03T16:02:43Z",
         "id": "{id}",
         "name": "Harrington Elementary School",
         "districtName": "oh-9-26",
+        "ncesId": "062069004673",
         "state": "OH",
        "_links":
        {
            "self": "/schools/{id}",
            "classes": "/schools/{id}/classes"
-           "administrators": "/schools/{id}/administrators"
            "students": "/schools/{id}/students"
            "teachers": "/schools/{id}/teachers"
        }
@@ -860,6 +856,8 @@ GET /api/v1/schools/{id}/teachers/{reference-id}
 
 --
  School/Administrator Resources
+ >**Administrator related resources have been removed from the initial release of the i-Ready APIs**
+ 
 The following is a section of resources related to i-Ready School/Administrator relationship resources.
 
 The School/Administrator resources are all read-only; Only http GET requests are supported.
@@ -2374,6 +2372,8 @@ DELETE /api/v1/teachers/{id}/classes/{relationship-id}
 
 --
 Administrator Resources
+ >**Administrator related resources have been removed from the initial release of the i-Ready APIs**
+ 
 The following is a section of resources related to i-Ready Administrator resources.
 
 Administrators are identified by their userName. The administrator's userName must by unique to all users within their distict account's state.
