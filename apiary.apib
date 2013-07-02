@@ -4,7 +4,7 @@ HOST: https://api.i-Ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.8.7 - updated 6/27/13*
+*i-Ready API Documentation version 0.8.8 - updated 6/29/13*
 
 ## Authentication  & Authorization
 
@@ -39,6 +39,7 @@ Query requests, http GET, will retrieve information about the resource identifie
 - status: Contains details about the success or failure of the request.  By default the status block in excluded if the request was successful, though it is shown below.
     - In debug environments the status block will include details about the account being accessed and, if applicable, exception data.
 - data: The json representation of the resources requested; the schema of the data section is dependent on the type of object being accessed.
+
 GET /<resource>
 > Authorization: Basic REktQWRtaW4yOnBhc3N3b3JkMg==
 < 200
@@ -133,6 +134,9 @@ All collections accept at least two, optional, parameters:
 
 - limit: (Optional) The max number of items to retrieve.  A system limit of TBD will be imposed on all requests to collections.
 - offset: (Optional) The index at which to start retrieving items.
+- q: (Optional) A filter on the results returned by the query.  Filter strings take the form of <property>=<value>.  In the current release filters are supported on partnerId, onboardId, _links:school:href and _links:product:href.
+    - E.g. Setting the _q_ parameter on the _/api/v1/classes_ resource to __links:school:href=/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_ will return all classes in the school identified by _/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_.
+- count: (Optional) If set to 'true' will include total count of items in the collection; the default value is false.
 
 The returned data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
 GET /<top-level-collection>?limit=10&offset
@@ -269,7 +273,7 @@ GET /api/v1/accounts{?limit,offset}
     },
     {
         "offset":"0",
-		"limit":"200",
+    	"limit":"200",
 		"_links":{
 			"self":{ "href":"/api/v1/accounts?offset=0&limit=200" }
 			},
@@ -1237,7 +1241,7 @@ GET /api/v1/classes/{id}/students{?limit,offset}
                 "_links": {
                     "self": { "href": "/api/v1/classes/{id}/students/{first-relationship-id}"}
                     "class": { "href": "/api/v1/classes/{id}"}
-                    "student": { "href": "/api/v1/students/{first-class-id}"}
+                    "student": { "href": "/api/v1/students/{first-student-id}"}
                 }
             },
             {
@@ -1248,7 +1252,7 @@ GET /api/v1/classes/{id}/students{?limit,offset}
                 "_links": {
                     "self": { "href": "/api/v1/classes/{id}/students/{second-relationship-id}"}
                     "class": { "href": "/api/v1/classes/{id}"}
-                    "student": { "href": "/api/v1/students/{second-class-id}"}
+                    "student": { "href": "/api/v1/students/{second-student-id}"}
                 }
             }
         ]
@@ -1267,7 +1271,7 @@ POST /api/v1/classes/{id}/students
     "_links": {
         "self": null
         "class": { "href": "/api/v1/classes/{id}"}
-        "student": { "href": "/api/v1/students/{class-id}"}
+        "student": { "href": "/api/v1/students/{student-id}"}
     }
 }
 < 200
@@ -1288,7 +1292,7 @@ POST /api/v1/classes/{id}/students
         "_links": {
             "self": { "href": "/api/v1/classes/{id}/students/{relationship-id}"}
             "class": { "href": "/api/v1/classes/{id}"}
-            "student": { "href": "/api/v1/students/{class-id}"}
+            "student": { "href": "/api/v1/students/{student-id}"}
         }
     }
 }
@@ -1314,7 +1318,7 @@ GET /api/v1/classes/{id}/students/{relationship-id}
         "_links": {
             "self": { "href": "/api/v1/classes/{id}/students/{relationship-id}"}
             "class": { "href": "/api/v1/classes/{id}"}
-            "student": { "href": "/api/v1/students/{class-id}"}
+            "student": { "href": "/api/v1/students/{student-id}"}
         }
     }
 }
@@ -1398,7 +1402,7 @@ GET /api/v1/classes/{id}/teachers{?limit,offset}
                 "_links": {
                     "self": { "href": "/api/v1/classes/{id}/teachers/{first-relationship-id}"}
                     "class": { "href": "/api/v1/classes/{id}"}
-                    "teacher": { "href": "/api/v1/teachers/{first-class-id}"}
+                    "teacher": { "href": "/api/v1/teachers/{first-teacher-id}"}
                 }
             },
             {
@@ -1409,7 +1413,7 @@ GET /api/v1/classes/{id}/teachers{?limit,offset}
                 "_links": {
                     "self": { "href": "/api/v1/classes/{id}/teachers/{second-relationship-id}"}
                     "class": { "href": "/api/v1/classes/{id}"}
-                    "teacher": { "href": "/api/v1/teachers/{second-class-id}"}
+                    "teacher": { "href": "/api/v1/teachers/{second-teacher-id}"}
                 }
             }
         ]
@@ -1428,7 +1432,7 @@ POST /api/v1/classes/{id}/teachers
     "_links": {
         "self": null
         "class": { "href": "/api/v1/classes/{id}"}
-        "teacher": { "href": "/api/v1/teachers/{class-id}"}
+        "teacher": { "href": "/api/v1/teachers/{teacher-id}"}
     }
 }
 < 200
@@ -1449,7 +1453,7 @@ POST /api/v1/classes/{id}/teachers
         "_links": {
             "self": { "href": "/api/v1/classes/{id}/teachers/{relationship-id}"}
             "class": { "href": "/api/v1/classes/{id}"}
-            "teacher": { "href": "/api/v1/teachers/{class-id}"}
+            "teacher": { "href": "/api/v1/teachers/{teacher-id}"}
         }
     }
 }
@@ -1475,7 +1479,7 @@ GET /api/v1/classes/{id}/teachers/{relationship-id}
         "_links": {
             "self": { "href": "/api/v1/classes/{id}/teachers/{relationship-id}"}
             "class": { "href": "/api/v1/classes/{id}"}
-            "teacher": { "href": "/api/v1/teachers/{class-id}"}
+            "teacher": { "href": "/api/v1/teachers/{teacher-id}"}
         }
     }
 }
