@@ -135,7 +135,7 @@ All collections accept at least two, optional, parameters:
 - limit: (Optional) The max number of items to retrieve.  A system limit of TBD will be imposed on all requests to collections.
 - offset: (Optional) The index at which to start retrieving items.
 - q: (Optional) A filter on the results returned by the query.  Filter strings take the form of <property>=<value>.  In the current release filters are supported on partnerId, onboardId, _links:school:href and _links:product:href.
-    - E.g. Setting the _q_ parameter on the _/api/v1/classes_ resource to __links:school:href=/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_ will return all classes in the school identified by _/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_.
+    - E.g. Setting the _q_ parameter on the _/api/v1/classes_ resource to _links:school:href=/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_ will return all classes in the school identified by _/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_.
 - count: (Optional) If set to 'true' will include total count of items in the collection; the default value is false.
 
 The returned data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
