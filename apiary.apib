@@ -4,7 +4,7 @@ HOST: https://api.i-Ready.com/
 ---
 Welcome to the Curriculum Associates [i-Ready](http://cainc.i-Ready.com/) Provisioning API documentation. Version 1.0 of our REST API for Provisioning is still under construction. Planned interfaces are documented below.
 
-*i-Ready API Documentation version 0.8.8 - updated 6/29/13*
+*i-Ready API Documentation version 0.9.0 - updated 7/11/13*
 
 ## Authentication  & Authorization
 
@@ -134,9 +134,9 @@ All collections accept at least two, optional, parameters:
 
 - limit: (Optional) The max number of items to retrieve.  A system limit of TBD will be imposed on all requests to collections.
 - offset: (Optional) The index at which to start retrieving items.
-- q: (Optional) A filter on the results returned by the query.  Filter strings take the form of <property>=<value>.  In the current release filters are supported on partnerId, onboardId, _links:school:href and _links:product:href.
-    - E.g. Setting the _q_ parameter on the _/api/v1/classes_ resource to _links:school:href=/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_ will return all classes in the school identified by _/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_.
-- count: (Optional) If set to 'true' will include total count of items in the collection; the default value is false.
+- q: (Optional) A filter on the results returned by the query.  Filter strings take the form of <property>=<value>.  In the current release filters are supported on partnerId, ownerId, _links:school:href and _links:product:href.
+    - E.g. Setting the _q_ parameter on the _/api/v1/classes_ resource to __links:school:href=/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_ will return all classes in the school identified by __/api/v1/schools/d120fb9c531f48ddaaab0733e1959054_.
+- count: (Optional) If set to 'true' will include total count of items in the collection; the default value is false.  The count value will adjust for any query filter parameters but ignores the limit and offset parameters.
 
 The returned data section contains an array of returned items and properties about what was returned such as the limit and offset specified in the request.
 GET /<top-level-collection>?limit=10&offset
@@ -273,7 +273,7 @@ GET /api/v1/accounts{?limit,offset}
     },
     {
         "offset":"0",
-    	"limit":"200",
+        "limit":"200",
 		"_links":{
 			"self":{ "href":"/api/v1/accounts?offset=0&limit=200" }
 			},
@@ -956,13 +956,15 @@ The following is a section of resources related to i-Ready Class resources.
 >|**id**|string|globally|read-only|no|string, length 32|
 >|**location**|string|||yes|null &#124;string, length 255|
 >|**name**|string|within academic-year/school/product||no|null &#124;string, length 255|
->|**ownerId**|string|within district||yes|null &#124; string, length 64|
->|**partnerId**|string|within district||yes|null &#124; string, length 64|
+>|**ownerId**|string|within district*||yes|null &#124; string, length 64|
+>|**partnerId**|string|within district*||yes|null &#124; string, length 64|
 >|_**product**_|link||create-time|no||
 >|_**school**_|link||create-time|no||
 >|_**self**_|link|globally|read-only|no||
 >|_**students**_|link||read-only|no||
 >|_**teachers**_|link||read-only|no||
+>
+>The ownerId and partnerId values are unique per class per academic year; APIs only allow access to the current academic year.
 
 Within a district account a class is uniquely identified by the combination of 4 properties; name, gradeLevel, school reference and product reference.
 
@@ -1531,7 +1533,7 @@ Additionally the student's have a studentNumber that must be set.  The studentNu
 >|**economicallyDisadvantaged**|string|||yes|null &#124; true &#124; false|
 >|**elaDevelopmentalLevel**|int|||yes|null &#124; 0-12|
 >|**englishLanguageLearner**|string|||yes|null &#124; true &#124; false|
->|**ethnicityId**|string|||yes|(Under Review) Enter 1 for American Indian, Native American, or Alaska native; 2 for Asian; <BR/>3 for black or African American; 4 for Hispanic, Latino, or Hispanic Latino;<BR/> 5 for white or Caucasian; 6 for Native Hawaiian or Other Pacific Islander; 7 for two or more races.|
+>|**ethnicityId**|string|||yes|Enter '01' for American Indian, Native American, or Alaska native; '02' for Asian; <BR/>'03' for black or African American; '04' for Hispanic, Latino, or Hispanic Latino;<BR/> '05' for white or Caucasian; '06' for Native Hawaiian or Other Pacific Islander; '07' for two or more races.|
 >|**firstName**|string|||no|string, length 50|
 >|**gender**|string|||yes|null &#124; male &#124; female|
 >|**gradeLevel**|int|||no|0-12|
@@ -2619,6 +2621,8 @@ The i-Ready APIs return, when possible, error details in json.
 >|UNIQUENESS_VALIDATION_FAILURE|409|The request included an invalid parameter value.|The value {value} is invalid for the parameter {property} based on system uniqueness validation rules.|value, property|
 >|PATH_BODY_VALIDATION_FAILURE|400|The data in the URI path has a mismatch with data in the request body.|The value {value} is invalid for the parameter {property} for the given API request URI.|value, property|
 >|REQUESTED_RELATIONSHIP_ALREADY_EXISTS|400|The requested operation is not supported as the relationship already exists.|The requested operation is not supported as the relationship already exists.||
+>|CLASS_ADD_NOT_ALLOWED_FOR_USER|403|Request to add the user to a new class cannot be done.|The class value {value} was provided to add the user to a new class. This cannot be done because the user is already enrolled in a matching class. Remove the student from the current matching class to change enrollment.||
+>|SCHOOL_MOVE_NOT_ALLOWED_FOR_USER|403|Request to move the user to a new school cannot be done.|The school value {value} was provided to move the user to a new school. This cannot be done.||
 >|*Invalid JSON Errors*|||||
 >|INVALID_JSON|400|The request included invalid data.|There was an error parsing the JSON. {details} - Line {rowNumber} Column {columnNumber}|details, rowNumber, columnNumber|
 >|INVALID_JSON_PROPERTY|400|The request included an invalid property.|An unknown property {value} was included in the supplied json.|value|
