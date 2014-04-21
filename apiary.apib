@@ -1527,12 +1527,12 @@ Additionally the student's have a studentNumber that must be set.  The studentNu
 
 >### Student Properties
 >|Name|Type|Unique|Modifiable|Nullable|Valid Values|
->|--------|------|--------|-----------|-----------|----------------|
+>|--------|---------|--------|-----------|-----------|----------------|
 >|**createdDate**|string||read-only|no|yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
 >|**dateOfBirth**|string|||yes|null &#124; yyyy-MM-dd|
->|**economicallyDisadvantaged**|string|||yes|null &#124; true &#124; false|
+>|**economicallyDisadvantaged**|boolean|||yes|null &#124; true &#124; false|
 >|**elaDevelopmentalLevel**|int|||yes|null &#124; 0-12|
->|**englishLanguageLearner**|string|||yes|null &#124; true &#124; false|
+>|**englishLanguageLearner**|boolean|||yes|null &#124; true &#124; false|
 >|**ethnicityId**|string|||yes|Enter '01' for American Indian, Native American, or Alaska native; '02' for Asian; <BR/>'03' for black or African American; '04' for Hispanic, Latino, or Hispanic Latino;<BR/> '05' for white or Caucasian; '06' for Native Hawaiian or Other Pacific Islander; '07' for two or more races.|
 >|**firstName**|string|||no|string, length 50|
 >|**gender**|string|||yes|null &#124; male &#124; female|
@@ -1541,11 +1541,11 @@ Additionally the student's have a studentNumber that must be set.  The studentNu
 >|**lastLoginDate**|date||read-only|yes|null &#124; yyyy-MM-dd'T'kk:mm:ss'Z' - Universal Sortable Date Time|
 >|**lastName**|string|||no|string, length 50|
 >|**mathDevelopmentalLevel**|int|||yes|null &#124; 0-12|
->|**migrant**|string|||yes|null &#124; true &#124; false|
+>|**migrant**|boolean|||yes|null &#124; true &#124; false|
 >|**ownerId**|string|within district||yes|null &#124; string, length 64|
 >|**partnerId**|string|within district||yes|null &#124; string, length 64|
 >|**password**|string||*write-only*|no|string, length 4-24 - setting null on update leaves the password unchanged|
->|**specialEducation**|string|||yes|null &#124; true &#124; false|
+>|**specialEducation**|boolean|||yes|null &#124; true &#124; false|
 >|**studentId**|string|within district||no|string, length 50|
 >|**userName**|string|within state||no|string, length 50|
 >|_**classes**_|link||read-only|no||
